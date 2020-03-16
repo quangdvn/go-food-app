@@ -5,15 +5,17 @@ import {
   StyleSheet,
   FlatList,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { data } from '../data/data_all';
 
 const All = ({ navigation }) => {
   const [listData, setListData] = useState(data);
-  console.log(listData);
+  const [tempData, setTempData] = useState(data);
+  const [searchText, setSearchText] = useState('');
 
   const renderRating = item => {
     let rating = [];
@@ -51,15 +53,39 @@ const All = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Detail')}>
+          onPress={() => navigation.navigate('Detail', { item })}>
           <AntDesign name='arrowright' color='green' size={20} />
         </TouchableOpacity>
       </LinearGradient>
     );
   };
 
+  const searchRestaurant = text => {
+    let searchData = [];
+    tempData.map(res => {
+      if (res.name.indexOf(text) > -1) {
+        searchData.push(res);
+      }
+    });
+    setListData(searchData);
+    setSearchText(text);
+  };
+
   return (
     <View style={styles.container}>
+      <View style={styles.searchContainer}>
+        <TextInput
+          placeholder='Search ...'
+          style={styles.search}
+          value={searchText}
+          onChangeText={value => searchRestaurant(value)}
+        />
+        <TouchableOpacity
+          onPress={() => setSearchText('')}
+          style={styles.closeIcon}>
+          <Ionicons name='ios-close' color='gray' size={20} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.listContainer}>
         <FlatList
           data={listData}
@@ -87,7 +113,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexDirection: 'row',
     borderRadius: 10,
-    marginTop: 10
+    marginBottom: 10
   },
   imageContainer: {
     width: 90,
@@ -136,6 +162,22 @@ const styles = StyleSheet.create({
     color: 'green',
     fontSize: 15,
     fontFamily: 'open-sans-bold'
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 100,
+    backgroundColor: '#f2f2f2',
+    marginVertical: 10
+  },
+  search: {
+    flex: 1,
+    marginLeft: 10
+  },
+  closeIcon: {
+    paddingHorizontal: 10
   }
 });
 
