@@ -20,7 +20,8 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.header}>
         <ImageBackground
           source={require('../../assets/images/header.png')}
-          style={styles.imageBackground}>
+          style={styles.imageBackground}
+          resizeMode='stretch'>
           <Text style={styles.headerTitle}>HOME</Text>
         </ImageBackground>
       </View>
@@ -31,7 +32,10 @@ const HomeScreen = ({ navigation }) => {
           tabBarActiveTextColor='green'
           tabBarTextStyle={{ fontFamily: 'open-sans', fontSize: 15 }}
           renderTabBar={() => (
-            <DefaultTabBar underlineStyle={styles.underline} />
+            <DefaultTabBar
+              style={{ borderWidth: 0 }}
+              underlineStyle={styles.underline}
+            />
           )}>
           <All tabLabel='All' navigation={navigation} />
           <Menu tabLabel='Menu' navigation={navigation} />
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   header: {
-    marginTop: 31,
+    marginTop: 33,
     position: 'absolute'
   },
   tabBar: {
