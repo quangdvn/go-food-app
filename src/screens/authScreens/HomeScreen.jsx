@@ -10,16 +10,18 @@ import {
 import ScrollableTabView, {
   DefaultTabBar
 } from 'react-native-scrollable-tab-view';
-import All from '../components/All';
-import Menu from '../components/Menu';
-import Popular from '../components/Popular';
+import All from '../../components/All';
+import Menu from '../../components/Menu';
+import Popular from '../../components/Popular';
 
 const HomeScreen = ({ navigation }) => {
+  console.log(screenWidth, screenHeight);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <ImageBackground
-          source={require('../../assets/images/header.png')}
+          source={require('../../../assets/images/header.png')}
           style={styles.imageBackground}
           resizeMode='stretch'>
           <Text style={styles.headerTitle}>HOME</Text>
@@ -47,6 +49,7 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const screenWidth = Dimensions.get('screen').width;
+const screenHeight = Dimensions.get('screen').height;
 
 const styles = StyleSheet.create({
   container: {

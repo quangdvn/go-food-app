@@ -9,6 +9,7 @@ import {
   TextInput
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Colors from '../constants/Colors';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { data } from '../data/data_all';
 
@@ -35,7 +36,7 @@ const All = ({ navigation }) => {
   const renderItem = ({ item }) => {
     return (
       <LinearGradient
-        colors={['#009245', '#8cc631']}
+        colors={Colors.gradient}
         start={[0, 1]}
         end={[1, 0]}
         style={styles.listItem}>
