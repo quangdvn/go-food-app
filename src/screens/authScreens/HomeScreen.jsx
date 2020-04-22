@@ -5,18 +5,16 @@ import {
   StyleSheet,
   ImageBackground,
   Dimensions,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import ScrollableTabView, {
-  DefaultTabBar
+  DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
-import All from '../../components/All';
-import Menu from '../../components/Menu';
+import MainSection from '../../components/MainSection';
+import CategorySection from '../../components/CategorySection';
 import Popular from '../../components/Popular';
 
 const HomeScreen = ({ navigation }) => {
-  console.log(screenWidth, screenHeight);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -39,8 +37,8 @@ const HomeScreen = ({ navigation }) => {
               underlineStyle={styles.underline}
             />
           )}>
-          <All tabLabel='All' navigation={navigation} />
-          <Menu tabLabel='Menu' navigation={navigation} />
+          <MainSection tabLabel='Main' navigation={navigation} />
+          <CategorySection tabLabel='Categories' navigation={navigation} />
           <Popular tabLabel='Popular' navigation={navigation} />
         </ScrollableTabView>
       </View>
@@ -54,35 +52,35 @@ const screenHeight = Dimensions.get('screen').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   header: {
     marginTop: 33,
-    position: 'absolute'
+    position: 'absolute',
   },
   tabBar: {
     flex: 1,
     marginTop: screenWidth * 0.3,
-    paddingHorizontal: 30
+    paddingHorizontal: 30,
   },
   tabBarContent: {
-    marginTop: 20
+    marginTop: 20,
   },
   underline: {
     backgroundColor: 'green',
-    borderWidth: null
+    borderWidth: null,
   },
   imageBackground: {
     width: screenWidth * 0.55,
     height: screenWidth * 0.45,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headerTitle: {
     color: 'white',
     marginTop: 20,
     fontFamily: 'open-sans-bold',
-    fontSize: 25
-  }
+    fontSize: 25,
+  },
 });
 
 export default HomeScreen;

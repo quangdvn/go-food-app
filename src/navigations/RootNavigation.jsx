@@ -2,7 +2,7 @@ import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from '../screens/authScreens/HomeScreen';
-import DetailScreen from '../screens/authScreens/DetailScreen';
+import RestaurantDetailScreen from '../screens/authScreens/RestaurantDetailScreen';
 import LoginScreen from '../screens/unAuthScreens/LoginScreen';
 import SignUpScreen from '../screens/unAuthScreens/SignUpScreen';
 import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
@@ -44,8 +44,8 @@ const AppNavigator = createStackNavigator(
         };
       },
     },
-    Detail: {
-      screen: DetailScreen,
+    RestaurantDetail: {
+      screen: RestaurantDetailScreen,
       navigationOptions: () => {
         return {
           headerShown: false,
@@ -58,4 +58,4 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(AuthNavigator);
+export default createAppContainer(AppNavigator);

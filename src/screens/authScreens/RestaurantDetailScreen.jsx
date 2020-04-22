@@ -12,7 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const DetailScreen = ({ navigation }) => {
+const RestaurantDetailScreen = ({ navigation }) => {
   const { image, price, name } = navigation.getParam('item');
 
   return (
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DetailScreen;
+export default RestaurantDetailScreen;
