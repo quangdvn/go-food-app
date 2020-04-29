@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     color: '#8996a6',
     textAlign: 'center',
+    fontFamily: 'open-sans',
   },
   buttonText: {
     color: 'white',
