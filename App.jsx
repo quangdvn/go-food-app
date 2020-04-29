@@ -12,7 +12,8 @@ const fetchFonts = () => {
 
 export default function App() {
   const [isLoadFont, setLoadFont] = useState(false);
-
+  console.log("hello Bui Quang Huy");
+  
   return !isLoadFont ? (
     <AppLoading startAsync={fetchFonts} onFinish={() => setLoadFont(true)} />
   ) : (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from '../screens/authScreens/HomeScreen';
 import RestaurantDetailScreen from '../screens/authScreens/RestaurantDetailScreen';
@@ -7,23 +7,7 @@ import LoginScreen from '../screens/unAuthScreens/LoginScreen';
 import SignUpScreen from '../screens/unAuthScreens/SignUpScreen';
 import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
 
-const AuthNavigator = createStackNavigator({
-  Welcome: {
-    screen: WelcomeScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-  SignUp: {
-    screen: SignUpScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
+const AuthStack = createStackNavigator({
   Login: {
     screen: LoginScreen,
     navigationOptions: () => {
@@ -32,9 +16,26 @@ const AuthNavigator = createStackNavigator({
       };
     },
   },
+  Welcome: {
+    screen: WelcomeScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+      };
+    },
+  },
+
+  SignUp: {
+    screen: SignUpScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+      };
+    },
+  },
 });
 
-const AppNavigator = createStackNavigator(
+const AppStack = createStackNavigator(
   {
     Home: {
       screen: HomeScreen,
@@ -58,4 +59,13 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(AppNavigator);
+const MySwitchNavigator = createSwitchNavigator(
+  {
+    AuthStack: AuthStack,
+    AppStack: AppStack,
+  },
+  {
+    initialRouteName: 'AuthStack',
+  }
+);
+export default createAppContainer(MySwitchNavigator);
