@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import RootNavigation from './src/navigations/RootNavigation';
 import { AppLoading } from 'expo';
+import { Provider } from 'react-redux';
+import store from './src/store/store.js';
 import * as Font from 'expo-font';
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -11,11 +13,12 @@ const fetchFonts = () => {
 
 export default function App() {
   const [isLoadFont, setLoadFont] = useState(false);
-  console.log('hello Bui Quang Huy');
 
   return !isLoadFont ? (
     <AppLoading startAsync={fetchFonts} onFinish={() => setLoadFont(true)} />
   ) : (
-    <RootNavigation />
+    <Provider store={store}>
+      <RootNavigation />
+    </Provider>
   );
 }
