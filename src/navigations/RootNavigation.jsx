@@ -6,7 +6,7 @@ import RestaurantDetailScreen from '../screens/authScreens/RestaurantDetailScree
 import LoginScreen from '../screens/unAuthScreens/LoginScreen';
 import SignUpScreen from '../screens/unAuthScreens/SignUpScreen';
 import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
-
+import AccountScreen from '../screens/authScreens/AccountScreen';
 const AuthStack = createStackNavigator({
   Login: {
     screen: LoginScreen,
@@ -37,6 +37,14 @@ const AuthStack = createStackNavigator({
 
 const AppStack = createStackNavigator(
   {
+    Account: {
+      screen: AccountScreen,
+      navigationOptions: () => {
+        return {
+          headerShown: false,
+        };
+      },
+    },
     Home: {
       screen: HomeScreen,
       navigationOptions: () => {
@@ -65,7 +73,7 @@ const MySwitchNavigator = createSwitchNavigator(
     AppStack: AppStack,
   },
   {
-    initialRouteName: 'AuthStack',
+    initialRouteName: 'AppStack',
   }
 );
 export default createAppContainer(MySwitchNavigator);
