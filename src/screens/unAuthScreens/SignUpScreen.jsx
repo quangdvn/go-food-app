@@ -16,11 +16,39 @@ import { Icon_logo } from '../../components/Icon/Icon';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import ErrorMessage from '../../components/ErrorMessage';
+import axios from 'axios';
 const LoginScreen = ({ navigation }) => {
   const [borderColor, setBorderColor] = useState(null);
+  const [email, setEmail] = useState('');
+  const [fullname, setFullName] = useState('');
+  const [password, setPassword] = useState('');
+  const [rePassword, setRepass] = useState('');
 
   const handleFocus = value => {
     setBorderColor(value);
+  };
+  const test = values => {
+    console.log(email);
+    console.log(fullname);
+    console.log(password);
+    console.log(rePassword);
+
+    axios
+      .post(`https://quangdvn-go-food.herokuapp.com/api/auth/signup`, {
+        email,
+        fullname,
+        password,
+        rePassword,
+      })
+      .then(res => {
+        console.log('response');
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log('error');
+        console.log(err);
+      });
   };
   const validationSchema = yup.object().shape({
     email: yup
@@ -28,6 +56,8 @@ const LoginScreen = ({ navigation }) => {
       .label('Email')
       .email('Enter a valid email')
       .required('Please enter email'),
+    fullname: yup.string().label('FullName').required('Please enter fullname'),
+
     password: yup
       .string()
       .label('Password')
@@ -56,8 +86,13 @@ const LoginScreen = ({ navigation }) => {
           <Formik
             initialValues={{ email: '', password: '' }}
             onSubmit={values => {
-              console.log(values);
-              navigation.navigate('Login');
+              // console.log(values);
+              // navigation.navigate('Login');
+              setEmail(values.email);
+              setFullName(values.fullname);
+              setPassword(values.password);
+              setRepass(values.confirmPassword);
+              test(values);
             }}
             validationSchema={validationSchema}
           >
@@ -69,7 +104,6 @@ const LoginScreen = ({ navigation }) => {
               errors,
               touched,
               isValid,
-              isSubmitting,
             }) => (
               <View>
                 <View style={styles.section}>
@@ -84,6 +118,21 @@ const LoginScreen = ({ navigation }) => {
 
                   <Text style={styles.error}>
                     {touched.email && errors.email}
+                  </Text>
+                </View>
+
+                <View style={styles.section}>
+                  <TextInput
+                    placeholder="Enter FullName"
+                    style={styles.textInput}
+                    // onFocus={() => handleFocus('email')}
+                    onChangeText={handleChange('fullname')}
+                    value={values.fullname}
+                    onBlur={handleBlur('fullname')}
+                  />
+
+                  <Text style={styles.error}>
+                    {touched.fullname && errors.fullname}
                   </Text>
                 </View>
 
