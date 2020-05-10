@@ -1,1 +1,1 @@
-export * from './testingAction'
+export * from './authAction'

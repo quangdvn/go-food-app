@@ -4,6 +4,8 @@ import { AppLoading } from 'expo';
 import { Provider } from 'react-redux';
 import store from './src/store/store.js';
 import * as Font from 'expo-font';
+import { setNavigator } from './src/navigationRef';
+
 const fetchFonts = () => {
   return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -18,7 +20,7 @@ export default function App() {
     <AppLoading startAsync={fetchFonts} onFinish={() => setLoadFont(true)} />
   ) : (
     <Provider store={store}>
-      <RootNavigation />
+      <RootNavigation ref={nav => setNavigator(nav)} />
     </Provider>
   );
 }

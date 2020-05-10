@@ -17,7 +17,8 @@ import {
   LinearGradient,
 } from 'react-native-svg';
 import { Text, View, Dimensions } from 'react-native';
-export function Icon_logo() {
+
+export const AppLogo = () => {
   return (
     <Svg
       width="250px"
@@ -138,7 +139,7 @@ export function Icon_logo() {
       </G>
     </Svg>
   );
-}
+};
 
 export function Icon_bookmark() {
   <Svg

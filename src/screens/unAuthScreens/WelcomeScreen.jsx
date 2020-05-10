@@ -89,7 +89,7 @@ const WelcomeScreen = ({ navigation }) => {
                 start={[1, 0]}
                 end={[0, 1]}
                 style={styles.button}>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
                   <Text style={styles.buttonText}>Let's try our app now !</Text>
                 </TouchableOpacity>
               </LinearGradient>

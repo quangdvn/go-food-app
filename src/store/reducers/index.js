@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import counterReducer from './counterReducer';
-import listViewReducer from './listViewReducer';
+import authReducer from './authReducer';
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
-  listView: listViewReducer,
+  auth: authReducer,
 });
 
 export default rootReducer;
