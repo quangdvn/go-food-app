@@ -79,7 +79,7 @@ const LoginScreen = ({ navigation }) => {
                     // onFocus={() => handleFocus('email')}
                     onChangeText={handleChange('email')}
                     value={values.email}
-                    onBlur={handleBlur('email')}
+                    // onBlur={handleBlur('email')}
                   />
 
                   <Text style={styles.error}>
@@ -95,7 +95,7 @@ const LoginScreen = ({ navigation }) => {
                     // onFocus={() => handleFocus('password')}
                     onChangeText={handleChange('password')}
                     value={values.password}
-                    onBlur={handleBlur('password')}
+                    // onBlur={handleBlur('password')}
                   />
                   <Text style={styles.error}>
                     {touched.password && errors.password}
@@ -109,7 +109,7 @@ const LoginScreen = ({ navigation }) => {
                     // onFocus={() => handleFocus('password')}
                     onChangeText={handleChange('confirmPassword')}
                     value={values.confirmPassword}
-                    onBlur={handleBlur('confirmPassword')}
+                    // onBlur={handleBlur('confirmPassword')}
                   />
                   <Text style={styles.error}>
                     {touched.confirmPassword && errors.confirmPassword}
