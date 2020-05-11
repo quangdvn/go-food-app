@@ -3,19 +3,12 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from '../screens/authScreens/HomeScreen';
 import RestaurantDetailScreen from '../screens/authScreens/RestaurantDetailScreen';
-import LoginScreen from '../screens/unAuthScreens/LoginScreen';
+import LogInScreen from '../screens/unAuthScreens/LoginScreen';
 import SignUpScreen from '../screens/unAuthScreens/SignUpScreen';
 import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
 import AccountScreen from '../screens/authScreens/AccountScreen';
+
 const AuthStack = createStackNavigator({
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
   Welcome: {
     screen: WelcomeScreen,
     navigationOptions: () => {
@@ -24,7 +17,14 @@ const AuthStack = createStackNavigator({
       };
     },
   },
-
+  LogIn: {
+    screen: LogInScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+      };
+    },
+  },
   SignUp: {
     screen: SignUpScreen,
     navigationOptions: () => {
@@ -35,16 +35,8 @@ const AuthStack = createStackNavigator({
   },
 });
 
-const AppStack = createStackNavigator(
+const MainStack = createStackNavigator(
   {
-    Account: {
-      screen: AccountScreen,
-      navigationOptions: () => {
-        return {
-          headerShown: false,
-        };
-      },
-    },
     Home: {
       screen: HomeScreen,
       navigationOptions: () => {
@@ -61,19 +53,27 @@ const AppStack = createStackNavigator(
         };
       },
     },
+    Account: {
+      screen: AccountScreen,
+      navigationOptions: () => {
+        return {
+          headerShown: false,
+        };
+      },
+    },
   },
   {
     initialRouteName: 'Home',
   }
 );
 
-const MySwitchNavigator = createSwitchNavigator(
+const SwitchNavigator = createSwitchNavigator(
   {
-    AuthStack: AuthStack,
-    AppStack: AppStack,
+    AuthStack,
+    MainStack,
   },
   {
     initialRouteName: 'AuthStack',
   }
 );
-export default createAppContainer(MySwitchNavigator);
+export default createAppContainer(SwitchNavigator);
