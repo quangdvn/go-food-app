@@ -8,7 +8,7 @@ import {
   Keyboard,
   Alert,
 } from 'react-native';
-import { AppLogo } from '../../components/Icon/Icon';
+import AppLogo from '../../components/Icon/AppLogo';
 import { useSelector, useDispatch } from 'react-redux';
 import LogInForm from '../../components/AuthComponents/LogInForm';
 import { logIn, clearErrorMessage } from '../../store/actions';

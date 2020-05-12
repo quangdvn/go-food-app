@@ -43,7 +43,7 @@ const LogInForm = ({ handleSubmit, borderColor, handleFocus, spinner }) => {
       onSubmit={(values, action) => {
         Keyboard.dismiss();
         handleSubmit(values);
-        // action.resetForm();
+        action.resetForm();
       }}
       validationSchema={logInSchema}
     >

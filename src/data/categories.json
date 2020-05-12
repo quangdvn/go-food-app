@@ -1,0 +1,32 @@
+[
+  {
+    "alias": "breakfast_brunch",
+    "title": "Breakfast & Brunch",
+    "color": "#FF5252"
+  },
+  {
+    "alias": "sandwiches",
+    "title": "Sandwiches",
+    "color": "#F7931E"
+  },
+  {
+    "alias": "vegan",
+    "title": "Vegan",
+    "color": "#39B54A"
+  },
+  {
+    "alias": "steak",
+    "title": "Steakhouses",
+    "color": "#FFC107"
+  },
+  {
+    "alias": "seafood",
+    "title": "Seafood",
+    "color": "#09A9F4"
+  },
+  {
+    "alias": "desserts",
+    "title": "Desserts",
+    "color": "#ED1E79"
+  }
+]
