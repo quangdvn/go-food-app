@@ -10,7 +10,7 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
-import { AppLogo } from '../../components/Icon/Icon';
+import AppLogo from '../../components/Icon/AppLogo';
 import { useSelector, useDispatch } from 'react-redux';
 import SignUpForm from '../../components/AuthComponents/SignUpForm';
 import { signUp, clearErrorMessage } from '../../store/actions';
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    marginBottom: 50,
+    marginBottom: 30,
     justifyContent: 'flex-end',
   },
   title: {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   link: {
     flexDirection: 'row',
-    marginBottom: -13,
+    marginBottom: -5,
     marginTop: 75,
     justifyContent: 'center',
   },

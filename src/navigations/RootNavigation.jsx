@@ -3,10 +3,11 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from '../screens/authScreens/HomeScreen';
 import RestaurantDetailScreen from '../screens/authScreens/RestaurantDetailScreen';
+import AccountScreen from '../screens/authScreens/AccountScreen';
 import LogInScreen from '../screens/unAuthScreens/LoginScreen';
 import SignUpScreen from '../screens/unAuthScreens/SignUpScreen';
 import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
-import AccountScreen from '../screens/authScreens/AccountScreen';
+import GetInfoScreen from '../screens/unAuthScreens/GetInfoScreen';
 
 const AuthStack = createStackNavigator({
   SignUp: {
@@ -16,6 +17,16 @@ const AuthStack = createStackNavigator({
         headerShown: false,
       };
     },
+  // Welcome: {
+  //   screen: WelcomeScreen,
+  //   navigationOptions: () => {
+  //     return {
+  //       headerShown: false,
+  //     };
+  //   },
+  // },
+  GetInfo: {
+    screen: GetInfoScreen,
   },
   Welcome: {
     screen: WelcomeScreen,
