@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,15 +13,22 @@ import ScrollableTabView, {
 import MainSection from '../../components/MainSection';
 import CategorySection from '../../components/CategorySection';
 import Popular from '../../components/Popular';
-
+import { useSelector, useDispatch } from 'react-redux';
 const HomeScreen = ({ navigation }) => {
+  const res = useSelector(state => state.auth);
+
+  useEffect(() => {
+    console.log('respon when login success');
+    console.log(res);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <ImageBackground
           source={require('../../../assets/images/header.png')}
           style={styles.imageBackground}
-          resizeMode='stretch'>
+          resizeMode="stretch"
+        >
           <Text style={styles.headerTitle}>HOME</Text>
         </ImageBackground>
       </View>
@@ -29,17 +36,18 @@ const HomeScreen = ({ navigation }) => {
         <ScrollableTabView
           style={styles.tabBarContent}
           initialPage={0}
-          tabBarActiveTextColor='green'
+          tabBarActiveTextColor="green"
           tabBarTextStyle={{ fontFamily: 'open-sans', fontSize: 15 }}
           renderTabBar={() => (
             <DefaultTabBar
               style={{ borderWidth: 0 }}
               underlineStyle={styles.underline}
             />
-          )}>
-          <MainSection tabLabel='Main' navigation={navigation} />
-          <CategorySection tabLabel='Categories' navigation={navigation} />
-          <Popular tabLabel='Popular' navigation={navigation} />
+          )}
+        >
+          <MainSection tabLabel="Main" navigation={navigation} />
+          <CategorySection tabLabel="Categories" navigation={navigation} />
+          <Popular tabLabel="Popular" navigation={navigation} />
         </ScrollableTabView>
       </View>
     </SafeAreaView>

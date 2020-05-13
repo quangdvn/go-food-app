@@ -13,9 +13,9 @@ export const logIn = logInData => async dispatch => {
   try {
     const { data } = await goFoodApi.post('/auth/login', logInData);
 
-    console.log(data);
+    // console.log(data);
     // dispatch({ type: 'LOG_IN_SUCCESS', payload: data.token });
-
+    dispatch({ type: LOG_IN_SUCCESS, payload: data });
     navigateTo('MainStack');
     console.log('Test');
   } catch (err) {

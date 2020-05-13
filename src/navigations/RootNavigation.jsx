@@ -9,6 +9,14 @@ import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
 import AccountScreen from '../screens/authScreens/AccountScreen';
 
 const AuthStack = createStackNavigator({
+  SignUp: {
+    screen: SignUpScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+      };
+    },
+  },
   Welcome: {
     screen: WelcomeScreen,
     navigationOptions: () => {
@@ -19,14 +27,6 @@ const AuthStack = createStackNavigator({
   },
   LogIn: {
     screen: LogInScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-  SignUp: {
-    screen: SignUpScreen,
     navigationOptions: () => {
       return {
         headerShown: false,
