@@ -8,15 +8,20 @@ import LogInScreen from '../screens/unAuthScreens/LoginScreen';
 import SignUpScreen from '../screens/unAuthScreens/SignUpScreen';
 import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
 import GetInfoScreen from '../screens/unAuthScreens/GetInfoScreen';
+import { LinearGradient } from 'expo-linear-gradient';
+import Colors from '../constants/Colors';
+import CountryQuestion from '../components/UnAuthComponents/CountryQuestion';
+import CityQuestion from '../components/UnAuthComponents/CityQuestion';
+import FavouriteFoodQuestion from '../components/UnAuthComponents/FavouriteFoodQuestion';
 
 const AuthStack = createStackNavigator({
-  SignUp: {
-    screen: SignUpScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
+  // SignUp: {
+  //   screen: SignUpScreen,
+  //   navigationOptions: () => {
+  //     return {
+  //       headerShown: false,
+  //     };
+  //   },
   // Welcome: {
   //   screen: WelcomeScreen,
   //   navigationOptions: () => {
@@ -27,6 +32,25 @@ const AuthStack = createStackNavigator({
   // },
   GetInfo: {
     screen: GetInfoScreen,
+    navigationOptions: () => {
+      return {
+        title: 'Before you go',
+        headerBackground: () => (
+          <LinearGradient
+            colors={Colors.gradient}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          />
+        ),
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontFamily: 'open-sans-bold',
+          fontSize: 18,
+          textTransform: 'uppercase',
+        },
+      };
+    },
   },
   Welcome: {
     screen: WelcomeScreen,
@@ -77,11 +101,79 @@ const MainStack = createStackNavigator(
     initialRouteName: 'Home',
   }
 );
-
+const UnAuthStack = createSwitchNavigator({
+  Country: {
+    screen: CountryQuestion,
+    navigationOptions: () => {
+      return {
+        title: 'Before you go',
+        headerBackground: () => (
+          <LinearGradient
+            colors={Colors.gradient}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          />
+        ),
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontFamily: 'open-sans-bold',
+          fontSize: 18,
+          textTransform: 'uppercase',
+        },
+      };
+    },
+  },
+  City: {
+    screen: CityQuestion,
+    navigationOptions: () => {
+      return {
+        title: 'Before you go',
+        headerBackground: () => (
+          <LinearGradient
+            colors={Colors.gradient}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          />
+        ),
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontFamily: 'open-sans-bold',
+          fontSize: 18,
+          textTransform: 'uppercase',
+        },
+      };
+    },
+  },
+  FavouriteFood: {
+    screen: FavouriteFoodQuestion,
+    navigationOptions: () => {
+      return {
+        title: 'Before you go',
+        headerBackground: () => (
+          <LinearGradient
+            colors={Colors.gradient}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          />
+        ),
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontFamily: 'open-sans-bold',
+          fontSize: 18,
+          textTransform: 'uppercase',
+        },
+      };
+    },
+  },
+});
 const SwitchNavigator = createSwitchNavigator(
   {
     AuthStack,
     MainStack,
+    UnAuthStack,
   },
   {
     initialRouteName: 'AuthStack',

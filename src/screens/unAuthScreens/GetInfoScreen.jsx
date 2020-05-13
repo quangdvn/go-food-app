@@ -10,16 +10,21 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import countryData from '../../data/country.json';
 import goFoodApi from '../../api/goFoodApi';
+import { LinearGradient } from 'expo-linear-gradient';
+import Colors from '../../constants/Colors';
+import Swiper from 'react-native-swiper';
+import CountryQuestion from '../../components/UnAuthComponents/CountryQuestion';
+import CityQuestion from '../../components/UnAuthComponents/CityQuestion';
+import FavouriteFoodQuestion from '../../components/UnAuthComponents/FavouriteFoodQuestion';
 
 const GetInfoScreen = () => {
-  const [country, setCountry] = useState(null);
-
-  const [countryButton, setCountryButton] = useState(false);
-
   const [cityList, setCityList] = useState(null);
+  const [countryButton, setCountryButton] = useState(false);
 
   const [city, setCity] = useState(null);
 
@@ -90,89 +95,39 @@ const GetInfoScreen = () => {
     };
     console.log(userInfo);
   };
-
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}
     >
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <View behavior="padding" style={{ flex: 1, marginHorizontal: 15 }}>
         <SafeAreaView style={styles.container}>
+          <View>{/* <Text>Before you </Text> */}</View>
           <View style={styles.inner}>
-            <View>
-              <Picker
-                selectedValue={country}
-                style={{ height: 50, width: 150 }}
-                onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
-              >
-                <Picker.Item label="No Selection" value={null} />
-                {countryData.map((item, index) => {
-                  return (
-                    <Picker.Item
-                      key={index}
-                      label={item.name}
-                      value={item.code}
-                    />
-                  );
-                })}
-              </Picker>
-
-              <View style={{ marginTop: 150 }}>
-                <Button
-                  title="Confirm Country"
-                  onPress={() => getCities(country)}
-                  disabled={country === null || countryButton}
+            <Swiper loop={false} showsPagination={false}>
+              <CountryQuestion
+                getCities={getCities}
+                countryButton={countryButton}
+              />
+              {cityList ? (
+                <CityQuestion
+                  cityList={cityList}
+                  city={city}
+                  confirmCity={confirmCity}
                 />
-              </View>
-            </View>
+              ) : null}
 
-            {cityList ? (
-              <View>
-                <Picker
-                  selectedValue={city}
-                  style={{ height: 50, width: 200 }}
-                  onValueChange={(itemValue, itemIndex) => setCity(itemValue)}
-                >
-                  <Picker.Item label="No Selection" value={null} />
-                  {cityList.map((item, index) => {
-                    return (
-                      <Picker.Item key={index} label={item} value={item} />
-                    );
-                  })}
-                </Picker>
-                <View style={{ marginTop: 150 }}>
-                  <Button
-                    title="Confirm City"
-                    onPress={() => confirmCity()}
-                    disabled={city === null || cityButton}
-                  />
-                </View>
-              </View>
-            ) : null}
-
-            {showFavorite ? (
-              <View>
-                <View style={{ marginTop: 20 }}>
-                  <Text>Tell me your favorite food</Text>
-                  <TextInput
-                    value={favoriteFood}
-                    onChangeText={text => setFavoriteFood(text)}
-                    style={styles.input}
-                  />
-                </View>
-                <View style={{ marginTop: 20 }}>
-                  <Button
-                    title="Confirm"
-                    onPress={() => getData()}
-                    disabled={!favoriteFood}
-                  />
-                </View>
-              </View>
-            ) : null}
+              {showFavorite ? (
+                <FavouriteFoodQuestion
+                  favoriteFood={favoriteFood}
+                  getData={getData}
+                />
+              ) : null}
+            </Swiper>
           </View>
         </SafeAreaView>
-      </KeyboardAvoidingView>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
