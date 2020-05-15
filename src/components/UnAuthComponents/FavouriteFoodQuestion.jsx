@@ -1,16 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet, Picker, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Picker,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  TextInput,
+} from 'react-native';
 import countryData from '../../data/country.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../constants/Colors';
 
-const FavouriteFoodQuestion = ({ favoriteFood, navigation, getData }) => {
+const FavouriteFoodQuestion = ({
+  favoriteFood,
+  navigation,
+  getData,
+  setFoodData,
+}) => {
   return (
     <View style={{ marginTop: 40 }}>
-      <KeyboardAvoidingView
-        behavior={'position'}
-        keyboardVerticalOffset={keyboardVerticalOffset}
-      >
+      <KeyboardAvoidingView behavior={'padding'}>
         <Text
           style={{
             fontSize: 20,
@@ -22,7 +32,7 @@ const FavouriteFoodQuestion = ({ favoriteFood, navigation, getData }) => {
         </Text>
         <TextInput
           value={favoriteFood}
-          onChangeText={text => setFavoriteFood(text)}
+          onChangeText={text => setFoodData(text)}
           style={styles.input}
         />
       </KeyboardAvoidingView>
@@ -48,7 +58,7 @@ const FavouriteFoodQuestion = ({ favoriteFood, navigation, getData }) => {
           <TouchableOpacity
             onPress={() => {
               getData();
-              navigation.navigate('Home');
+              // navigation.navigate('Home');
             }}
             disabled={!favoriteFood}
           >

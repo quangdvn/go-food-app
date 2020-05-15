@@ -4,9 +4,9 @@ import countryData from '../../data/country.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../constants/Colors';
 
-const CityQuestion = ({ city, navigation, confirmCity, cityList }) => {
+const CityQuestion = ({ city, confirmCity, cityList, setData, cityButton }) => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text
         style={{
           fontSize: 20,
@@ -21,7 +21,7 @@ const CityQuestion = ({ city, navigation, confirmCity, cityList }) => {
         <Picker
           selectedValue={city}
           style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue, itemIndex) => setCity(itemValue)}
+          onValueChange={(itemValue, itemIndex) => setData(itemValue)}
         >
           <Picker.Item label="No Selection" value={null} />
           {cityList.map((item, index) => {
@@ -52,7 +52,6 @@ const CityQuestion = ({ city, navigation, confirmCity, cityList }) => {
           <TouchableOpacity
             onPress={() => {
               confirmCity();
-              navigation.navigate('FavouriteFood');
             }}
             disabled={city === null || cityButton}
           >
@@ -73,5 +72,9 @@ const CityQuestion = ({ city, navigation, confirmCity, cityList }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {},
+});
 
 export default CityQuestion;

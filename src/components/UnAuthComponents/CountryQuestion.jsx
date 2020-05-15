@@ -4,9 +4,7 @@ import countryData from '../../data/country.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../constants/Colors';
 
-const CountryQuestion = ({ navigation, getCities, countryButton }) => {
-  const [country, setCountry] = useState(null);
-
+const CountryQuestion = ({ getCities, countryButton, country, setCountryData }) => {
   return (
     <View style={{ marginTop: 15 }}>
       <Text
@@ -22,7 +20,7 @@ const CountryQuestion = ({ navigation, getCities, countryButton }) => {
         <Picker
           selectedValue={country}
           style={{ height: 50, width: 150 }}
-          onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
+          onValueChange={(itemValue, itemIndex) => setCountryData(itemValue)}
         >
           <Picker.Item
             label="No Selection"
@@ -63,7 +61,6 @@ const CountryQuestion = ({ navigation, getCities, countryButton }) => {
           <TouchableOpacity
             onPress={() => {
               getCities(country);
-              navigation.navigate('City');
             }}
             disabled={country === null || countryButton}
           >

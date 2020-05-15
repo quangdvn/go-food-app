@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -22,8 +22,11 @@ import CountryQuestion from '../../components/UnAuthComponents/CountryQuestion';
 import CityQuestion from '../../components/UnAuthComponents/CityQuestion';
 import FavouriteFoodQuestion from '../../components/UnAuthComponents/FavouriteFoodQuestion';
 
-const GetInfoScreen = () => {
+const GetInfoScreen = ({ navigation }) => {
   const [cityList, setCityList] = useState(null);
+
+  const [country, setCountry] = useState(null);
+
   const [countryButton, setCountryButton] = useState(false);
 
   const [city, setCity] = useState(null);
@@ -57,11 +60,15 @@ const GetInfoScreen = () => {
         },
       } = await goFoodApi.get(`/geo/name/${code}`);
       setCityList(cities);
-      setCountryButton(true);
+      // setCountryButton(true);
     } catch (err) {
       console.log(err.message);
     }
   };
+
+  useEffect(() => {
+    console.log(cityList);
+  }, [cityList]);
 
   const getLatLng = async city => {
     try {
@@ -78,10 +85,11 @@ const GetInfoScreen = () => {
 
   const confirmCity = () => {
     setShowFavorite(true);
-    setCityButton(true);
+    // setCityButton(true);
   };
 
   const getData = async () => {
+    console.log(city)
     const { latitude, longitude } = await getLatLng(city);
     const countryName = await getCountryName(country);
     const userInfo = {
@@ -95,26 +103,43 @@ const GetInfoScreen = () => {
     };
     console.log(userInfo);
   };
+
+  const setData = value => {
+    setCity(value);
+  };
+
+  const setFoodData = value => {
+    setFavoriteFood(value);
+  };
+
+  const setCountryData = value => {
+    setCountry(value);
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}
     >
-      <View behavior="padding" style={{ flex: 1, marginHorizontal: 15 }}>
-        <SafeAreaView style={styles.container}>
-          <View>{/* <Text>Before you </Text> */}</View>
-          <View style={styles.inner}>
-            <Swiper loop={false} showsPagination={false}>
+      <ScrollView>
+        <View behavior="padding" style={{ flex: 1, marginHorizontal: 15 }}>
+          <SafeAreaView style={styles.container}>
+            <View>{/* <Text>Before you </Text> */}</View>
+            <View style={styles.inner}>
               <CountryQuestion
                 getCities={getCities}
                 countryButton={countryButton}
+                country={country}
+                setCountryData={setCountryData}
               />
               {cityList ? (
                 <CityQuestion
                   cityList={cityList}
                   city={city}
                   confirmCity={confirmCity}
+                  setData={setData}
+                  cityButton={cityButton}
                 />
               ) : null}
 
@@ -122,12 +147,14 @@ const GetInfoScreen = () => {
                 <FavouriteFoodQuestion
                   favoriteFood={favoriteFood}
                   getData={getData}
+                  navigation={navigation}
+                  setFoodData={setFoodData}
                 />
               ) : null}
-            </Swiper>
-          </View>
-        </SafeAreaView>
-      </View>
+            </View>
+          </SafeAreaView>
+        </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
