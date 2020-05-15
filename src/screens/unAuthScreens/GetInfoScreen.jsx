@@ -88,7 +88,6 @@ const GetInfoScreen = () => {
       },
       favoriteFood: getFavoriteFood(favoriteFood),
     };
-    console.log(userInfo);
   };
 
   return (

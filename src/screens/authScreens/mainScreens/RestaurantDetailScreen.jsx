@@ -19,7 +19,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
     <View style={styles.container}>
       <StatusBar barStyle='light-content' />
       <ImageBackground
-        source={require('../../../assets/images/header_detail.png')}
+        source={require('../../../../assets/images/header_detail.png')}
         style={styles.imageBackground}
         resizeMode='stretch'>
         <View style={styles.imageContainer}>
