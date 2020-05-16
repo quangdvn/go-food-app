@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
+import Header from '../components/Icon/CustomeHeader';
 
 //* All the Screens
 import LogInScreen from '../screens/unAuthScreens/LoginScreen';
@@ -10,6 +11,11 @@ import GetInfoScreen from '../screens/unAuthScreens/GetInfoScreen';
 const AuthStack = createStackNavigator({
   GetInfo: {
     screen: GetInfoScreen,
+    navigationOptions: () => {
+      return {
+        header: () => <Header title="Get Info" />,
+      };
+    },
   },
   Welcome: {
     screen: WelcomeScreen,

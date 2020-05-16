@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
-  Picker,
-  Button,
-  TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
   SafeAreaView,
   ScrollView,
-  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import countryData from '../../data/country.json';
 import goFoodApi from '../../api/goFoodApi';
-import { LinearGradient } from 'expo-linear-gradient';
-import Colors from '../../constants/Colors';
-import Swiper from 'react-native-swiper';
 import CountryQuestion from '../../components/UnAuthComponents/CountryQuestion';
 import CityQuestion from '../../components/UnAuthComponents/CityQuestion';
 import FavouriteFoodQuestion from '../../components/UnAuthComponents/FavouriteFoodQuestion';
+
+const KEYBOARD_VERTICAL_OFFSET = Platform.OS === 'ios' ? 120 : 0;
 
 const GetInfoScreen = ({ navigation }) => {
   const [cityList, setCityList] = useState(null);
@@ -36,6 +31,12 @@ const GetInfoScreen = ({ navigation }) => {
   const [favoriteFood, setFavoriteFood] = useState(null);
 
   const [showFavorite, setShowFavorite] = useState(false);
+
+  const scrollable = useRef(null);
+
+  const onScrollEnd = () => {
+    scrollable.current.scrollToEnd({ animated: true, duration: 500 });
+  };
 
   const getCountryName = code => {
     let returnData = null;
@@ -60,15 +61,11 @@ const GetInfoScreen = ({ navigation }) => {
         },
       } = await goFoodApi.get(`/geo/name/${code}`);
       setCityList(cities);
-      // setCountryButton(true);
+      setCountryButton(true);
     } catch (err) {
       console.log(err.message);
     }
   };
-
-  useEffect(() => {
-    console.log(cityList);
-  }, [cityList]);
 
   const getLatLng = async city => {
     try {
@@ -85,11 +82,10 @@ const GetInfoScreen = ({ navigation }) => {
 
   const confirmCity = () => {
     setShowFavorite(true);
-    // setCityButton(true);
+    setCityButton(true);
   };
 
   const getData = async () => {
-    console.log(city)
     const { latitude, longitude } = await getLatLng(city);
     const countryName = await getCountryName(country);
     const userInfo = {
@@ -101,6 +97,7 @@ const GetInfoScreen = ({ navigation }) => {
       },
       favoriteFood: getFavoriteFood(favoriteFood),
     };
+    console.log(userInfo);
   };
 
   const setData = value => {
@@ -121,10 +118,13 @@ const GetInfoScreen = ({ navigation }) => {
         Keyboard.dismiss();
       }}
     >
-      <ScrollView>
-        <View behavior="padding" style={{ flex: 1, marginHorizontal: 15 }}>
+      <ScrollView ref={scrollable}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+          style={{ flex: 1, marginHorizontal: 15 }}
+        >
           <SafeAreaView style={styles.container}>
-            <View>{/* <Text>Before you </Text> */}</View>
             <View style={styles.inner}>
               <CountryQuestion
                 getCities={getCities}
@@ -139,6 +139,7 @@ const GetInfoScreen = ({ navigation }) => {
                   confirmCity={confirmCity}
                   setData={setData}
                   cityButton={cityButton}
+                  onScrollEnd={onScrollEnd}
                 />
               ) : null}
 
@@ -152,7 +153,7 @@ const GetInfoScreen = ({ navigation }) => {
               ) : null}
             </View>
           </SafeAreaView>
-        </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </TouchableWithoutFeedback>
   );

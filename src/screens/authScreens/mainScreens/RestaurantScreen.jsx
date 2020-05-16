@@ -11,18 +11,18 @@ import {
 import ScrollableTabView, {
   DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
+import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import MainSection from '../../../components/MainSection';
 import CategorySection from '../../../components/CategorySection';
-import PopularSection from '../../../components/PopularSection';
 
 const RestaurantScreen = ({ navigation }) => {
   const res = useSelector(state => state.auth);
-
+  
   useEffect(() => {
-    console.log('respon when login success');
     console.log(res);
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>

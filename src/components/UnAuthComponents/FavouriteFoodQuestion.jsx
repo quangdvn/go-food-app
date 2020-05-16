@@ -1,93 +1,93 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  Picker,
   TouchableOpacity,
-  KeyboardAvoidingView,
   TextInput,
 } from 'react-native';
-import countryData from '../../data/country.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../constants/Colors';
+import * as Animatable from 'react-native-animatable';
 
-const FavouriteFoodQuestion = ({
-  favoriteFood,
-  navigation,
-  getData,
-  setFoodData,
-}) => {
+const FavouriteFoodQuestion = ({ favoriteFood, getData, setFoodData }) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  useEffect(() => {
+    setShowConfirm(true);
+  }, []);
+
   return (
     <View style={{ marginTop: 40 }}>
-      <KeyboardAvoidingView behavior={'padding'}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontFamily: 'open-sans-bold',
-            color: '#8CC631',
-          }}
+      <Text style={styles.title}>
+        Finally, tell me about your favorite food (1 only)
+      </Text>
+      <TextInput
+        value={favoriteFood}
+        onChangeText={text => setFoodData(text)}
+        style={styles.input}
+      />
+
+      {showConfirm ? (
+        <Animatable.View
+          animation={'bounceInDown'}
+          delay={200}
+          duration={2000}
+          useNativeDriver={true}
         >
-          Finally, telll me about your favoriteFood (1 only)
-        </Text>
-        <TextInput
-          value={favoriteFood}
-          onChangeText={text => setFoodData(text)}
-          style={styles.input}
-        />
-      </KeyboardAvoidingView>
-      <View
-        style={{
-          marginTop: 20,
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}
-      >
-        <LinearGradient
-          colors={Colors.gradient}
-          start={[1.5, 0]}
-          end={[0, 0.5]}
-          style={{
-            height: 40,
-            width: 150,
-            borderRadius: 20,
-            // marginHorizontal: 15,
-            marginTop: 20,
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              getData();
-              // navigation.navigate('Home');
-            }}
-            disabled={!favoriteFood}
-          >
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 15,
-                fontFamily: 'open-sans-bold',
-                textAlign: 'center',
-                marginVertical: 7,
-              }}
+          <View style={styles.confirm}>
+            <LinearGradient
+              colors={Colors.gradient}
+              start={[1.5, 0]}
+              end={[0, 0.5]}
+              style={styles.button}
             >
-              Ok, Let's start!
-            </Text>
-          </TouchableOpacity>
-        </LinearGradient>
-      </View>
+              <TouchableOpacity
+                onPress={() => {
+                  getData();
+                }}
+                style={!favoriteFood ? { opacity: 0.5 } : null}
+                disabled={!favoriteFood}
+              >
+                <Text style={styles.buttonText}>Ok, Let's start!</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+        </Animatable.View>
+      ) : null}
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
   },
-  inner: {
-    flex: 1,
-    marginBottom: 50,
-    justifyContent: 'space-around',
+  title: {
+    fontSize: 20,
+    fontFamily: 'open-sans-bold',
+    color: Colors.accent,
+  },
+  confirm: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  button: {
+    height: 60,
+    width: 180,
+    borderRadius: 30,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontFamily: 'open-sans-bold',
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginVertical: 7,
+    marginTop: 15,
   },
   input: {
     borderWidth: 1,
@@ -100,4 +100,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
 });
+
 export default FavouriteFoodQuestion;

@@ -1,21 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Picker, TouchableOpacity } from 'react-native';
 import countryData from '../../data/country.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../constants/Colors';
 
-const CountryQuestion = ({ getCities, countryButton, country, setCountryData }) => {
+const CountryQuestion = ({
+  getCities,
+  countryButton,
+  country,
+  setCountryData,
+}) => {
   return (
-    <View style={{ marginTop: 15 }}>
-      <Text
-        style={{
-          fontSize: 20,
-          fontFamily: 'open-sans-bold',
-          color: '#8CC631',
-        }}
-      >
-        Can you tell me where are you from?
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Can you tell me where are you from?</Text>
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         <Picker
           selectedValue={country}
@@ -25,11 +22,7 @@ const CountryQuestion = ({ getCities, countryButton, country, setCountryData }) 
           <Picker.Item
             label="No Selection"
             value={null}
-            itemStyle={{
-              color: '#8CC631',
-              borderColor: 'red',
-              borderWidth: 4,
-            }}
+            itemStyle={styles.pickerItem}
           />
           {countryData.map((item, index) => {
             return (
@@ -39,47 +32,60 @@ const CountryQuestion = ({ getCities, countryButton, country, setCountryData }) 
         </Picker>
       </View>
 
-      <View
-        style={{
-          marginTop: 150,
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        }}
-      >
+      <View style={styles.confirm}>
         <LinearGradient
           colors={Colors.gradient}
           start={[1.5, 0]}
           end={[0, 0.5]}
-          style={{
-            height: 40,
-            width: 90,
-            borderRadius: 20,
-            // marginHorizontal: 15,
-            marginTop: 20,
-          }}
+          style={styles.button}
         >
           <TouchableOpacity
             onPress={() => {
               getCities(country);
             }}
+            style={country === null || countryButton ? { opacity: 0.5 } : null}
             disabled={country === null || countryButton}
           >
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 15,
-                fontFamily: 'open-sans-bold',
-                textAlign: 'center',
-                marginVertical: 7,
-              }}
-            >
-              OK
-            </Text>
+            <Text style={styles.buttonText}>OK</Text>
           </TouchableOpacity>
         </LinearGradient>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 15,
+  },
+  title: {
+    fontSize: 20,
+    fontFamily: 'open-sans-bold',
+    color: Colors.accent,
+  },
+  pickerItem: {
+    color: Colors.accent,
+    borderColor: 'red',
+    borderWidth: 4,
+  },
+  confirm: {
+    marginTop: 150,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    height: 40,
+    width: 90,
+    borderRadius: 20,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 15,
+    fontFamily: 'open-sans-bold',
+    textAlign: 'center',
+    marginVertical: 7,
+  },
+});
 
 export default CountryQuestion;

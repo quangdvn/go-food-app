@@ -9,7 +9,7 @@ const AppStack = createSwitchNavigator(
     AuthStack,
   },
   {
-    initialRouteName: 'MainStack',
+    initialRouteName: 'AuthStack',
   }
 );
 export default createAppContainer(AppStack);

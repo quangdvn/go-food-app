@@ -1,23 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet, Picker, TouchableOpacity } from 'react-native';
-import countryData from '../../data/country.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../constants/Colors';
 
-const CityQuestion = ({ city, confirmCity, cityList, setData, cityButton }) => {
+const CityQuestion = ({
+  city,
+  confirmCity,
+  cityList,
+  setData,
+  cityButton,
+  onScrollEnd,
+}) => {
   return (
     <View style={styles.container}>
-      <Text
-        style={{
-          fontSize: 20,
-          fontFamily: 'open-sans-bold',
-          color: '#8CC631',
-        }}
-      >
-        Ok, Which city?
-      </Text>
+      <Text style={styles.title}>Ok, Which city?</Text>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+      <View style={styles.picker}>
         <Picker
           selectedValue={city}
           style={{ height: 50, width: 200 }}
@@ -30,42 +28,22 @@ const CityQuestion = ({ city, confirmCity, cityList, setData, cityButton }) => {
         </Picker>
       </View>
 
-      <View
-        style={{
-          marginTop: 150,
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        }}
-      >
+      <View style={styles.confirm}>
         <LinearGradient
           colors={Colors.gradient}
           start={[1.5, 0]}
           end={[0, 0.5]}
-          style={{
-            height: 40,
-            width: 90,
-            borderRadius: 20,
-            // marginHorizontal: 15,
-            marginTop: 20,
-          }}
+          style={styles.button}
         >
           <TouchableOpacity
             onPress={() => {
               confirmCity();
+              onScrollEnd();
             }}
+            style={city === null || cityButton ? { opacity: 0.5 } : null}
             disabled={city === null || cityButton}
           >
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 15,
-                fontFamily: 'open-sans-bold',
-                textAlign: 'center',
-                marginVertical: 7,
-              }}
-            >
-              OK
-            </Text>
+            <Text style={styles.buttonText}>Got it</Text>
           </TouchableOpacity>
         </LinearGradient>
       </View>
@@ -75,6 +53,33 @@ const CityQuestion = ({ city, confirmCity, cityList, setData, cityButton }) => {
 
 const styles = StyleSheet.create({
   container: {},
+  title: {
+    fontSize: 20,
+    fontFamily: 'open-sans-bold',
+    color: Colors.accent,
+  },
+  picker: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  confirm: {
+    marginTop: 150,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    height: 40,
+    width: 90,
+    borderRadius: 20,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 15,
+    fontFamily: 'open-sans-bold',
+    textAlign: 'center',
+    marginVertical: 7,
+  },
 });
 
 export default CityQuestion;
