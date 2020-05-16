@@ -21,16 +21,17 @@ const RestaurantStack = createStackNavigator({
       };
     },
   },
-  RestaurantDetail: {
-    screen: RestaurantDetailScreen,
+
+  Search: {
+    screen: SearchScreen,
     navigationOptions: () => {
       return {
         headerShown: false,
       };
     },
   },
-  Search: {
-    screen: SearchScreen,
+  RestaurantDetail: {
+    screen: RestaurantDetailScreen,
     navigationOptions: () => {
       return {
         headerShown: false,
@@ -40,6 +41,14 @@ const RestaurantStack = createStackNavigator({
 });
 
 const EventStack = createStackNavigator({
+  RestaurantDetail: {
+    screen: RestaurantDetailScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+      };
+    },
+  },
   Event: {
     screen: EventScreen,
     navigationOptions: () => {

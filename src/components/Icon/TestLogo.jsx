@@ -141,46 +141,48 @@ export const AppLogo = () => {
   );
 };
 
-export function Icon_bookmark() {
-  <Svg
-    width="41px"
-    height="41px"
-    viewBox="0 0 41 41"
-    version="1.1"
-    xmlns="http://www.w3.org/2000/Svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
-  >
-    <G
-      id="UI-/-Bookmark"
-      stroke="none"
-      stroke-width="1"
-      fill="none"
-      fill-rule="evenodd"
+export const Icon_bookmark = () => {
+  return (
+    <Svg
+      width="41px"
+      height="41px"
+      viewBox="0 0 41 41"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/Svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
     >
-      <G id="Bookmark">
-        <Circle
-          id="Oval-Copy-3"
-          fill="#D8D8D8"
-          cx="20.5"
-          cy="20.5"
-          r="20.5"
-        ></Circle>
-        <G
-          id="Path-5"
-          transform="translate(14.000000, 12.000000)"
-          stroke="#000000"
-          stroke-width="0.9"
-        >
-          <Path
-            d="M1.8,0 L11.7,0 C12.6941125,-4.04660118e-16 13.5,0.80588745 13.5,1.8 L13.5,16.4104287 C13.5,16.9074849 13.0970563,17.3104287 12.6,17.3104287 C12.4368804,17.3104287 12.2768277,17.2660966 12.1369538,17.1821723 L7.67609236,14.5056554 C7.10606406,14.1636384 6.39393594,14.1636384 5.82390764,14.5056554 L1.36304618,17.1821723 C0.936823941,17.4379056 0.38398971,17.2996971 0.128256367,16.8734748 C0.04433205,16.733601 3.53043291e-16,16.5735482 0,16.4104287 L0,1.8 C-1.21743675e-16,0.80588745 0.80588745,-3.94290921e-17 1.8,0 Z"
-            id="Path-4"
-          ></Path>
+      <G
+        id="UI-/-Bookmark"
+        stroke="none"
+        stroke-width="1"
+        fill="none"
+        fill-rule="evenodd"
+      >
+        <G id="Bookmark">
+          <Circle
+            id="Oval-Copy-3"
+            fill="#D8D8D8"
+            cx="20.5"
+            cy="20.5"
+            r="20.5"
+          ></Circle>
+          <G
+            id="Path-5"
+            transform="translate(14.000000, 12.000000)"
+            stroke="#000000"
+            stroke-width="0.9"
+          >
+            <Path
+              d="M1.8,0 L11.7,0 C12.6941125,-4.04660118e-16 13.5,0.80588745 13.5,1.8 L13.5,16.4104287 C13.5,16.9074849 13.0970563,17.3104287 12.6,17.3104287 C12.4368804,17.3104287 12.2768277,17.2660966 12.1369538,17.1821723 L7.67609236,14.5056554 C7.10606406,14.1636384 6.39393594,14.1636384 5.82390764,14.5056554 L1.36304618,17.1821723 C0.936823941,17.4379056 0.38398971,17.2996971 0.128256367,16.8734748 C0.04433205,16.733601 3.53043291e-16,16.5735482 0,16.4104287 L0,1.8 C-1.21743675e-16,0.80588745 0.80588745,-3.94290921e-17 1.8,0 Z"
+              id="Path-4"
+            ></Path>
+          </G>
         </G>
       </G>
-    </G>
-  </Svg>;
-}
-export function Icon_contact() {
+    </Svg>
+  );
+};
+export const Icon_contact = () => {
   return (
     <Svg
       width="41px"
@@ -238,8 +240,8 @@ export function Icon_contact() {
       </G>
     </Svg>
   );
-}
-export function Icon_map() {
+};
+export const Icon_map = () => {
   return (
     <Svg
       width="41px"
@@ -288,8 +290,8 @@ export function Icon_map() {
       </G>
     </Svg>
   );
-}
-export function Icon_web() {
+};
+export const Icon_web = () => {
   return (
     <Svg
       width="41px"
@@ -338,5 +340,96 @@ export function Icon_web() {
       </G>
     </Svg>
   );
-}
-export function Icon_badge() {}
+};
+export const Icon_Claim = () => {
+  return (
+    <Svg
+      width="70px"
+      height="23px"
+      viewBox="0 0 70 23"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/Svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <G
+        id="Symbols"
+        stroke="none"
+        stroke-width="1"
+        fill="none"
+        fill-rule="evenodd"
+      >
+        <G id="UI-/-Badge-1">
+          <G id="Badge">
+            <Rect
+              id="Rectangle"
+              fill="#39B54A"
+              x="0"
+              y="0"
+              width="69.12"
+              height="22.275"
+              rx="11.1375"
+            ></Rect>
+            <Text
+              id="Claimed"
+              fill="#44566C"
+              font-family="OpenSans-SemiBold, Open Sans"
+              font-size="9.36"
+              font-weight="500"
+              line-spacing="17.28"
+            >
+              <Text x="16.5427734" y="10">
+                Claimed
+              </Text>
+            </Text>
+          </G>
+        </G>
+      </G>
+    </Svg>
+  );
+};
+export const Icon_Unclaim = () => {
+  return (
+    <Svg
+      width="70px"
+      height="23px"
+      viewBox="0 0 70 23"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/Svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <G
+        id="Symbols"
+        stroke="none"
+        stroke-width="1"
+        fill="none"
+        fill-rule="evenodd"
+      >
+        <G id="UI-/-Badge-2">
+          <G id="Badge-Copy">
+            <Rect
+              id="Rectangle"
+              fill="#B0BBC7"
+              x="0"
+              y="0"
+              width="69.12"
+              height="22.32"
+              rx="11.16"
+            ></Rect>
+            <Text
+              id="Unclaimed"
+              fill="#44566C"
+              font-family="OpenSans-SemiBold, Open Sans"
+              font-size="9.36"
+              font-weight="500"
+              line-spacing="17.28"
+            >
+              <Text x="10.7476172" y="10">
+                Unclaimed
+              </Text>
+            </Text>
+          </G>
+        </G>
+      </G>
+    </Svg>
+  );
+};
