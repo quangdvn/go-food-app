@@ -23,6 +23,7 @@ const FavouriteFoodQuestion = ({ favoriteFood, getData, setFoodData }) => {
         Finally, tell me about your favorite food (1 only)
       </Text>
       <TextInput
+        placeholder="Ex: Pizza, Steak, Hamburger, ..."
         value={favoriteFood}
         onChangeText={text => setFoodData(text)}
         style={styles.input}

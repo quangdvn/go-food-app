@@ -3,14 +3,7 @@ import { View, Text, StyleSheet, Picker, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../constants/Colors';
 
-const CityQuestion = ({
-  city,
-  confirmCity,
-  cityList,
-  setData,
-  cityButton,
-  onScrollEnd,
-}) => {
+const CityQuestion = ({ city, confirmCity, cityList, setData, cityButton }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ok, Which city?</Text>
@@ -38,7 +31,6 @@ const CityQuestion = ({
           <TouchableOpacity
             onPress={() => {
               confirmCity();
-              onScrollEnd();
             }}
             style={city === null || cityButton ? { opacity: 0.5 } : null}
             disabled={city === null || cityButton}

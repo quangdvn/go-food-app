@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -10,7 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import countryData from '../../data/country.json';
-import goFoodApi from '../../api/goFoodApi';
+import { postInfo, goFoodApi } from '../../api/goFoodApi';
 import CountryQuestion from '../../components/UnAuthComponents/CountryQuestion';
 import CityQuestion from '../../components/UnAuthComponents/CityQuestion';
 import FavouriteFoodQuestion from '../../components/UnAuthComponents/FavouriteFoodQuestion';
@@ -31,12 +31,6 @@ const GetInfoScreen = ({ navigation }) => {
   const [favoriteFood, setFavoriteFood] = useState(null);
 
   const [showFavorite, setShowFavorite] = useState(false);
-
-  const scrollable = useRef(null);
-
-  const onScrollEnd = () => {
-    scrollable.current.scrollToEnd({ animated: true, duration: 500 });
-  };
 
   const getCountryName = code => {
     let returnData = null;
@@ -97,7 +91,13 @@ const GetInfoScreen = ({ navigation }) => {
       },
       favoriteFood: getFavoriteFood(favoriteFood),
     };
-    console.log(userInfo);
+    try {
+      await postInfo(userInfo);
+
+      navigation.navigate('MainStack');
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const setData = value => {
@@ -118,12 +118,12 @@ const GetInfoScreen = ({ navigation }) => {
         Keyboard.dismiss();
       }}
     >
-      <ScrollView ref={scrollable}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : null}
-          keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
-          style={{ flex: 1, marginHorizontal: 15 }}
-        >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+        style={{ flex: 1, marginHorizontal: 15 }}
+      >
+        <ScrollView>
           <SafeAreaView style={styles.container}>
             <View style={styles.inner}>
               <CountryQuestion
@@ -139,7 +139,6 @@ const GetInfoScreen = ({ navigation }) => {
                   confirmCity={confirmCity}
                   setData={setData}
                   cityButton={cityButton}
-                  onScrollEnd={onScrollEnd}
                 />
               ) : null}
 
@@ -147,14 +146,13 @@ const GetInfoScreen = ({ navigation }) => {
                 <FavouriteFoodQuestion
                   favoriteFood={favoriteFood}
                   getData={getData}
-                  navigation={navigation}
                   setFoodData={setFoodData}
                 />
               ) : null}
             </View>
           </SafeAreaView>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };

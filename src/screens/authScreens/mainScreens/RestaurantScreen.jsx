@@ -7,22 +7,20 @@ import {
   Dimensions,
   SafeAreaView,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 import ScrollableTabView, {
   DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
 import { useSelector, useDispatch } from 'react-redux';
+import { getUser } from '../../../store/actions';
+import { NavigationEvents } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import MainSection from '../../../components/MainSection';
 import CategorySection from '../../../components/CategorySection';
+import Colors from '../../../constants/Colors';
 
 const RestaurantScreen = ({ navigation }) => {
-  const res = useSelector(state => state.auth);
-  
-  useEffect(() => {
-    console.log(res);
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>

@@ -9,11 +9,14 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   Alert,
+  Platform,
 } from 'react-native';
 import AppLogo from '../../components/Icon/AppLogo';
 import { useSelector, useDispatch } from 'react-redux';
 import SignUpForm from '../../components/AuthComponents/SignUpForm';
 import { signUp, clearErrorMessage } from '../../store/actions';
+
+const KEYBOARD_VERTICAL_OFFSET = 0;
 
 const SignUpScreen = ({ navigation }) => {
   const [borderColor, setBorderColor] = useState(null);
@@ -50,7 +53,11 @@ const SignUpScreen = ({ navigation }) => {
         Keyboard.dismiss();
       }}
     >
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+        style={{ flex: 1 }}
+      >
         <SafeAreaView style={styles.container}>
           <View style={styles.inner}>
             <View>

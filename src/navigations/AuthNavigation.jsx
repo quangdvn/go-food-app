@@ -8,39 +8,44 @@ import SignUpScreen from '../screens/unAuthScreens/SignUpScreen';
 import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
 import GetInfoScreen from '../screens/unAuthScreens/GetInfoScreen';
 
-const AuthStack = createStackNavigator({
-  GetInfo: {
-    screen: GetInfoScreen,
-    navigationOptions: () => {
-      return {
-        header: () => <Header title="Get Info" />,
-      };
+const AuthStack = createStackNavigator(
+  {
+    Welcome: {
+      screen: WelcomeScreen,
+      navigationOptions: () => {
+        return {
+          headerShown: false,
+        };
+      },
+    },
+    LogIn: {
+      screen: LogInScreen,
+      navigationOptions: () => {
+        return {
+          headerShown: false,
+        };
+      },
+    },
+    SignUp: {
+      screen: SignUpScreen,
+      navigationOptions: () => {
+        return {
+          headerShown: false,
+        };
+      },
+    },
+    GetInfo: {
+      screen: GetInfoScreen,
+      navigationOptions: () => {
+        return {
+          header: () => <Header title="Get Info" />,
+        };
+      },
     },
   },
-  Welcome: {
-    screen: WelcomeScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-  LogIn: {
-    screen: LogInScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-  SignUp: {
-    screen: SignUpScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-});
+  {
+    initialRouteName: 'Welcome',
+  }
+);
 
 export default AuthStack;
