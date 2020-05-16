@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,16 +10,24 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import countryData from '../../data/country.json';
 import goFoodApi from '../../api/goFoodApi';
+import { LinearGradient } from 'expo-linear-gradient';
+import Colors from '../../constants/Colors';
+import Swiper from 'react-native-swiper';
+import CountryQuestion from '../../components/UnAuthComponents/CountryQuestion';
+import CityQuestion from '../../components/UnAuthComponents/CityQuestion';
+import FavouriteFoodQuestion from '../../components/UnAuthComponents/FavouriteFoodQuestion';
 
-const GetInfoScreen = () => {
+const GetInfoScreen = ({ navigation }) => {
+  const [cityList, setCityList] = useState(null);
+
   const [country, setCountry] = useState(null);
 
   const [countryButton, setCountryButton] = useState(false);
-
-  const [cityList, setCityList] = useState(null);
 
   const [city, setCity] = useState(null);
 
@@ -52,11 +60,15 @@ const GetInfoScreen = () => {
         },
       } = await goFoodApi.get(`/geo/name/${code}`);
       setCityList(cities);
-      setCountryButton(true);
+      // setCountryButton(true);
     } catch (err) {
       console.log(err.message);
     }
   };
+
+  useEffect(() => {
+    console.log(cityList);
+  }, [cityList]);
 
   const getLatLng = async city => {
     try {
@@ -73,10 +85,11 @@ const GetInfoScreen = () => {
 
   const confirmCity = () => {
     setShowFavorite(true);
-    setCityButton(true);
+    // setCityButton(true);
   };
 
   const getData = async () => {
+    console.log(city)
     const { latitude, longitude } = await getLatLng(city);
     const countryName = await getCountryName(country);
     const userInfo = {
@@ -90,88 +103,57 @@ const GetInfoScreen = () => {
     };
   };
 
+  const setData = value => {
+    setCity(value);
+  };
+
+  const setFoodData = value => {
+    setFavoriteFood(value);
+  };
+
+  const setCountryData = value => {
+    setCountry(value);
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}
     >
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.inner}>
-            <View>
-              <Picker
-                selectedValue={country}
-                style={{ height: 50, width: 150 }}
-                onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
-              >
-                <Picker.Item label="No Selection" value={null} />
-                {countryData.map((item, index) => {
-                  return (
-                    <Picker.Item
-                      key={index}
-                      label={item.name}
-                      value={item.code}
-                    />
-                  );
-                })}
-              </Picker>
-
-              <View style={{ marginTop: 150 }}>
-                <Button
-                  title="Confirm Country"
-                  onPress={() => getCities(country)}
-                  disabled={country === null || countryButton}
+      <ScrollView>
+        <View behavior="padding" style={{ flex: 1, marginHorizontal: 15 }}>
+          <SafeAreaView style={styles.container}>
+            <View>{/* <Text>Before you </Text> */}</View>
+            <View style={styles.inner}>
+              <CountryQuestion
+                getCities={getCities}
+                countryButton={countryButton}
+                country={country}
+                setCountryData={setCountryData}
+              />
+              {cityList ? (
+                <CityQuestion
+                  cityList={cityList}
+                  city={city}
+                  confirmCity={confirmCity}
+                  setData={setData}
+                  cityButton={cityButton}
                 />
-              </View>
+              ) : null}
+
+              {showFavorite ? (
+                <FavouriteFoodQuestion
+                  favoriteFood={favoriteFood}
+                  getData={getData}
+                  navigation={navigation}
+                  setFoodData={setFoodData}
+                />
+              ) : null}
             </View>
-
-            {cityList ? (
-              <View>
-                <Picker
-                  selectedValue={city}
-                  style={{ height: 50, width: 200 }}
-                  onValueChange={(itemValue, itemIndex) => setCity(itemValue)}
-                >
-                  <Picker.Item label="No Selection" value={null} />
-                  {cityList.map((item, index) => {
-                    return (
-                      <Picker.Item key={index} label={item} value={item} />
-                    );
-                  })}
-                </Picker>
-                <View style={{ marginTop: 150 }}>
-                  <Button
-                    title="Confirm City"
-                    onPress={() => confirmCity()}
-                    disabled={city === null || cityButton}
-                  />
-                </View>
-              </View>
-            ) : null}
-
-            {showFavorite ? (
-              <View>
-                <View style={{ marginTop: 20 }}>
-                  <Text>Tell me your favorite food</Text>
-                  <TextInput
-                    value={favoriteFood}
-                    onChangeText={text => setFavoriteFood(text)}
-                    style={styles.input}
-                  />
-                </View>
-                <View style={{ marginTop: 20 }}>
-                  <Button
-                    title="Confirm"
-                    onPress={() => getData()}
-                    disabled={!favoriteFood}
-                  />
-                </View>
-              </View>
-            ) : null}
-          </View>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
+          </SafeAreaView>
+        </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };

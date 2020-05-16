@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,12 @@ import CategorySection from '../../../components/CategorySection';
 import PopularSection from '../../../components/PopularSection';
 
 const RestaurantScreen = ({ navigation }) => {
+  const res = useSelector(state => state.auth);
+
+  useEffect(() => {
+    console.log('respon when login success');
+    console.log(res);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -42,7 +48,7 @@ const RestaurantScreen = ({ navigation }) => {
           style={styles.tabBarContent}
           initialPage={0}
           tabBarActiveTextColor="green"
-          tabBarTextStyle={{ fontFamily: 'open-sans', fontSize: 17 }}
+          tabBarTextStyle={{ fontFamily: 'open-sans', fontSize: 15 }}
           renderTabBar={() => (
             <DefaultTabBar
               style={{ borderWidth: 0 }}

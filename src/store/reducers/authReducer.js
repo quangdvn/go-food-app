@@ -15,7 +15,7 @@ const initialState = {
 const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case LOG_IN_SUCCESS:
-      return { ...state, error: '', token: payload };
+      return { ...state, data: payload };
 
     case LOG_IN_ERROR:
       return { ...state, error: payload };

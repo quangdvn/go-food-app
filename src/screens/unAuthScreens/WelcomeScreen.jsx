@@ -17,7 +17,7 @@ const WelcomeScreen = ({ navigation }) => {
 
   const [isShow, setShow] = useState(false);
 
-  const setIndexChanged = (index) => {
+  const setIndexChanged = index => {
     if (index === 2) {
       setNextScreenAnimation('bounceInUp');
       setShow(true);
@@ -29,13 +29,14 @@ const WelcomeScreen = ({ navigation }) => {
       loop={false}
       dot={<View style={styles.dot} />}
       activeDot={<View style={styles.activeDot} />}
-      onIndexChanged={(index) => setIndexChanged(index)}>
+      onIndexChanged={index => setIndexChanged(index)}
+    >
       <View style={styles.container}>
         <View style={styles.header}>
           <Image
             style={styles.image}
             source={require('../../../assets/images/welcome_screen_1.png')}
-            resizeMode='stretch'
+            resizeMode="stretch"
           />
         </View>
         <View style={styles.footer}>
@@ -52,7 +53,7 @@ const WelcomeScreen = ({ navigation }) => {
           <Image
             style={styles.image}
             source={require('../../../assets/images/welcome_screen_2.png')}
-            resizeMode='stretch'
+            resizeMode="stretch"
           />
         </View>
         <View style={styles.footer}>
@@ -69,7 +70,7 @@ const WelcomeScreen = ({ navigation }) => {
           <Image
             style={styles.image}
             source={require('../../../assets/images/welcome_screen_3.png')}
-            resizeMode='stretch'
+            resizeMode="stretch"
           />
         </View>
         <View style={styles.footer}>
@@ -83,12 +84,14 @@ const WelcomeScreen = ({ navigation }) => {
               animation={nextScreenAnimation}
               delay={200}
               duration={2000}
-              useNativeDriver={true}>
+              useNativeDriver={true}
+            >
               <LinearGradient
                 colors={Colors.gradient}
                 start={[1, 0]}
                 end={[0, 1]}
-                style={styles.button}>
+                style={styles.button}
+              >
                 <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
                   <Text style={styles.buttonText}>Let's try our app now !</Text>
                 </TouchableOpacity>

@@ -12,9 +12,7 @@ import goFoodApi from '../../api/goFoodApi';
 export const logIn = logInData => async dispatch => {
   try {
     const { data } = await goFoodApi.post('/auth/login', logInData);
-
     dispatch({ type: 'LOG_IN_SUCCESS', payload: data.token });
-
     navigateTo('MainStack');
   } catch (err) {
     if (err.response.status === 400) {
