@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import { data } from '../data/data_popular';
 
-const Popular = () => {
+const PopularSection = () => {
   const [popularList, setPopularList] = useState(data);
 
   const popularSeparatorComponent = () => {
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Popular;
+export default PopularSection;

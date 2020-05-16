@@ -6,15 +6,17 @@ import {
   ImageBackground,
   Dimensions,
   SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import ScrollableTabView, {
   DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
-import MainSection from '../../components/MainSection';
-import CategorySection from '../../components/CategorySection';
-import Popular from '../../components/Popular';
-import { useSelector, useDispatch } from 'react-redux';
-const HomeScreen = ({ navigation }) => {
+import { Ionicons } from '@expo/vector-icons';
+import MainSection from '../../../components/MainSection';
+import CategorySection from '../../../components/CategorySection';
+import PopularSection from '../../../components/PopularSection';
+
+const RestaurantScreen = ({ navigation }) => {
   const res = useSelector(state => state.auth);
 
   useEffect(() => {
@@ -24,13 +26,22 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
+        <StatusBar barStyle="dark-content" />
         <ImageBackground
-          source={require('../../../assets/images/header.png')}
+          source={require('../../../../assets/images/header.png')}
           style={styles.imageBackground}
           resizeMode="stretch"
         >
           <Text style={styles.headerTitle}>HOME</Text>
         </ImageBackground>
+        <View style={styles.backButton}>
+          <Ionicons
+            name="ios-menu"
+            color="white"
+            size={45}
+            onPress={() => navigation.toggleDrawer()}
+          />
+        </View>
       </View>
       <View style={styles.tabBar}>
         <ScrollableTabView
@@ -45,9 +56,9 @@ const HomeScreen = ({ navigation }) => {
             />
           )}
         >
-          <MainSection tabLabel="Main" navigation={navigation} />
+          <MainSection tabLabel="All" navigation={navigation} />
           <CategorySection tabLabel="Categories" navigation={navigation} />
-          <Popular tabLabel="Popular" navigation={navigation} />
+          {/* <PopularSection tabLabel="Popular" navigation={navigation} /> */}
         </ScrollableTabView>
       </View>
     </SafeAreaView>
@@ -71,6 +82,12 @@ const styles = StyleSheet.create({
     marginTop: screenWidth * 0.3,
     paddingHorizontal: 30,
   },
+  backButton: {
+    position: 'absolute',
+    left: 0,
+    marginTop: 15,
+    marginLeft: 20,
+  },
   tabBarContent: {
     marginTop: 20,
   },
@@ -86,9 +103,10 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: 'white',
     marginTop: 20,
+    marginLeft: 60,
     fontFamily: 'open-sans-bold',
     fontSize: 25,
   },
 });
 
-export default HomeScreen;
+export default RestaurantScreen;

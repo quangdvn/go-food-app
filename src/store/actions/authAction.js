@@ -12,12 +12,8 @@ import goFoodApi from '../../api/goFoodApi';
 export const logIn = logInData => async dispatch => {
   try {
     const { data } = await goFoodApi.post('/auth/login', logInData);
-
-    // console.log(data);
-    // dispatch({ type: 'LOG_IN_SUCCESS', payload: data.token });
-    dispatch({ type: LOG_IN_SUCCESS, payload: data });
+    dispatch({ type: 'LOG_IN_SUCCESS', payload: data.token });
     navigateTo('MainStack');
-    console.log('Test');
   } catch (err) {
     if (err.response.status === 400) {
       dispatch({
@@ -36,8 +32,6 @@ export const logIn = logInData => async dispatch => {
 export const signUp = signUpData => async dispatch => {
   try {
     const { data } = await goFoodApi.post('/auth/signup', signUpData);
-
-    console.log(data);
     navigateTo('MainStack');
   } catch (err) {
     if (err.response.status === 400) {

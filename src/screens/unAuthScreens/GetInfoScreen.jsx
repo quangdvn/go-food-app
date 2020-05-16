@@ -101,7 +101,6 @@ const GetInfoScreen = ({ navigation }) => {
       },
       favoriteFood: getFavoriteFood(favoriteFood),
     };
-    console.log(userInfo);
   };
 
   const setData = value => {

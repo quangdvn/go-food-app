@@ -1,114 +1,15 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import HomeScreen from '../screens/authScreens/HomeScreen';
-import RestaurantDetailScreen from '../screens/authScreens/RestaurantDetailScreen';
-import AccountScreen from '../screens/authScreens/AccountScreen';
-import LogInScreen from '../screens/unAuthScreens/LoginScreen';
-import SignUpScreen from '../screens/unAuthScreens/SignUpScreen';
-import WelcomeScreen from '../screens/unAuthScreens/WelcomeScreen';
-import GetInfoScreen from '../screens/unAuthScreens/GetInfoScreen';
-import { LinearGradient } from 'expo-linear-gradient';
-import Colors from '../constants/Colors';
-import CountryQuestion from '../components/UnAuthComponents/CountryQuestion';
-import CityQuestion from '../components/UnAuthComponents/CityQuestion';
-import FavouriteFoodQuestion from '../components/UnAuthComponents/FavouriteFoodQuestion';
+import AuthStack from './AuthNavigation';
+import MainStack from './MainNavigation';
 
-const AuthStack = createStackNavigator({
-  // SignUp: {
-  //   screen: SignUpScreen,
-  //   navigationOptions: () => {
-  //     return {
-  //       headerShown: false,
-  //     };
-  //   },
-  // Welcome: {
-  //   screen: WelcomeScreen,
-  //   navigationOptions: () => {
-  //     return {
-  //       headerShown: false,
-  //     };
-  //   },
-  // },
-  GetInfo: {
-    screen: GetInfoScreen,
-    navigationOptions: () => {
-      return {
-        title: 'Before you go',
-        headerBackground: () => (
-          <LinearGradient
-            colors={Colors.gradient}
-            style={{ flex: 1 }}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-          />
-        ),
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontFamily: 'open-sans-bold',
-          fontSize: 18,
-          textTransform: 'uppercase',
-        },
-      };
-    },
-  },
-  Welcome: {
-    screen: WelcomeScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-  LogIn: {
-    screen: LogInScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-});
-
-const MainStack = createStackNavigator(
+const AppStack = createSwitchNavigator(
   {
-    Home: {
-      screen: HomeScreen,
-      navigationOptions: () => {
-        return {
-          headerShown: false,
-        };
-      },
-    },
-    RestaurantDetail: {
-      screen: RestaurantDetailScreen,
-      navigationOptions: () => {
-        return {
-          headerShown: false,
-        };
-      },
-    },
-    Account: {
-      screen: AccountScreen,
-      navigationOptions: () => {
-        return {
-          headerShown: false,
-        };
-      },
-    },
-  },
-  {
-    initialRouteName: 'Home',
-  }
-);
-
-const SwitchNavigator = createSwitchNavigator(
-  {
-    AuthStack,
     MainStack,
+    AuthStack,
   },
   {
-    initialRouteName: 'AuthStack',
+    initialRouteName: 'MainStack',
   }
 );
-export default createAppContainer(SwitchNavigator);
+export default createAppContainer(AppStack);
