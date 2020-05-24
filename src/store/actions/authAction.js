@@ -50,7 +50,7 @@ export const logIn = logInData => async dispatch => {
     const { data } = await goFoodApi.post('/auth/login', logInData);
     await AsyncStorage.setItem('token', data.token);
 
-    dispatch({ type: LOG_IN_SUCCESS, payload: data.token });
+    dispatch({ type: 'LOG_IN_SUCCESS', payload: data.token });
 
     navigateTo('MainStack');
   } catch (err) {
