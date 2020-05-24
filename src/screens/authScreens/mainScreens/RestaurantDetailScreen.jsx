@@ -114,8 +114,8 @@ const RestaurantDetailScreen = ({ navigation }) => {
 
           <View style={{ flexDirection: 'row' }}>
             <Image
-              source={require('../../../../assets/images/stars/extra_large_5.png')}
-              style={{ height: 20, width: 90 }}
+              source={require('../../../../assets/images/stars/small/small_5.png')}
+              style={{ height: 20, width: 120 }}
               resizeMode="stretch"
             />
             <Text
@@ -275,45 +275,45 @@ const RestaurantDetailScreen = ({ navigation }) => {
             <View style={{ flexDirection: 'row' }}>
               <Image
                 source={{ uri: `${data.image}` }}
-                style={{ width: 50, height: 50, borderRadius: '50%' }}
+                style={{ width: 50, height: 50, borderRadius: 25 }}
               />
               <View style={{ flexDirection: 'column', marginLeft: 20 }}>
                 <Text style={styles.customer_name}>{data.name}</Text>
                 <View style={{ flexDirection: 'row', marginTop: 5 }}>
                   {data.vote === 5 ? (
                     <Image
-                      source={require('../../../../assets/images/stars/extra_large_5.png')}
-                      style={{ height: 20, width: 90 }}
+                      source={require('../../../../assets/images/stars/small/small_5.png')}
+                      style={{ height: 20, width: 120 }}
                       resizeMode="stretch"
                     />
                   ) : data.vote === 4 ? (
                     <Image
-                      source={require('../../../../assets/images/stars/extra_large_4.png')}
-                      style={{ height: 20, width: 90 }}
+                      source={require('../../../../assets/images/stars/small/small_5.png')}
+                      style={{ height: 20, width: 120 }}
                       resizeMode="stretch"
                     />
                   ) : data.vote === 3 ? (
                     <Image
-                      source={require('../../../../assets/images/stars/extra_large_3.png')}
-                      style={{ height: 20, width: 90 }}
+                      source={require('../../../../assets/images/stars/small/small_5.png')}
+                      style={{ height: 20, width: 120 }}
                       resizeMode="stretch"
                     />
                   ) : data.vote === 2 ? (
                     <Image
-                      source={require('../../../../assets/images/stars/extra_large_2.png')}
-                      style={{ height: 20, width: 90 }}
+                      source={require('../../../../assets/images/stars/small/small_5.png')}
+                      style={{ height: 20, width: 120 }}
                       resizeMode="stretch"
                     />
                   ) : data.vote === 1 ? (
                     <Image
-                      source={require('../../../../assets/images/stars/extra_large_1.png')}
-                      style={{ height: 20, width: 90 }}
+                      source={require('../../../../assets/images/stars/small/small_5.png')}
+                      style={{ height: 20, width: 120 }}
                       resizeMode="stretch"
                     />
                   ) : (
                     <Image
-                      source={require('../../../../assets/images/stars/extra_large_0.png')}
-                      style={{ height: 20, width: 90 }}
+                      source={require('../../../../assets/images/stars/small/small_5.png')}
+                      style={{ height: 20, width: 120 }}
                       resizeMode="stretch"
                     />
                   )}
@@ -337,7 +337,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
         <View style={styles.input_box}>
           <Image
             source={{ uri: 'https://i.ibb.co/FJrKNV1/3.jpg' }}
-            style={{ width: 50, height: 50, borderRadius: '50%' }}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
           />
           <View style={{ flexDirection: 'column', marginLeft: 20 }}>
             <Text style={styles.customer_name}>Bùi Quang Huy</Text>
@@ -348,7 +348,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
               />
 
               <Image
-                source={require('../../../../assets/images/stars/extra_large_0.png')}
+                source={require('../../../../assets/images/stars/small/small_5.png')}
                 style={{ height: 20, width: 70 }}
                 resizeMode="stretch"
               />

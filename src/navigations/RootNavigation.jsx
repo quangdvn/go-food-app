@@ -2,16 +2,18 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import AuthStack from './AuthNavigation';
 import MainStack from './MainNavigation';
-import LoadingScreen from '../screens/unAuthScreens/LoadingScreen';
+import InitialLoadingScreen from '../screens/unAuthScreens/LoadingScreen';
+import DataLoadingScreen from '../screens/authScreens/LoadingScreen';
 
 const AppStack = createSwitchNavigator(
   {
-    Loading: LoadingScreen,
-    MainStack,
+    InitialLoading: InitialLoadingScreen,
+    DataLoading: DataLoadingScreen,
     AuthStack,
+    MainStack,
   },
   {
-    initialRouteName: 'Loading',
+    initialRouteName: 'InitialLoading',
   }
 );
 export default createAppContainer(AppStack);

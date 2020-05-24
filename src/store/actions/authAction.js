@@ -52,7 +52,7 @@ export const logIn = logInData => async dispatch => {
 
     dispatch({ type: 'LOG_IN_SUCCESS', payload: data.token });
 
-    navigateTo('MainStack');
+    navigateTo('DataLoading');
   } catch (err) {
     if (err.response.status === 400) {
       dispatch({
@@ -74,7 +74,7 @@ export const localSignIn = () => async dispatch => {
 
     if (token) {
       dispatch({ type: LOG_IN_SUCCESS, payload: token });
-      navigateTo('MainStack');
+      navigateTo('DataLoading');
     } else {
       navigateTo('AuthStack');
     }

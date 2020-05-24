@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import { DrawerNavigatorItems } from 'react-navigation-drawer';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const SideBar = props => {
   const { user } = useSelector(state => state.auth);
