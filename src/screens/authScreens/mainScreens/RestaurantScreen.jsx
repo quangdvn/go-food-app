@@ -7,14 +7,18 @@ import {
   Dimensions,
   SafeAreaView,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 import ScrollableTabView, {
   DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUser } from '../../../store/actions';
+import { NavigationEvents } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import MainSection from '../../../components/MainSection';
 import CategorySection from '../../../components/CategorySection';
-import PopularSection from '../../../components/PopularSection';
+import Colors from '../../../constants/Colors';
 
 const RestaurantScreen = ({ navigation }) => {
   return (
@@ -42,7 +46,7 @@ const RestaurantScreen = ({ navigation }) => {
           style={styles.tabBarContent}
           initialPage={0}
           tabBarActiveTextColor="green"
-          tabBarTextStyle={{ fontFamily: 'open-sans', fontSize: 17 }}
+          tabBarTextStyle={{ fontFamily: 'open-sans', fontSize: 15 }}
           renderTabBar={() => (
             <DefaultTabBar
               style={{ borderWidth: 0 }}
