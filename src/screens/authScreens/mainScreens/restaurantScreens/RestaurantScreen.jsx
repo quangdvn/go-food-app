@@ -12,10 +12,10 @@ import ScrollableTabView, {
   DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
 import { Ionicons } from '@expo/vector-icons';
-import MainSection from '../../../components/MainSection';
-import CategorySection from '../../../components/CategorySection';
+import MainSection from '../../../../components/MainSection';
+import CategorySection from '../../../../components/CategorySection';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllRestaurants } from '../../../store/actions';
+import { getAllRestaurants } from '../../../../store/actions';
 
 const RestaurantScreen = ({ navigation }) => {
   const { restaurantList } = useSelector(state => state.service);
@@ -31,7 +31,7 @@ const RestaurantScreen = ({ navigation }) => {
       <View style={styles.header}>
         <StatusBar barStyle="dark-content" />
         <ImageBackground
-          source={require('../../../../assets/images/header.png')}
+          source={require('../../../../../assets/images/header.png')}
           style={styles.imageBackground}
           resizeMode="stretch"
         >

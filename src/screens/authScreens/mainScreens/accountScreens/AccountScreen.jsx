@@ -18,18 +18,18 @@ import {
   Icon_contact,
   Icon_map,
   Icon_web,
-} from '../../../components/Icon/TestLogo';
+} from '../../../../components/Icon/TestLogo';
 
 const AccountScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
-        source={require('../../../../assets/images/drawer_header.png')}
+        source={require('../../../../../assets/images/drawer_header.png')}
         style={styles.backgroundImg}
       >
         <View style={styles.containerProfile}>
           <Image
-            source={require('../../../../assets/images/test.png')}
+            source={require('../../../../../assets/images/test.png')}
             style={styles.avatar}
           />
           <Text style={styles.name}>James Jackson</Text>

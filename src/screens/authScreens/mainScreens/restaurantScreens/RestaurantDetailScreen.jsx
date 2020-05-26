@@ -18,12 +18,12 @@ import {
   Icon_bookmark,
   Icon_contact,
   Icon_web,
-} from '../../../components/Icon/TestLogo';
+} from '../../../../components/Icon/TestLogo';
 import Swiper from 'react-native-swiper';
-import SwiperBackground from '../../../components/SwiperBackground';
-import CommentDetail from '../../../components/CommentDetail';
-import Colors from '../../../constants/Colors';
-import StarImages from '../../../utils/renderRating';
+import SwiperBackground from '../../../../components/SwiperBackground';
+import CommentDetail from '../../../../components/CommentDetail';
+import Colors from '../../../../constants/Colors';
+import StarImages from '../../../../utils/renderRating';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;

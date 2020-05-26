@@ -9,12 +9,12 @@ import Colors from '../constants/Colors';
 import Header from '../components/Icon/CustomeHeader';
 
 //* All the Screens
-import RestaurantScreen from '../screens/authScreens/mainScreens/RestaurantScreen';
-import SearchScreen from '../screens/authScreens/mainScreens/SearchScreen';
-import RestaurantDetailScreen from '../screens/authScreens/mainScreens/RestaurantDetailScreen';
-import AccountScreen from '../screens/authScreens/mainScreens/AccountScreen';
-import EventScreen from '../screens/authScreens/mainScreens/EventScreen';
-import EventDetailScreen from '../screens/authScreens/mainScreens/EventDetailScreen';
+import RestaurantScreen from '../screens/authScreens/mainScreens/restaurantScreens/RestaurantScreen';
+import SearchScreen from '../screens/authScreens/SearchScreen';
+import RestaurantDetailScreen from '../screens/authScreens/mainScreens/restaurantScreens/RestaurantDetailScreen';
+import AccountScreen from '../screens/authScreens/mainScreens/accountScreens/AccountScreen';
+import EventScreen from '../screens/authScreens/mainScreens/eventScreens/EventScreen';
+import EventDetailScreen from '../screens/authScreens/mainScreens/eventScreens/EventDetailScreen';
 import MapScreen from '../screens/authScreens/MapScreen';
 
 const RestaurantStack = createStackNavigator({
