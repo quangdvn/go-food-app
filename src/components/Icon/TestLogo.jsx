@@ -341,6 +341,7 @@ export const Icon_web = () => {
     </Svg>
   );
 };
+
 export const Icon_Claim = () => {
   return (
     <Svg
@@ -372,7 +373,7 @@ export const Icon_Claim = () => {
             <Text
               id="Claimed"
               fill="#44566C"
-              font-family="OpenSans-SemiBold, Open Sans"
+              fontFamily="OpenSans-SemiBold, Open Sans"
               font-size="9.36"
               font-weight="500"
               line-spacing="17.28"
@@ -387,6 +388,7 @@ export const Icon_Claim = () => {
     </Svg>
   );
 };
+
 export const Icon_Unclaim = () => {
   return (
     <Svg

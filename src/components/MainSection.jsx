@@ -4,6 +4,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   TextInput,
   ActivityIndicator,
   Text,
@@ -32,22 +33,17 @@ const MainSection = ({ navigation, restaurantList }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="Search ..."
-          style={styles.search}
-          value={searchText}
-          onChangeText={value => searchRestaurant(value)}
-        />
-        <TouchableOpacity
-          onPress={() => setSearchText('')}
-          style={styles.closeIcon}
-        >
+      <TouchableOpacity
+        style={styles.searchContainer}
+        onPress={() => navigation.navigate('Search')}
+      >
+        <Text style={styles.search}>Search ...</Text>
+        <TouchableOpacity style={styles.closeIcon}>
           <Ionicons name="ios-close" color="gray" size={20} />
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
       <View style={styles.listContainer}>
-        {restaurantList.length !== 0? (
+        {restaurantList.length !== 0 ? (
           <FlatList
             data={restaurantList}
             keyExtractor={item => item.id}
@@ -83,6 +79,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   search: {
+    color: 'gray',
     flex: 1,
     marginLeft: 10,
   },

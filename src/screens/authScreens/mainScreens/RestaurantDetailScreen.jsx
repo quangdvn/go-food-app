@@ -20,8 +20,14 @@ import {
   Icon_web,
 } from '../../../components/Icon/TestLogo';
 import Swiper from 'react-native-swiper';
-import { Icon_Claim } from '../../../components/Icon/TestLogo';
+import SwiperBackground from '../../../components/SwiperBackground';
+import CommentDetail from '../../../components/CommentDetail';
 import Colors from '../../../constants/Colors';
+import StarImages from '../../../utils/renderRating';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
 const RestaurantDetailScreen = ({ navigation }) => {
   const dayAndTime = [
     {
@@ -65,152 +71,59 @@ const RestaurantDetailScreen = ({ navigation }) => {
     {
       image: 'https://i.ibb.co/tpG0mJY/1.jpg',
       name: 'Vũ Đức',
-      vote: 5,
+      vote: 3,
       date: '2020-4-24',
       comment:
         'lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus',
     },
   ];
-  const width = Dimensions.get('window').width;
-  const height = Dimensions.get('window').height;
 
   return (
     <ScrollView>
+      <StatusBar hidden={true} />
       <Swiper
         loop={false}
         height={height / 3.5}
         showsPagination={true}
-        activeDot={<View style={styles.activeDot} />}
+        dot={<View style={{ ...styles.dot, backgroundColor: '#FFFFFF' }} />}
+        activeDot={
+          <View style={{ ...styles.dot, backgroundColor: '#D32323' }} />
+        }
       >
-        <View style={styles.opacity_img}>
-          <ImageBackground
-            source={require('../../../../assets/images/res1.jpg')}
-            style={{
-              flex: 1,
-              height: height / 3.5,
-              opacity: 0.4,
-            }}
-            resizeMode="sketch"
-          />
-          <View style={{ ...styles.box_intro, height: height / 3.5 }}>
-            <Icon_Claim />
-            <Text
-              style={{
-                color: '#ffffff',
-                fontFamily: 'open-sans-bold',
-                fontSize: 28,
-              }}
-            >
-              Shushi House
-            </Text>
-
-            <View style={{ flexDirection: 'row' }}>
-              <Image
-                source={require('../../../../assets/images/stars/extra_large_5.png')}
-                style={{ height: 20, width: 90 }}
-                resizeMode="stretch"
-              />
-              <Text
-                style={{
-                  color: '#ffffff',
-                  fontSize: 15,
-                  marginLeft: 10,
-                }}
-              >
-                217
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.opacity_img}>
-          <ImageBackground
-            source={require('../../../../assets/images/res3.jpg')}
-            style={{
-              flex: 1,
-              height: height / 3,
-              opacity: 0.4,
-            }}
-            resizeMode="sketch"
-          />
-          <View style={{ ...styles.box_intro, height: height / 3 }}>
-            <Icon_Claim />
-            <Text
-              style={{
-                color: '#ffffff',
-                fontFamily: 'open-sans-bold',
-                fontSize: 28,
-              }}
-            >
-              Shushi House
-            </Text>
-
-            <View style={{ flexDirection: 'row' }}>
-              <Image
-                source={require('../../../../assets/images/stars/extra_large_5.png')}
-                style={{ height: 20, width: 90 }}
-                resizeMode="stretch"
-              />
-              <Text
-                style={{
-                  color: '#ffffff',
-                  fontSize: 15,
-                  marginLeft: 10,
-                }}
-              >
-                217
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.opacity_img}>
-          <ImageBackground
-            source={require('../../../../assets/images/res2.jpg')}
-            style={{
-              flex: 1,
-              height: height / 3,
-              opacity: 0.4,
-            }}
-            resizeMode="sketch"
-          />
-          <View style={{ ...styles.box_intro, height: height / 3 }}>
-            <Icon_Claim />
-            <Text
-              style={{
-                color: '#ffffff',
-                fontFamily: 'open-sans-bold',
-                fontSize: 28,
-              }}
-            >
-              Shushi House
-            </Text>
-
-            <View style={{ flexDirection: 'row' }}>
-              <Image
-                source={require('../../../../assets/images/stars/extra_large_5.png')}
-                style={{ height: 20, width: 90 }}
-                resizeMode="stretch"
-              />
-              <Text
-                style={{
-                  color: '#ffffff',
-                  fontSize: 15,
-                  marginLeft: 10,
-                }}
-              >
-                217
-              </Text>
-            </View>
-          </View>
-        </View>
+        <SwiperBackground
+          resName="Sushi House"
+          imageUri="https://s3-media4.fl.yelpcdn.com/bphoto/zheMT_Y4dOj6DfNfTZdeOA/o.jpg"
+          ratingStar={4.5}
+          rating={227}
+          claimed
+          screenHeight={height}
+        />
+        <SwiperBackground
+          resName="Sushi House"
+          imageUri="https://s3-media3.fl.yelpcdn.com/bphoto/khL3hwdQROR1YwDkkDj4NQ/o.jpg"
+          ratingStar={4.5}
+          rating={227}
+          claimed
+          screenHeight={height}
+        />
+        <SwiperBackground
+          resName="Sushi House"
+          imageUri="https://s3-media3.fl.yelpcdn.com/bphoto/29AX56Oh-unTaEXRTh_k2Q/o.jpg"
+          ratingStar={4.5}
+          rating={227}
+          claimed
+          screenHeight={height}
+        />
       </Swiper>
       <Ionicons
         name="md-arrow-round-back"
         size={30}
         color="white"
         style={{
-          marginHorizontal: 10,
-          marginVertical: 10,
           position: 'absolute',
+          left: 0,
+          marginTop: 30,
+          marginLeft: 30,
         }}
         onPress={() => {
           navigation.goBack();
@@ -230,7 +143,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
               fontSize: 15,
             }}
           >
-            $$, Shushi, Japanese
+            $$ . Sushi, Japanese
           </Text>
           <TouchableOpacity>
             <Text
@@ -248,16 +161,15 @@ const RestaurantDetailScreen = ({ navigation }) => {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
-            // marginHorizontal: 10,
             marginVertical: 30,
             marginLeft: 20,
           }}
         >
-          {/* <View  style={ flexDirection: 'column'}> */}
           <TouchableOpacity style={{ flexDirection: 'column' }}>
             <Icon_contact />
             <Text style={styles.icon_text}>CALL</Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={{ flexDirection: 'column', marginLeft: 10 }}>
             <Icon_web />
             <Text style={styles.icon_text}>WEB</Text>
@@ -276,15 +188,9 @@ const RestaurantDetailScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-
       <View style={styles.layout}>
         <View style={{ marginLeft: 20 }}>
           <Text style={styles.title}>Location & Hours</Text>
-          {/* <Image
-            source={require('../../../../assets/images/canhngusac.jpg')}
-            style={{ marginHorizontal: 20, marginVertical: 15 }}
-          /> */}
-
           <View style={styles.map}>
             <Text>map</Text>
           </View>
@@ -333,85 +239,30 @@ const RestaurantDetailScreen = ({ navigation }) => {
           Review Highlights
         </Text>
         {listComment.map((data, index) => (
-          <View style={styles.comment_box} key={index}>
-            <View style={{ flexDirection: 'row' }}>
-              <Image
-                source={{ uri: `${data.image}` }}
-                style={{ width: 50, height: 50, borderRadius: 25 }}
-              />
-              <View style={{ flexDirection: 'column', marginLeft: 20 }}>
-                <Text style={styles.customer_name}>{data.name}</Text>
-                <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                  {data.vote === 5 ? (
-                    <Image
-                      source={require('../../../../assets/images/stars/small/small_5.png')}
-                      style={{ height: 20, width: 120 }}
-                      resizeMode="stretch"
-                    />
-                  ) : data.vote === 4 ? (
-                    <Image
-                      source={require('../../../../assets/images/stars/small/small_5.png')}
-                      style={{ height: 20, width: 120 }}
-                      resizeMode="stretch"
-                    />
-                  ) : data.vote === 3 ? (
-                    <Image
-                      source={require('../../../../assets/images/stars/small/small_5.png')}
-                      style={{ height: 20, width: 120 }}
-                      resizeMode="stretch"
-                    />
-                  ) : data.vote === 2 ? (
-                    <Image
-                      source={require('../../../../assets/images/stars/small/small_5.png')}
-                      style={{ height: 20, width: 120 }}
-                      resizeMode="stretch"
-                    />
-                  ) : data.vote === 1 ? (
-                    <Image
-                      source={require('../../../../assets/images/stars/small/small_5.png')}
-                      style={{ height: 20, width: 120 }}
-                      resizeMode="stretch"
-                    />
-                  ) : (
-                    <Image
-                      source={require('../../../../assets/images/stars/small/small_5.png')}
-                      style={{ height: 20, width: 120 }}
-                      resizeMode="stretch"
-                    />
-                  )}
-
-                  <Text
-                    style={{
-                      color: '#8996a6',
-                      fontSize: 13,
-                      fontFamily: 'open-sans',
-                      marginLeft: 10,
-                    }}
-                  >
-                    {data.date}
-                  </Text>
-                </View>
-              </View>
-            </View>
-            <Text style={styles.comment}>{data.comment}</Text>
-          </View>
+          <CommentDetail data={data} key={index} />
         ))}
         <View style={styles.input_box}>
           <Image
             source={{ uri: 'https://i.ibb.co/FJrKNV1/3.jpg' }}
             style={{ width: 50, height: 50, borderRadius: 25 }}
           />
-          <View style={{ flexDirection: 'column', marginLeft: 20 }}>
+          <View
+            style={{
+              flexDirection: 'column',
+              marginRight: 25,
+            }}
+          >
             <Text style={styles.customer_name}>Bùi Quang Huy</Text>
-            <View style={{ flexDirection: 'row', marginTop: 5 }}>
-              <TextInput
-                style={styles.input_cmt}
-                value="Start your own review ..."
-              />
-
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+              }}
+            >
+              <Text style={styles.input_cmt}>Start your review...</Text>
               <Image
-                source={require('../../../../assets/images/stars/small/small_5.png')}
-                style={{ height: 20, width: 70 }}
+                source={StarImages[0]}
+                style={{ height: 20, width: 120 }}
                 resizeMode="stretch"
               />
             </View>
@@ -426,35 +277,22 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: 20,
   },
-  opacity_img: {
-    backgroundColor: '#212529',
-  },
   layout: {
-    marginTop: 10,
+    shadowColor: 'gray',
+    shadowOpacity: 0.3,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 8,
+    elevation: 5,
+    marginVertical: 10,
+    marginHorizontal: 15,
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#ffffff',
     borderRadius: 15,
-    marginHorizontal: 15,
   },
-  // layout3: {
-  //   marginTop: 15,
-  //   marginLeft: 20,
-  //   backgroundColor: '#ffffff',
-  //   marginHorizontal: 15,
-  //   borderColor: '#ffffff',
-  //   borderWidth: 1,
-  //   borderRadius: 15,
-  // },
-  // layout4: {
-  //   marginTop: 15,
-  //   marginVertical: 20,
-  //   backgroundColor: '#ffffff',
-  //   marginHorizontal: 15,
-  //   borderColor: '#ffffff',
-  //   borderWidth: 1,
-  //   borderRadius: 15,
-  // },
   title: {
     color: '#44566c',
     fontFamily: 'open-sans-bold',
@@ -462,7 +300,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     // marginLeft: 20,
   },
-
   icon_text: {
     marginTop: 10,
     color: '#44566c',
@@ -513,44 +350,27 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans-bold',
     fontSize: 15,
   },
-  comment: {
-    color: '#44566c',
-    fontFamily: 'open-sans',
-    fontSize: 15,
-    marginVertical: 15,
-  },
-  comment_box: {
-    marginLeft: 20,
-    marginTop: 20,
-    borderBottomWidth: 1,
-    borderColor: '#e1e5e9',
-    marginRight: 15,
-  },
   input_cmt: {
     color: '#44566c',
     fontFamily: 'open-sans',
     fontSize: 15,
     opacity: 0.5,
-    marginRight: 5,
   },
   input_box: {
     flexDirection: 'row',
-    marginLeft: 15,
+    justifyContent: 'space-between',
+    marginHorizontal: 15,
     marginTop: 15,
     marginBottom: 40,
   },
-
-  box_intro: {
-    flexDirection: 'column',
-    marginLeft: 30,
-    marginTop: 60,
-  },
-  activeDot: {
-    backgroundColor: '#ffffff',
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    opacity: 0.5,
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 3,
+    marginBottom: -10,
   },
 });
 
