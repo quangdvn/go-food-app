@@ -9,8 +9,8 @@ import RestaurantScreen from '../screens/authScreens/mainScreens/RestaurantScree
 import SearchScreen from '../screens/authScreens/mainScreens/SearchScreen';
 import RestaurantDetailScreen from '../screens/authScreens/mainScreens/RestaurantDetailScreen';
 import AccountScreen from '../screens/authScreens/mainScreens/AccountScreen';
-import EventScreen from '../screens/authScreens/mainScreens/EventScreen';
-import EventDetailScreen from '../screens/authScreens/mainScreens/EventDetailScreen';
+import EventScreen from '../screens/authScreens/mainScreens/eventScreens/EventScreen';
+import EventDetailScreen from '../screens/authScreens/mainScreens/eventScreens/EventDetailScreen';
 
 const RestaurantStack = createStackNavigator({
   Restaurant: {
