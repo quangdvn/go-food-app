@@ -76,84 +76,146 @@ const RestaurantDetailScreen = ({ navigation }) => {
 
   return (
     <ScrollView>
-      {/* <Swiper
+      <Swiper
         loop={false}
-        // showsPagination={false}
-        // dot={<View style={styles.dot} />}
-        // activeDot={<View style={styles.activeDot} />}
-      > */}
-      {/* <ScrollView
-        horizontal={true}
-        contentContainerStyle={{ width: '100%' }}
-        showsHorizontalScrollIndicator={false}
-        // scrollEventThrottle={200}
-        // decelerationRate="fast"
-        // pagingEnabled
-      > */}
-      <View style={styles.opacity_img}>
-        <ImageBackground
-          source={require('../../../../assets/images/res1.jpg')}
-          style={{
-            flex: 1,
-            height: height / 4,
-            opacity: 0.4,
-          }}
-          resizeMode="cover"
-        />
-        <View style={styles.box_intro}>
-          <Icon_Claim />
-          <Text
+        height={height / 3.5}
+        showsPagination={true}
+        activeDot={<View style={styles.activeDot} />}
+      >
+        <View style={styles.opacity_img}>
+          <ImageBackground
+            source={require('../../../../assets/images/res1.jpg')}
             style={{
-              color: '#ffffff',
-              fontFamily: 'open-sans-bold',
-              fontSize: 28,
+              flex: 1,
+              height: height / 3.5,
+              opacity: 0.4,
             }}
-          >
-            Shushi House
-          </Text>
-
-          <View style={{ flexDirection: 'row' }}>
-            <Image
-              source={require('../../../../assets/images/stars/small/small_5.png')}
-              style={{ height: 20, width: 120 }}
-              resizeMode="stretch"
-            />
+            resizeMode="sketch"
+          />
+          <View style={{ ...styles.box_intro, height: height / 3.5 }}>
+            <Icon_Claim />
             <Text
               style={{
                 color: '#ffffff',
-                fontSize: 15,
-                marginLeft: 10,
+                fontFamily: 'open-sans-bold',
+                fontSize: 28,
               }}
             >
-              217
+              Shushi House
             </Text>
+
+            <View style={{ flexDirection: 'row' }}>
+              <Image
+                source={require('../../../../assets/images/stars/extra_large_5.png')}
+                style={{ height: 20, width: 90 }}
+                resizeMode="stretch"
+              />
+              <Text
+                style={{
+                  color: '#ffffff',
+                  fontSize: 15,
+                  marginLeft: 10,
+                }}
+              >
+                217
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-
-      {/* <Image
-          source={require('../../../../assets/images/res2.jpg')}
-          style={{ flex: 1, height: 200 }}
-        />
-        <Image
-          source={require('../../../../assets/images/res3.jpg')}
-          style={{ flex: 1, height: 200 }}
-        /> */}
-      {/* </ScrollView> */}
-      {/* <View>
-          <ImageBackground
-            source={require('../../../../assets/images/res2.jpg')}
-            style={{flex: 1, height: 200 }}
-          />
-        </View>
-        <View>
+        <View style={styles.opacity_img}>
           <ImageBackground
             source={require('../../../../assets/images/res3.jpg')}
-            style={{ flex: 1,height: 200 }}
+            style={{
+              flex: 1,
+              height: height / 3,
+              opacity: 0.4,
+            }}
+            resizeMode="sketch"
           />
-        </View>
-      </Swiper> */}
+          <View style={{ ...styles.box_intro, height: height / 3 }}>
+            <Icon_Claim />
+            <Text
+              style={{
+                color: '#ffffff',
+                fontFamily: 'open-sans-bold',
+                fontSize: 28,
+              }}
+            >
+              Shushi House
+            </Text>
 
+            <View style={{ flexDirection: 'row' }}>
+              <Image
+                source={require('../../../../assets/images/stars/extra_large_5.png')}
+                style={{ height: 20, width: 90 }}
+                resizeMode="stretch"
+              />
+              <Text
+                style={{
+                  color: '#ffffff',
+                  fontSize: 15,
+                  marginLeft: 10,
+                }}
+              >
+                217
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.opacity_img}>
+          <ImageBackground
+            source={require('../../../../assets/images/res2.jpg')}
+            style={{
+              flex: 1,
+              height: height / 3,
+              opacity: 0.4,
+            }}
+            resizeMode="sketch"
+          />
+          <View style={{ ...styles.box_intro, height: height / 3 }}>
+            <Icon_Claim />
+            <Text
+              style={{
+                color: '#ffffff',
+                fontFamily: 'open-sans-bold',
+                fontSize: 28,
+              }}
+            >
+              Shushi House
+            </Text>
+
+            <View style={{ flexDirection: 'row' }}>
+              <Image
+                source={require('../../../../assets/images/stars/extra_large_5.png')}
+                style={{ height: 20, width: 90 }}
+                resizeMode="stretch"
+              />
+              <Text
+                style={{
+                  color: '#ffffff',
+                  fontSize: 15,
+                  marginLeft: 10,
+                }}
+              >
+                217
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Swiper>
+      <Ionicons
+        name="md-arrow-round-back"
+        size={30}
+        color="white"
+        style={{
+          marginHorizontal: 10,
+          marginVertical: 10,
+          position: 'absolute',
+        }}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
       <View style={styles.layout}>
         <View
           style={{
@@ -479,10 +541,16 @@ const styles = StyleSheet.create({
   },
 
   box_intro: {
-    position: 'absolute',
     flexDirection: 'column',
     marginLeft: 30,
     marginTop: 60,
+  },
+  activeDot: {
+    backgroundColor: '#ffffff',
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    opacity: 0.5,
   },
 });
 
