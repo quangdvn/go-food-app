@@ -1,16 +1,21 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation-stack';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
+import Header from '../components/Icon/CustomeHeader';
 
 //* All the Screens
 import RestaurantScreen from '../screens/authScreens/mainScreens/RestaurantScreen';
 import SearchScreen from '../screens/authScreens/mainScreens/SearchScreen';
 import RestaurantDetailScreen from '../screens/authScreens/mainScreens/RestaurantDetailScreen';
 import AccountScreen from '../screens/authScreens/mainScreens/AccountScreen';
-import EventScreen from '../screens/authScreens/mainScreens/eventScreens/EventScreen';
-import EventDetailScreen from '../screens/authScreens/mainScreens/eventScreens/EventDetailScreen';
+import EventScreen from '../screens/authScreens/mainScreens/EventScreen';
+import EventDetailScreen from '../screens/authScreens/mainScreens/EventDetailScreen';
+import MapScreen from '../screens/authScreens/MapScreen';
 
 const RestaurantStack = createStackNavigator({
   Restaurant: {
@@ -18,6 +23,15 @@ const RestaurantStack = createStackNavigator({
     navigationOptions: () => {
       return {
         headerShown: false,
+      };
+    },
+  },
+  Search: {
+    screen: SearchScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+        ...TransitionPresets.ModalSlideFromBottomIOS,
       };
     },
   },
@@ -29,8 +43,8 @@ const RestaurantStack = createStackNavigator({
       };
     },
   },
-  Search: {
-    screen: SearchScreen,
+  Map: {
+    screen: MapScreen,
     navigationOptions: () => {
       return {
         headerShown: false,
@@ -44,7 +58,7 @@ const EventStack = createStackNavigator({
     screen: EventScreen,
     navigationOptions: () => {
       return {
-        headerShown: false,
+        header: () => <Header title="Events" />,
       };
     },
   },

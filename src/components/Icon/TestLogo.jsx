@@ -141,7 +141,7 @@ export const AppLogo = () => {
   );
 };
 
-export function Icon_bookmark() {
+export const Icon_bookmark = () => {
   return (
     <Svg
       width="41px"
@@ -181,8 +181,8 @@ export function Icon_bookmark() {
       </G>
     </Svg>
   );
-}
-export function Icon_contact() {
+};
+export const Icon_contact = () => {
   return (
     <Svg
       width="41px"
@@ -240,8 +240,8 @@ export function Icon_contact() {
       </G>
     </Svg>
   );
-}
-export function Icon_map() {
+};
+export const Icon_map = () => {
   return (
     <Svg
       width="41px"
@@ -290,8 +290,8 @@ export function Icon_map() {
       </G>
     </Svg>
   );
-}
-export function Icon_web() {
+};
+export const Icon_web = () => {
   return (
     <Svg
       width="41px"
@@ -340,5 +340,96 @@ export function Icon_web() {
       </G>
     </Svg>
   );
-}
-export function Icon_badge() {}
+};
+export const Icon_Claim = () => {
+  return (
+    <Svg
+      width="70px"
+      height="23px"
+      viewBox="0 0 70 23"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/Svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <G
+        id="Symbols"
+        stroke="none"
+        stroke-width="1"
+        fill="none"
+        fill-rule="evenodd"
+      >
+        <G id="UI-/-Badge-1">
+          <G id="Badge">
+            <Rect
+              id="Rectangle"
+              fill="#39B54A"
+              x="0"
+              y="0"
+              width="69.12"
+              height="22.275"
+              rx="11.1375"
+            ></Rect>
+            <Text
+              id="Claimed"
+              fill="#44566C"
+              font-family="OpenSans-SemiBold, Open Sans"
+              font-size="9.36"
+              font-weight="500"
+              line-spacing="17.28"
+            >
+              <Text x="16.5427734" y="10">
+                Claimed
+              </Text>
+            </Text>
+          </G>
+        </G>
+      </G>
+    </Svg>
+  );
+};
+export const Icon_Unclaim = () => {
+  return (
+    <Svg
+      width="70px"
+      height="23px"
+      viewBox="0 0 70 23"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/Svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <G
+        id="Symbols"
+        stroke="none"
+        stroke-width="1"
+        fill="none"
+        fill-rule="evenodd"
+      >
+        <G id="UI-/-Badge-2">
+          <G id="Badge-Copy">
+            <Rect
+              id="Rectangle"
+              fill="#B0BBC7"
+              x="0"
+              y="0"
+              width="69.12"
+              height="22.32"
+              rx="11.16"
+            ></Rect>
+            <Text
+              id="Unclaimed"
+              fill="#44566C"
+              font-family="OpenSans-SemiBold, Open Sans"
+              font-size="9.36"
+              font-weight="500"
+              line-spacing="17.28"
+            >
+              <Text x="10.7476172" y="10">
+                Unclaimed
+              </Text>
+            </Text>
+          </G>
+        </G>
+      </G>
+    </Svg>
+  );
+};

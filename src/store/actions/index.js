@@ -1,1 +1,3 @@
-export * from './authAction'
+export * from './authAction';
+
+export * from './serviceAction';

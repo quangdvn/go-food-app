@@ -77,6 +77,8 @@ const LogInForm = ({ handleSubmit, borderColor, handleFocus, spinner }) => {
 
           <TextInput
             placeholder="Password"
+            autoCapitalize="none"
+            autoCompleteType="off"
             onFocus={() => handleFocus('password')}
             secureTextEntry
             onChangeText={handleChange('password')}

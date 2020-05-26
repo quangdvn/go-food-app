@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,18 @@ import ScrollableTabView, {
 import { Ionicons } from '@expo/vector-icons';
 import MainSection from '../../../components/MainSection';
 import CategorySection from '../../../components/CategorySection';
-import PopularSection from '../../../components/PopularSection';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllRestaurants } from '../../../store/actions';
 
 const RestaurantScreen = ({ navigation }) => {
+  const { restaurantList } = useSelector(state => state.service);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllRestaurants());
+  }, [getAllRestaurants]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -42,15 +51,19 @@ const RestaurantScreen = ({ navigation }) => {
           style={styles.tabBarContent}
           initialPage={0}
           tabBarActiveTextColor="green"
-          tabBarTextStyle={{ fontFamily: 'open-sans', fontSize: 17 }}
+          tabBarTextStyle={{ fontFamily: 'open-sans', fontSize: 15 }}
           renderTabBar={() => (
             <DefaultTabBar
-              style={{ borderWidth: 0 }}
+              style={{ borderWidth: 0, width: '100%' }}
               underlineStyle={styles.underline}
             />
           )}
         >
-          <MainSection tabLabel="All" navigation={navigation} />
+          <MainSection
+            tabLabel="All"
+            navigation={navigation}
+            restaurantList={restaurantList}
+          />
           <CategorySection tabLabel="Categories" navigation={navigation} />
           {/* <PopularSection tabLabel="Popular" navigation={navigation} /> */}
         </ScrollableTabView>

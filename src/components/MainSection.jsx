@@ -5,14 +5,16 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
   Text,
   Button,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { data } from '../data/data_all';
 import MainItem from './MainItem';
+import Colors from '../constants/Colors';
 
-const MainSection = ({ navigation }) => {
+const MainSection = ({ navigation, restaurantList }) => {
   const [listData, setListData] = useState(data);
   const [tempData, setTempData] = useState(data);
   const [searchText, setSearchText] = useState('');
@@ -44,17 +46,19 @@ const MainSection = ({ navigation }) => {
           <Ionicons name="ios-close" color="gray" size={20} />
         </TouchableOpacity>
       </View>
-      <View>
-      </View>
       <View style={styles.listContainer}>
-        <FlatList
-          data={listData}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <MainItem item={item} navigation={navigation} />
-          )}
-          showsVerticalScrollIndicator={false}
-        />
+        {restaurantList.length !== 0? (
+          <FlatList
+            data={restaurantList}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <MainItem item={item} navigation={navigation} />
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        ) : (
+          <ActivityIndicator size="large" color={Colors.primary} />
+        )}
       </View>
     </View>
   );

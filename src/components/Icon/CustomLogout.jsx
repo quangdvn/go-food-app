@@ -2,10 +2,18 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
+import { useDispatch } from 'react-redux';
+import { signOut } from '../../store/actions';
 
 const CustomLogout = () => {
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(signOut());
+  };
+
   return (
-    <TouchableOpacity onPress={() => console.log('Press')}>
+    <TouchableOpacity onPress={() => handleClick()}>
       <View style={styles.container}>
         <MaterialCommunityIcons name="logout" size={24} color="gray" />
         <Text style={styles.text}>Log Out</Text>

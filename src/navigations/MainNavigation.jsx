@@ -19,7 +19,7 @@ const BookmarkStack = createStackNavigator({
     screen: BookmarkScreen,
     navigationOptions: () => {
       return {
-        header: () => <Header title="Bookmark" />,
+        header: () => <Header title="Bookmark" isDrawer />,
       };
     },
   },
@@ -30,7 +30,7 @@ const NotificationStack = createStackNavigator({
     screen: NotificationScreen,
     navigationOptions: () => {
       return {
-        header: () => <Header title="Notification" />,
+        header: () => <Header title="Notification" isDrawer />,
       };
     },
   },
@@ -41,7 +41,7 @@ const ReservationStack = createStackNavigator({
     screen: ReservationScreen,
     navigationOptions: () => {
       return {
-        header: () => <Header title="Reservation" />,
+        header: () => <Header title="Reservation" isDrawer />,
       };
     },
   },

@@ -9,11 +9,15 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   Alert,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import AppLogo from '../../components/Icon/AppLogo';
 import { useSelector, useDispatch } from 'react-redux';
 import SignUpForm from '../../components/AuthComponents/SignUpForm';
 import { signUp, clearErrorMessage } from '../../store/actions';
+
+const KEYBOARD_VERTICAL_OFFSET = 0;
 
 const SignUpScreen = ({ navigation }) => {
   const [borderColor, setBorderColor] = useState(null);
@@ -50,32 +54,41 @@ const SignUpScreen = ({ navigation }) => {
         Keyboard.dismiss();
       }}
     >
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.inner}>
-            <View>
-              <AppLogo />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          alwaysBounceVertical={false}
+        >
+          <SafeAreaView style={styles.container}>
+            <View style={styles.inner}>
+              <View>
+                <AppLogo />
+              </View>
+              <Text style={styles.title}>Reservation Made Easy</Text>
+              <SignUpForm
+                handleSubmit={handleSignUp}
+                borderColor={borderColor}
+                handleFocus={handleFocus}
+                spinner={isLoading}
+              />
+              <View style={styles.link}>
+                <Text style={styles.linkText}>Already have an account?</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
+                  <Text
+                    style={{ ...styles.linkText, fontFamily: 'open-sans-bold' }}
+                  >
+                    {' '}
+                    Log In
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <Text style={styles.title}>Reservation Made Easy</Text>
-            <SignUpForm
-              handleSubmit={handleSignUp}
-              borderColor={borderColor}
-              handleFocus={handleFocus}
-              spinner={isLoading}
-            />
-            <View style={styles.link}>
-              <Text style={styles.linkText}>Already have an account?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
-                <Text
-                  style={{ ...styles.linkText, fontFamily: 'open-sans-bold' }}
-                >
-                  {' '}
-                  Log In
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </SafeAreaView>
+          </SafeAreaView>
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );

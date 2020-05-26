@@ -6,6 +6,7 @@ import {
   ImageBackground,
   Image,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import RadioForm, {
   RadioButton,
@@ -21,7 +22,7 @@ import {
 
 const AccountScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <ImageBackground
         source={require('../../../../assets/images/drawer_header.png')}
         style={styles.backgroundImg}
@@ -102,7 +103,7 @@ const AccountScreen = ({ navigation }) => {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

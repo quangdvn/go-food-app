@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../../constants/Colors';
 
-const Header = ({ title, navigation }) => {
+const Header = ({ title, isDrawer, navigation }) => {
   return (
     <LinearGradient
       colors={Colors.gradient}
@@ -15,14 +15,16 @@ const Header = ({ title, navigation }) => {
     >
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <View style={styles.button}>
-          <Ionicons
-            name="ios-menu"
-            color="white"
-            size={40}
-            onPress={() => navigation.toggleDrawer()}
-          />
-        </View>
+        {isDrawer ? (
+          <View style={styles.button}>
+            <Ionicons
+              name="ios-menu"
+              color="white"
+              size={40}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          </View>
+        ) : null}
         <View style={styles.headerTitle}>
           <Text style={styles.headerText}>{title}</Text>
         </View>

@@ -3,45 +3,65 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
+import StarImages from '../utils/renderRating';
 
 const MainItem = ({ item, navigation }) => {
-  const renderRating = (item) => {
-    let rating = [];
-    for (let i = 0; i < item; i++) {
-      rating.push(
-        <Image
-          source={require('../../assets/images/star.png')}
-          style={{ width: 15, height: 15, marginRight: 3 }}
-          resizeMode='cover'
-          key={i}
-        />
-      );
-    }
-    return rating;
+  const renderCategories = categories => {
+    let returnData = '';
+    const newData = categories.map(item => item.title);
+
+    newData.forEach((item, index) => {
+      if (index === newData.length - 1) returnData = returnData + item;
+      else returnData = returnData + item + ', ';
+    });
+
+    return returnData;
   };
+
+  // const renderAddress = address => {
+  //   let returnData = '';
+
+  //   address.forEach((item, index) => {
+  //     if (index === address.length - 1) returnData = returnData + item;
+  //     else returnData = returnData + item + ', ';
+  //   });
+
+  //   return returnData;
+  // };
 
   return (
     <LinearGradient
       colors={Colors.gradient}
       start={[0, 1]}
       end={[1, 0]}
-      style={styles.listItem}>
+      style={styles.listItem}
+    >
       <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.image} />
+        <Image source={{ uri: item.image_url }} style={styles.image} />
       </View>
       <View style={styles.contentContainer}>
-        <Text style={styles.content}>{item.name}</Text>
-        <View style={styles.rating}>{renderRating(item.rating)}</View>
-        <View style={styles.priceContainer}>
-          <View style={styles.price}>
-            <Text style={styles.priceText}>{item.price}</Text>
-          </View>
-        </View>
+        <Text numberOfLines={1} style={styles.content}>
+          {item.name}
+        </Text>
+        <Image
+          source={StarImages[item.rating]}
+          style={{ width: 120, height: 20, marginRight: 3 }}
+          resizeMode="stretch"
+        />
+        <Text numberOfLines={1} style={styles.priceText}>
+          {item.price ? item.price + ' . ' : null}
+          {''}
+          {renderCategories(item.categories)}
+        </Text>
+        <Text numberOfLines={1} style={styles.addressText}>
+          {item.location.address1 + ', ' + item.location.city}
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('RestaurantDetail', { item })}>
-        <AntDesign name='arrowright' color='green' size={20} />
+        onPress={() => navigation.navigate('RestaurantDetail', { item })}
+      >
+        <AntDesign name="arrowright" color="green" size={20} />
       </TouchableOpacity>
     </LinearGradient>
   );
@@ -50,15 +70,15 @@ const MainItem = ({ item, navigation }) => {
 const styles = StyleSheet.create({
   listItem: {
     flex: 1,
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 10,
     flexDirection: 'row',
     borderRadius: 10,
     marginBottom: 10,
   },
   imageContainer: {
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 100,
   },
   image: {
     width: '100%',
@@ -69,8 +89,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 10,
+    justifyContent: 'space-between',
+    paddingLeft: 10,
   },
   content: {
     color: 'white',
@@ -86,23 +106,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rating: {
-    marginTop: 5,
-    flexDirection: 'row',
+    marginTop: -15,
   },
   priceContainer: {
     flexDirection: 'row',
-    marginTop: 10,
-  },
-  price: {
-    backgroundColor: 'white',
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 15,
   },
   priceText: {
-    color: 'green',
+    color: 'white',
     fontSize: 15,
-    fontFamily: 'open-sans-bold',
+    fontFamily: 'open-sans',
+    marginBottom: -5,
+  },
+  addressText: {
+    color: Colors.default,
+    fontSize: 15,
+    fontFamily: 'open-sans',
+    marginBottom: -5,
   },
 });
 
