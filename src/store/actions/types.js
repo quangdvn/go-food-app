@@ -17,4 +17,6 @@ export const GET_INFO = 'GET_INFO';
 
 export const POST_INFO = 'POST_INFO';
 
-//*
+//* Service actions
+export const GET_ALL_RESTAURANTS = 'GET_ALL_RESTAURANTS';
+

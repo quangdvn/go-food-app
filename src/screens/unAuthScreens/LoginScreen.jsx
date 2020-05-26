@@ -7,11 +7,17 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
 } from 'react-native';
 import AppLogo from '../../components/Icon/AppLogo';
 import { useSelector, useDispatch } from 'react-redux';
 import LogInForm from '../../components/AuthComponents/LogInForm';
 import { logIn, clearErrorMessage } from '../../store/actions';
+
+const KEYBOARD_VERTICAL_OFFSET = 0;
 
 const LoginScreen = ({ navigation }) => {
   const [borderColor, setBorderColor] = useState(null);
@@ -48,30 +54,43 @@ const LoginScreen = ({ navigation }) => {
         Keyboard.dismiss();
       }}
     >
-      <View style={styles.container}>
-        <View>
-          <AppLogo />
-        </View>
-        <Text style={styles.title}>Reservation Made Easy</Text>
-        <LogInForm
-          handleSubmit={handleLogIn}
-          borderColor={borderColor}
-          handleFocus={handleFocus}
-          spinner={isLoading}
-        />
-        <TouchableOpacity>
-          <Text style={styles.forgot}>Forgot your password?</Text>
-        </TouchableOpacity>
-        <View style={styles.link}>
-          <Text style={styles.linkText}>Don't have your account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={{ ...styles.linkText, fontFamily: 'open-sans-bold' }}>
-              {' '}
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          alwaysBounceVertical={false}
+        >
+          <SafeAreaView style={styles.container}>
+            <View>
+              <AppLogo />
+            </View>
+            <Text style={styles.title}>Reservation Made Easy</Text>
+            <LogInForm
+              handleSubmit={handleLogIn}
+              borderColor={borderColor}
+              handleFocus={handleFocus}
+              spinner={isLoading}
+            />
+            <TouchableOpacity>
+              <Text style={styles.forgot}>Forgot your password?</Text>
+            </TouchableOpacity>
+            <View style={styles.link}>
+              <Text style={styles.linkText}>Don't have your account?</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                <Text
+                  style={{ ...styles.linkText, fontFamily: 'open-sans-bold' }}
+                >
+                  {' '}
+                  Sign Up
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </SafeAreaView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };

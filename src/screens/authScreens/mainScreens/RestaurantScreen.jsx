@@ -10,13 +10,22 @@ import {
 } from 'react-native';
 import ScrollableTabView, {
   DefaultTabBar,
-  ScrollableTabBar,
 } from 'react-native-scrollable-tab-view';
 import { Ionicons } from '@expo/vector-icons';
 import MainSection from '../../../components/MainSection';
 import CategorySection from '../../../components/CategorySection';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllRestaurants } from '../../../store/actions';
 
 const RestaurantScreen = ({ navigation }) => {
+  const { restaurantList } = useSelector(state => state.service);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllRestaurants());
+  }, [getAllRestaurants]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -50,7 +59,11 @@ const RestaurantScreen = ({ navigation }) => {
             />
           )}
         >
-          <MainSection tabLabel="All" navigation={navigation} />
+          <MainSection
+            tabLabel="All"
+            navigation={navigation}
+            restaurantList={restaurantList}
+          />
           <CategorySection tabLabel="Categories" navigation={navigation} />
           {/* <PopularSection tabLabel="Popular" navigation={navigation} /> */}
         </ScrollableTabView>

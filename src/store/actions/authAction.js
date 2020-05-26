@@ -11,23 +11,7 @@ import {
 import { AsyncStorage } from 'react-native';
 import { navigateTo } from '../../navigationRef';
 import { goFoodApi } from '../../api/goFoodApi';
-
-//* Setting token config
-const reqConfig = getState => {
-  //* Get token from localStorage
-  const token = getState().auth.token;
-  //* set up headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  //* If token existed, add to headers
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
-  }
-  return config;
-};
+import { reqConfig } from '../../utils/requestConfig';
 
 const loadingUser = () => {
   return { type: LOADING_USER };

@@ -1,5 +1,8 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation-stack';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -12,6 +15,7 @@ import RestaurantDetailScreen from '../screens/authScreens/mainScreens/Restauran
 import AccountScreen from '../screens/authScreens/mainScreens/AccountScreen';
 import EventScreen from '../screens/authScreens/mainScreens/EventScreen';
 import EventDetailScreen from '../screens/authScreens/mainScreens/EventDetailScreen';
+import MapScreen from '../screens/authScreens/MapScreen';
 
 const RestaurantStack = createStackNavigator({
   Restaurant: {
@@ -27,11 +31,20 @@ const RestaurantStack = createStackNavigator({
     navigationOptions: () => {
       return {
         headerShown: false,
+        ...TransitionPresets.ModalSlideFromBottomIOS,
       };
     },
   },
   RestaurantDetail: {
     screen: RestaurantDetailScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+      };
+    },
+  },
+  Map: {
+    screen: MapScreen,
     navigationOptions: () => {
       return {
         headerShown: false,

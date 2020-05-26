@@ -3,22 +3,31 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
+import StarImages from '../utils/renderRating';
 
 const MainItem = ({ item, navigation }) => {
-  const renderRating = item => {
-    let rating = [];
-    for (let i = 0; i < item; i++) {
-      rating.push(
-        <Image
-          source={require('../../assets/images/star.png')}
-          style={{ width: 15, height: 15, marginRight: 3 }}
-          resizeMode="cover"
-          key={i}
-        />
-      );
-    }
-    return rating;
+  const renderCategories = categories => {
+    let returnData = '';
+    const newData = categories.map(item => item.title);
+
+    newData.forEach((item, index) => {
+      if (index === newData.length - 1) returnData = returnData + item;
+      else returnData = returnData + item + ', ';
+    });
+
+    return returnData;
   };
+
+  // const renderAddress = address => {
+  //   let returnData = '';
+
+  //   address.forEach((item, index) => {
+  //     if (index === address.length - 1) returnData = returnData + item;
+  //     else returnData = returnData + item + ', ';
+  //   });
+
+  //   return returnData;
+  // };
 
   return (
     <LinearGradient
@@ -28,17 +37,25 @@ const MainItem = ({ item, navigation }) => {
       style={styles.listItem}
     >
       <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.image} />
+        <Image source={{ uri: item.image_url }} style={styles.image} />
       </View>
       <View style={styles.contentContainer}>
-        <Text style={styles.content}>{item.name}</Text>
+        <Text numberOfLines={1} style={styles.content}>
+          {item.name}
+        </Text>
         <Image
-          source={require('../../assets/images/stars/small/small_5.png')}
+          source={StarImages[item.rating]}
           style={{ width: 120, height: 20, marginRight: 3 }}
           resizeMode="stretch"
         />
-        <Text style={styles.priceText}>$$ . Pizza, Bakeries</Text>
-        <Text style={styles.addressText}>123 Frank Street</Text>
+        <Text numberOfLines={1} style={styles.priceText}>
+          {item.price ? item.price + ' . ' : null}
+          {''}
+          {renderCategories(item.categories)}
+        </Text>
+        <Text numberOfLines={1} style={styles.addressText}>
+          {item.location.address1 + ', ' + item.location.city}
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.button}
@@ -98,13 +115,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     fontFamily: 'open-sans',
-    marginBottom: -5
+    marginBottom: -5,
   },
   addressText: {
     color: Colors.default,
     fontSize: 15,
     fontFamily: 'open-sans',
-    marginBottom: -5
+    marginBottom: -5,
   },
 });
 
