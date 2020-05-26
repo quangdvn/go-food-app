@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
+import Header from '../components/Icon/CustomeHeader';
 
 //* All the Screens
 import RestaurantScreen from '../screens/authScreens/mainScreens/RestaurantScreen';
@@ -53,7 +54,7 @@ const EventStack = createStackNavigator({
     screen: EventScreen,
     navigationOptions: () => {
       return {
-        headerShown: false,
+        header: () => <Header title="Events" />,
       };
     },
   },

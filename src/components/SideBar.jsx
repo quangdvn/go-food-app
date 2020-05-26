@@ -8,8 +8,11 @@ import {
   Image,
 } from 'react-native';
 import { DrawerNavigatorItems } from 'react-navigation-drawer';
+import { useSelector, useDispatch } from 'react-redux';
 
 const SideBar = props => {
+  const { user } = useSelector(state => state.auth);
+
   return (
     <ScrollView>
       <ImageBackground
@@ -20,10 +23,16 @@ const SideBar = props => {
           source={require('../../assets/images/test.png')}
           style={styles.avatar}
         />
-        <Text style={styles.name}>Jack Jackson</Text>
+        <Text style={styles.name}>{user.fullname}</Text>
         <View>
-          <Text style={styles.info}>Tokyo, Japan</Text>
-          <Text style={styles.info}>Favorites Place(s): 10</Text>
+          {user.address ? (
+            <Text style={styles.info}>
+              {user.address.city + ', ' + user.address.country}
+            </Text>
+          ) : null}
+          <Text style={styles.info}>
+            Favorites Place(s): {user.favoritePlaces}
+          </Text>
         </View>
       </ImageBackground>
       <View style={styles.container}>

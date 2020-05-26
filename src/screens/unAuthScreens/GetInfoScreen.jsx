@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
-  Picker,
-  Button,
-  TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
   SafeAreaView,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import countryData from '../../data/country.json';
-import goFoodApi from '../../api/goFoodApi';
+import { postInfo, goFoodApi } from '../../api/goFoodApi';
+import CountryQuestion from '../../components/UnAuthComponents/CountryQuestion';
+import CityQuestion from '../../components/UnAuthComponents/CityQuestion';
+import FavouriteFoodQuestion from '../../components/UnAuthComponents/FavouriteFoodQuestion';
 
-const GetInfoScreen = () => {
+const KEYBOARD_VERTICAL_OFFSET = Platform.OS === 'ios' ? 120 : 0;
+
+const GetInfoScreen = ({ navigation }) => {
+  const [cityList, setCityList] = useState(null);
+
   const [country, setCountry] = useState(null);
 
   const [countryButton, setCountryButton] = useState(false);
-
-  const [cityList, setCityList] = useState(null);
 
   const [city, setCity] = useState(null);
 
@@ -88,6 +91,25 @@ const GetInfoScreen = () => {
       },
       favoriteFood: getFavoriteFood(favoriteFood),
     };
+    try {
+      await postInfo(userInfo);
+
+      navigation.navigate('MainStack');
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const setData = value => {
+    setCity(value);
+  };
+
+  const setFoodData = value => {
+    setFavoriteFood(value);
+  };
+
+  const setCountryData = value => {
+    setCountry(value);
   };
 
   return (
@@ -96,81 +118,40 @@ const GetInfoScreen = () => {
         Keyboard.dismiss();
       }}
     >
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.inner}>
-            <View>
-              <Picker
-                selectedValue={country}
-                style={{ height: 50, width: 150 }}
-                onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
-              >
-                <Picker.Item label="No Selection" value={null} />
-                {countryData.map((item, index) => {
-                  return (
-                    <Picker.Item
-                      key={index}
-                      label={item.name}
-                      value={item.code}
-                    />
-                  );
-                })}
-              </Picker>
-
-              <View style={{ marginTop: 150 }}>
-                <Button
-                  title="Confirm Country"
-                  onPress={() => getCities(country)}
-                  disabled={country === null || countryButton}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+        style={{ flex: 1, marginHorizontal: 15 }}
+      >
+        <ScrollView>
+          <SafeAreaView style={styles.container}>
+            <View style={styles.inner}>
+              <CountryQuestion
+                getCities={getCities}
+                countryButton={countryButton}
+                country={country}
+                setCountryData={setCountryData}
+              />
+              {cityList ? (
+                <CityQuestion
+                  cityList={cityList}
+                  city={city}
+                  confirmCity={confirmCity}
+                  setData={setData}
+                  cityButton={cityButton}
                 />
-              </View>
+              ) : null}
+
+              {showFavorite ? (
+                <FavouriteFoodQuestion
+                  favoriteFood={favoriteFood}
+                  getData={getData}
+                  setFoodData={setFoodData}
+                />
+              ) : null}
             </View>
-
-            {cityList ? (
-              <View>
-                <Picker
-                  selectedValue={city}
-                  style={{ height: 50, width: 200 }}
-                  onValueChange={(itemValue, itemIndex) => setCity(itemValue)}
-                >
-                  <Picker.Item label="No Selection" value={null} />
-                  {cityList.map((item, index) => {
-                    return (
-                      <Picker.Item key={index} label={item} value={item} />
-                    );
-                  })}
-                </Picker>
-                <View style={{ marginTop: 150 }}>
-                  <Button
-                    title="Confirm City"
-                    onPress={() => confirmCity()}
-                    disabled={city === null || cityButton}
-                  />
-                </View>
-              </View>
-            ) : null}
-
-            {showFavorite ? (
-              <View>
-                <View style={{ marginTop: 20 }}>
-                  <Text>Tell me your favorite food</Text>
-                  <TextInput
-                    value={favoriteFood}
-                    onChangeText={text => setFavoriteFood(text)}
-                    style={styles.input}
-                  />
-                </View>
-                <View style={{ marginTop: 20 }}>
-                  <Button
-                    title="Confirm"
-                    onPress={() => getData()}
-                    disabled={!favoriteFood}
-                  />
-                </View>
-              </View>
-            ) : null}
-          </View>
-        </SafeAreaView>
+          </SafeAreaView>
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );

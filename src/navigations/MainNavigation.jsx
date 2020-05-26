@@ -9,6 +9,7 @@ import Logout from '../components/Icon/CustomLogout';
 import { MaterialIcons } from '@expo/vector-icons';
 
 //* All the Screens
+import LoadingScreen from '../screens/authScreens/LoadingScreen';
 import HomeStack from './HomeNavigation';
 import BookmarkScreen from '../screens/authScreens/BookmarkScreen';
 import NotificationScreen from '../screens/authScreens/NotificationScreen';
@@ -19,7 +20,7 @@ const BookmarkStack = createStackNavigator({
     screen: BookmarkScreen,
     navigationOptions: () => {
       return {
-        header: () => <Header title="Bookmark" />,
+        header: () => <Header title="Bookmark" isDrawer />,
       };
     },
   },
@@ -30,7 +31,7 @@ const NotificationStack = createStackNavigator({
     screen: NotificationScreen,
     navigationOptions: () => {
       return {
-        header: () => <Header title="Notification" />,
+        header: () => <Header title="Notification" isDrawer />,
       };
     },
   },
@@ -41,7 +42,7 @@ const ReservationStack = createStackNavigator({
     screen: ReservationScreen,
     navigationOptions: () => {
       return {
-        header: () => <Header title="Reservation" />,
+        header: () => <Header title="Reservation" isDrawer />,
       };
     },
   },
@@ -49,6 +50,7 @@ const ReservationStack = createStackNavigator({
 
 const MainStack = createDrawerNavigator(
   {
+    Loading: LoadingScreen,
     HomeStack: {
       screen: HomeStack,
       navigationOptions: {
@@ -92,7 +94,7 @@ const MainStack = createDrawerNavigator(
     },
   },
   {
-    initialRouteName: 'HomeStack',
+    initialRouteName: 'Loading',
     contentComponent: props => (
       <View>
         <SideBar {...props} />
