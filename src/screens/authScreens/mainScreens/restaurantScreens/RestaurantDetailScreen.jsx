@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -24,7 +24,9 @@ import SwiperBackground from '../../../../components/SwiperBackground';
 import CommentDetail from '../../../../components/CommentDetail';
 import Colors from '../../../../constants/Colors';
 import StarImages from '../../../../utils/renderRating';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getRestaurantDetail } from '../../../../store/actions';
+import DayOfWeek from '../../../../data/data_day';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -77,198 +79,231 @@ const RestaurantDetailScreen = ({ navigation }) => {
         'lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus',
     },
   ];
+  const dispatch = useDispatch();
+  const { id } = navigation.state.params.item;
+  const { restaurantDetail } = useSelector(state => state.service);
+
+  useEffect(() => {
+    dispatch(getRestaurantDetail(id));
+  }, []);
+  const convertDateTime = datetime => {
+    let hour = '8';
+    let minute = '00';
+    if (datetime.length == 4) {
+      hour = datetime.substring(0, 2);
+      minute = datetime.substring(2, 4);
+      if (parseInt(hour) >= 0 && parseInt(hour) <= 12) {
+        return hour + ':' + minute + ' AM';
+      } else if (parseInt(hour) > 12 && parseInt(hour) <= 24) {
+        return hour + ':' + minute + ' PM';
+      }
+    } else if (datetime.length == 3) {
+      hour = datetime.substring(0, 1);
+      minute = datetime.substring(1, 3);
+      if (parseInt(hour) >= 0 && parseInt(hour) <= 12) {
+        return hour + ':' + minute + ' AM';
+      } else if (parseInt(hour) > 12 && parseInt(hour) <= 24) {
+        return hour + ':' + minute + ' PM';
+      }
+    }
+  };
+  console.log('test');
+
+  // console.log(restaurantDetail.details.hours[0].open);
 
   return (
     <ScrollView>
       <StatusBar hidden={true} />
-      <Swiper
-        loop={false}
-        height={height / 3.5}
-        showsPagination={true}
-        dot={<View style={{ ...styles.dot, backgroundColor: '#FFFFFF' }} />}
-        activeDot={
-          <View style={{ ...styles.dot, backgroundColor: '#D32323' }} />
-        }
-      >
-        <SwiperBackground
-          resName="Sushi House"
-          imageUri="https://s3-media4.fl.yelpcdn.com/bphoto/zheMT_Y4dOj6DfNfTZdeOA/o.jpg"
-          ratingStar={4.5}
-          rating={227}
-          claimed
-          screenHeight={height}
-        />
-        <SwiperBackground
-          resName="Sushi House"
-          imageUri="https://s3-media3.fl.yelpcdn.com/bphoto/khL3hwdQROR1YwDkkDj4NQ/o.jpg"
-          ratingStar={4.5}
-          rating={227}
-          claimed
-          screenHeight={height}
-        />
-        <SwiperBackground
-          resName="Sushi House"
-          imageUri="https://s3-media3.fl.yelpcdn.com/bphoto/29AX56Oh-unTaEXRTh_k2Q/o.jpg"
-          ratingStar={4.5}
-          rating={227}
-          claimed
-          screenHeight={height}
-        />
-      </Swiper>
-      <Ionicons
-        name="md-arrow-round-back"
-        size={30}
-        color="white"
-        style={{
-          position: 'absolute',
-          left: 0,
-          marginTop: 30,
-          marginLeft: 30,
-        }}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      />
-      <View style={styles.layout}>
-        <View
-          style={{
-            flexDirection: 'column',
-            marginLeft: 20,
-          }}
-        >
-          <Text style={styles.title}>Sushi House in Sydney</Text>
-          <Text
-            style={{
-              color: '#8996a6',
-              fontSize: 15,
-            }}
+      {restaurantDetail ? (
+        <View>
+          <Swiper
+            loop={false}
+            height={height / 3.5}
+            showsPagination={true}
+            dot={<View style={{ ...styles.dot, backgroundColor: '#FFFFFF' }} />}
+            activeDot={
+              <View style={{ ...styles.dot, backgroundColor: '#D32323' }} />
+            }
           >
-            $$ . Sushi, Japanese
-          </Text>
-          <TouchableOpacity>
-            <Text
+            {restaurantDetail.details.photos.map((photo, index) => (
+              <SwiperBackground
+                resName={restaurantDetail.details.name}
+                imageUri={photo}
+                ratingStar={restaurantDetail.details.rating}
+                rating={restaurantDetail.details.review_count}
+                claimed={restaurantDetail.details.is_claimed}
+                screenHeight={height}
+                key={index}
+              />
+            ))}
+          </Swiper>
+
+          <Ionicons
+            name="md-arrow-round-back"
+            size={30}
+            color="white"
+            style={{
+              position: 'absolute',
+              left: 0,
+              marginTop: (10 * height) / 667,
+              marginLeft: (10 * width) / 375,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
+          <View style={styles.layout}>
+            <View
               style={{
-                color: '#39b54a',
-                fontSize: 15,
-                marginTop: 10,
+                flexDirection: 'column',
+                marginLeft: 20,
               }}
             >
-              Still open
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginVertical: 30,
-            marginLeft: 20,
-          }}
-        >
-          <TouchableOpacity style={{ flexDirection: 'column' }}>
-            <Icon_contact />
-            <Text style={styles.icon_text}>CALL</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={{ flexDirection: 'column', marginLeft: 10 }}>
-            <Icon_web />
-            <Text style={styles.icon_text}>WEB</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={{ flexDirection: 'column', marginLeft: 15 }}>
-            <Icon_map />
-            <Text style={styles.icon_text}>MAP</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{ flexDirection: 'column', alignItems: 'center' }}
-          >
-            <Icon_bookmark />
-            <Text style={styles.icon_text}>BOOKMARK</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.layout}>
-        <View style={{ marginLeft: 20 }}>
-          <Text style={styles.title}>Location & Hours</Text>
-          <View style={styles.map}>
-            <Text>map</Text>
-          </View>
-          <View>
+              <Text style={styles.title}>
+                {restaurantDetail.details.name} in{' '}
+                {restaurantDetail.details.location.city}
+              </Text>
+              <Text
+                style={{
+                  color: '#8996a6',
+                  fontSize: 15,
+                }}
+              >
+                $$ . Sushi, Japanese
+              </Text>
+              <TouchableOpacity>
+                <Text
+                  style={{
+                    color: '#39b54a',
+                    fontSize: 15,
+                    marginTop: 10,
+                  }}
+                >
+                  Still open
+                </Text>
+              </TouchableOpacity>
+            </View>
             <View
               style={{
                 flexDirection: 'row',
-                justifyContent: 'space-between',
+                justifyContent: 'space-around',
+                marginVertical: 30,
+                marginLeft: 20,
               }}
             >
-              <Text style={styles.title}>From your place</Text>
-              <Text style={styles.distance}>0.1km</Text>
+              <TouchableOpacity style={{ flexDirection: 'column' }}>
+                <Icon_contact />
+                <Text style={styles.icon_text}>CALL</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{ flexDirection: 'column', marginLeft: 10 }}
+              >
+                <Icon_web />
+                <Text style={styles.icon_text}>WEB</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{ flexDirection: 'column', marginLeft: 15 }}
+              >
+                <Icon_map />
+                <Text style={styles.icon_text}>MAP</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{ flexDirection: 'column', alignItems: 'center' }}
+              >
+                <Icon_bookmark />
+                <Text style={styles.icon_text}>BOOKMARK</Text>
+              </TouchableOpacity>
             </View>
-            {dayAndTime.map((data, index) => (
+          </View>
+          <View style={styles.layout}>
+            <View style={{ marginLeft: 20 }}>
+              <Text style={styles.title}>Location & Hours</Text>
+              <View style={styles.map}>
+                <Text>map</Text>
+              </View>
+              <View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Text style={styles.title}>From your place</Text>
+                  <Text style={styles.distance}>0.1km</Text>
+                </View>
+                {/* {restaurantDetail.details.hours[0].open.map((data, index) => (
+                  <View
+                    style={{
+                      marginTop: 10,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginRight: width / 4,
+                    }}
+                    key={index}
+                  >
+                    <Text style={styles.day}>{DayOfWeek[data.day]} </Text>
+                    <Text style={styles.time}>
+                      {convertDateTime(data.start)} -{' '}
+                      {convertDateTime(data.end)}
+                    </Text>
+                  </View>
+                ))} */}
+              </View>
+              <LinearGradient
+                colors={Colors.reservation}
+                start={[0, 1.5]}
+                end={[0.5, 0]}
+                style={styles.button}
+              >
+                <TouchableOpacity>
+                  <Text style={styles.reservation_text}>
+                    Make your reservation now !!
+                  </Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
+          </View>
+
+          <View style={{ ...styles.layout, marginBottom: 20 }}>
+            <Text style={{ ...styles.title, marginLeft: 15 }}>
+              Review Highlights
+            </Text>
+            {restaurantDetail.reviews.map((data, index) => (
+              <CommentDetail data={data} key={index} />
+            ))}
+            <View style={styles.input_box}>
+              <Image
+                source={{ uri: 'https://i.ibb.co/FJrKNV1/3.jpg' }}
+                style={{ width: 50, height: 50, borderRadius: 25 }}
+              />
               <View
                 style={{
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginRight: width / 4,
+                  flexDirection: 'column',
+                  marginRight: 25,
                 }}
-                key={index}
               >
-                <Text style={styles.day}>{data.day} </Text>
-                <Text style={styles.time}>{data.time}</Text>
+                <Text style={styles.customer_name}>Bùi Quang Huy</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginTop: 5,
+                  }}
+                >
+                  <Text style={styles.input_cmt}>Start your review...</Text>
+                  <Image
+                    source={StarImages[0]}
+                    style={{ height: 20, width: 120 }}
+                    resizeMode="stretch"
+                  />
+                </View>
               </View>
-            ))}
-          </View>
-          <LinearGradient
-            colors={Colors.reservation}
-            start={[0, 1.5]}
-            end={[0.5, 0]}
-            style={styles.button}
-          >
-            <TouchableOpacity>
-              <Text style={styles.reservation_text}>
-                Make your reservation now !!
-              </Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
-      </View>
-
-      <View style={{ ...styles.layout, marginBottom: 20 }}>
-        <Text style={{ ...styles.title, marginLeft: 15 }}>
-          Review Highlights
-        </Text>
-        {listComment.map((data, index) => (
-          <CommentDetail data={data} key={index} />
-        ))}
-        <View style={styles.input_box}>
-          <Image
-            source={{ uri: 'https://i.ibb.co/FJrKNV1/3.jpg' }}
-            style={{ width: 50, height: 50, borderRadius: 25 }}
-          />
-          <View
-            style={{
-              flexDirection: 'column',
-              marginRight: 25,
-            }}
-          >
-            <Text style={styles.customer_name}>Bùi Quang Huy</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 5,
-              }}
-            >
-              <Text style={styles.input_cmt}>Start your review...</Text>
-              <Image
-                source={StarImages[0]}
-                style={{ height: 20, width: 120 }}
-                resizeMode="stretch"
-              />
             </View>
           </View>
         </View>
-      </View>
+      ) : undefined}
     </ScrollView>
   );
 };

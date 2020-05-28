@@ -7,22 +7,22 @@ const CommentDetail = ({ data }) => {
     <View style={styles.commentBox}>
       <View style={{ flexDirection: 'row' }}>
         <Image
-          source={{ uri: `${data.image}` }}
+          source={{ uri: `${data.user.image_url}` }}
           style={{ width: 50, height: 50, borderRadius: 25 }}
         />
         <View style={{ flexDirection: 'column', marginLeft: 20 }}>
-          <Text style={styles.customerName}>{data.name}</Text>
+          <Text style={styles.customerName}>{data.user.name}</Text>
           <View style={{ flexDirection: 'row', marginTop: 5 }}>
             <Image
-              source={StarImages[data.vote]}
+              source={StarImages[data.rating]}
               style={{ height: 20, width: 120 }}
               resizeMode="stretch"
             />
-            <Text style={styles.commentDate}>{data.date}</Text>
+            <Text style={styles.commentDate}>{data.time_created}</Text>
           </View>
         </View>
       </View>
-      <Text style={styles.commentDetail}>{data.comment}</Text>
+      <Text style={styles.commentDetail}>{data.text}</Text>
     </View>
   );
 };
