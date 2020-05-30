@@ -5,12 +5,14 @@ import {
   StyleSheet,
   ImageBackground,
   Dimensions,
+  ActivityIndicator,
   Image,
   TextInput,
   StatusBar,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
@@ -25,67 +27,53 @@ import CommentDetail from '../../../../components/CommentDetail';
 import Colors from '../../../../constants/Colors';
 import StarImages from '../../../../utils/renderRating';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRestaurantDetail } from '../../../../store/actions';
+import {
+  getRestaurantDetail,
+  clearRestaurantsDetail,
+} from '../../../../store/actions';
 import DayOfWeek from '../../../../data/data_day';
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+
+const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 const RestaurantDetailScreen = ({ navigation }) => {
-  const dayAndTime = [
-    {
-      day: 'Mon',
-      time: '8:00 am - 17:00 pm',
-    },
-    {
-      day: 'Tue',
-      time: '8:00 am - 17:00 pm',
-    },
-    {
-      day: 'Wed',
-      time: '8:00 am - 17:00 pm',
-    },
-    {
-      day: 'Thu',
-      time: '8:00 am - 17:00 pm',
-    },
-    {
-      day: 'Fri',
-      time: '8:00 am - 17:00 pm',
-    },
-    {
-      day: 'Sat',
-      time: '8:00 am - 17:00 pm',
-    },
-    {
-      day: 'Sun',
-      time: '8:00 am - 17:00 pm',
-    },
-  ];
-  const listComment = [
-    {
-      image: 'https://i.ibb.co/16NqdWg/2.jpg',
-      name: 'Nhật Quang',
-      vote: 4,
-      date: '2020-5-14',
-      comment:
-        'lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus',
-    },
-    {
-      image: 'https://i.ibb.co/tpG0mJY/1.jpg',
-      name: 'Vũ Đức',
-      vote: 3,
-      date: '2020-4-24',
-      comment:
-        'lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus lorem ispus',
-    },
-  ];
   const dispatch = useDispatch();
-  const { id } = navigation.state.params.item;
-  const { restaurantDetail } = useSelector(state => state.service);
 
+  const { id, distance } = navigation.getParam('item');
   useEffect(() => {
     dispatch(getRestaurantDetail(id));
-  }, []);
+
+    return () => {
+      dispatch(clearRestaurantsDetail());
+    };
+  }, [getRestaurantDetail, id]);
+
+  const { restaurantDetail } = useSelector(state => state.service);
+  const {
+    user: { fullname },
+  } = useSelector(state => state.auth);
+
+  const renderCategories = categories => {
+    let returnData = '';
+    const newData = categories.map(item => item.title);
+
+    newData.forEach((item, index) => {
+      if (index === newData.length - 1) returnData = returnData + item;
+      else returnData = returnData + item + ', ';
+    });
+
+    return returnData;
+  };
+
+  const renderDistance = distance => {
+    let returnData = parseInt(distance);
+    if (returnData >= 1000) {
+      return (returnData / 1000).toFixed(1) + 'km';
+    } else {
+      return returnData + 'm';
+    }
+  };
+
   const convertDateTime = datetime => {
     let hour = '8';
     let minute = '00';
@@ -107,32 +95,33 @@ const RestaurantDetailScreen = ({ navigation }) => {
       }
     }
   };
-  console.log('test');
 
-  // console.log(restaurantDetail.details.hours[0].open);
-
-  return (
-    <ScrollView>
-      <StatusBar hidden={true} />
-      {restaurantDetail ? (
+  if (restaurantDetail) {
+    const { details, reviews } = restaurantDetail;
+    return (
+      <ScrollView>
+        {/* <NavigationEvents
+          onDidBlur={() => dispatch(clearRestaurantsDetail())}
+        /> */}
+        <StatusBar hidden={true} />
         <View>
           <Swiper
             loop={false}
-            height={height / 3.5}
+            height={screenHeight / 3.5}
             showsPagination={true}
             dot={<View style={{ ...styles.dot, backgroundColor: '#FFFFFF' }} />}
             activeDot={
               <View style={{ ...styles.dot, backgroundColor: '#D32323' }} />
             }
           >
-            {restaurantDetail.details.photos.map((photo, index) => (
+            {details.photos.map((photo, index) => (
               <SwiperBackground
-                resName={restaurantDetail.details.name}
+                resName={details.name}
                 imageUri={photo}
-                ratingStar={restaurantDetail.details.rating}
-                rating={restaurantDetail.details.review_count}
-                claimed={restaurantDetail.details.is_claimed}
-                screenHeight={height}
+                ratingStar={details.rating}
+                rating={details.review_count}
+                claimed={details.is_claimed}
+                screenHeight={screenHeight}
                 key={index}
               />
             ))}
@@ -145,11 +134,12 @@ const RestaurantDetailScreen = ({ navigation }) => {
             style={{
               position: 'absolute',
               left: 0,
-              marginTop: (10 * height) / 667,
-              marginLeft: (10 * width) / 375,
+              marginTop: (10 * screenHeight) / 300,
+              marginLeft: 30,
             }}
             onPress={() => {
               navigation.goBack();
+              dispatch(clearRestaurantsDetail());
             }}
           />
           <View style={styles.layout}>
@@ -159,38 +149,23 @@ const RestaurantDetailScreen = ({ navigation }) => {
                 marginLeft: 20,
               }}
             >
-              <Text style={styles.title}>
-                {restaurantDetail.details.name} in{' '}
-                {restaurantDetail.details.location.city}
+              <Text style={styles.title}>{details.alias}</Text>
+              <Text numberOfLines={1} style={styles.priceText}>
+                {details.price ? details.price + ' . ' : null}
+                {''}
+                {renderCategories(details.categories)}
               </Text>
-              <Text
-                style={{
-                  color: '#8996a6',
-                  fontSize: 15,
-                }}
-              >
-                $$ . Sushi, Japanese
-              </Text>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    color: '#39b54a',
-                    fontSize: 15,
-                    marginTop: 10,
-                  }}
-                >
+              {details.is_closed ? (
+                <Text style={{ ...styles.activeText, color: 'red' }}>
+                  Close now
+                </Text>
+              ) : (
+                <Text style={{ ...styles.activeText, color: '#39b54a' }}>
                   Still open
                 </Text>
-              </TouchableOpacity>
+              )}
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                marginVertical: 30,
-                marginLeft: 20,
-              }}
-            >
+            <View style={styles.contactBox}>
               <TouchableOpacity style={{ flexDirection: 'column' }}>
                 <Icon_contact />
                 <Text style={styles.icon_text}>CALL</Text>
@@ -219,7 +194,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
             </View>
           </View>
           <View style={styles.layout}>
-            <View style={{ marginLeft: 20 }}>
+            <View style={{ marginHorizontal: 20 }}>
               <Text style={styles.title}>Location & Hours</Text>
               <View style={styles.map}>
                 <Text>map</Text>
@@ -232,25 +207,20 @@ const RestaurantDetailScreen = ({ navigation }) => {
                   }}
                 >
                   <Text style={styles.title}>From your place</Text>
-                  <Text style={styles.distance}>0.1km</Text>
+                  <Text style={styles.distance}>
+                    {renderDistance(distance)}
+                  </Text>
                 </View>
-                {/* {restaurantDetail.details.hours[0].open.map((data, index) => (
-                  <View
-                    style={{
-                      marginTop: 10,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      marginRight: width / 4,
-                    }}
-                    key={index}
-                  >
-                    <Text style={styles.day}>{DayOfWeek[data.day]} </Text>
+
+                {details.hours[0].open.map((data, index) => (
+                  <View style={styles.workingDate} key={index}>
+                    <Text style={styles.day}>{DayOfWeek[data.day]}</Text>
                     <Text style={styles.time}>
                       {convertDateTime(data.start)} -{' '}
                       {convertDateTime(data.end)}
                     </Text>
                   </View>
-                ))} */}
+                ))}
               </View>
               <LinearGradient
                 colors={Colors.reservation}
@@ -271,12 +241,12 @@ const RestaurantDetailScreen = ({ navigation }) => {
             <Text style={{ ...styles.title, marginLeft: 15 }}>
               Review Highlights
             </Text>
-            {restaurantDetail.reviews.map((data, index) => (
+            {reviews.map((data, index) => (
               <CommentDetail data={data} key={index} />
             ))}
             <View style={styles.input_box}>
               <Image
-                source={{ uri: 'https://i.ibb.co/FJrKNV1/3.jpg' }}
+                source={require('../../../../../assets/images/test.png')}
                 style={{ width: 50, height: 50, borderRadius: 25 }}
               />
               <View
@@ -285,7 +255,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
                   marginRight: 25,
                 }}
               >
-                <Text style={styles.customer_name}>Bùi Quang Huy</Text>
+                <Text style={styles.customer_name}>{fullname}</Text>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -303,12 +273,22 @@ const RestaurantDetailScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
-      ) : undefined}
-    </ScrollView>
+      </ScrollView>
+    );
+  }
+  return (
+    <View style={styles.loading}>
+      <ActivityIndicator size="large" color={Colors.primary} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     marginLeft: 20,
   },
@@ -333,7 +313,20 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans-bold',
     fontSize: 20,
     marginTop: 15,
-    // marginLeft: 20,
+  },
+  activeText: {
+    fontSize: 15,
+    marginTop: 10,
+  },
+  priceText: {
+    color: '#8996a6',
+    fontSize: 15,
+  },
+  contactBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 30,
+    marginLeft: 20,
   },
   icon_text: {
     marginTop: 10,
@@ -341,6 +334,11 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans-bold',
     fontSize: 15,
     textAlign: 'center',
+  },
+  workingDate: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   day: {
     color: '#44566c',
@@ -351,7 +349,6 @@ const styles = StyleSheet.create({
     color: '#44566c',
     fontFamily: 'open-sans',
     fontSize: 15,
-    marginLeft: 50,
   },
   button: {
     height: 40,

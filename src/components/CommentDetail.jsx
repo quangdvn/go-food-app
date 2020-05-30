@@ -6,10 +6,18 @@ const CommentDetail = ({ data }) => {
   return (
     <View style={styles.commentBox}>
       <View style={{ flexDirection: 'row' }}>
-        <Image
-          source={{ uri: `${data.user.image_url}` }}
-          style={{ width: 50, height: 50, borderRadius: 25 }}
-        />
+        {data.user.image_url === null ? (
+          <Image
+            source={require('../../assets/images/test.png')}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
+          />
+        ) : (
+          <Image
+            source={{ uri: `${data.user.image_url}` }}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
+          />
+        )}
+
         <View style={{ flexDirection: 'column', marginLeft: 20 }}>
           <Text style={styles.customerName}>{data.user.name}</Text>
           <View style={{ flexDirection: 'row', marginTop: 5 }}>
