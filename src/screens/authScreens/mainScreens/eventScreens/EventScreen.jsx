@@ -11,16 +11,6 @@ import EventItem from './EventItem';
 const EventScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
-      <View>
-        <ImageBackground
-          style={styles.backgroundImg}
-          source={require('../../../../../assets/images/drawer_header.png')}
-        >
-          <View style={styles.header}>
-            <Text style={{ color: '#fff', fontSize: 22 }}>EVENTS</Text>
-          </View>
-        </ImageBackground>
-      </View>
       <View style={styles.bodyContainer}>
         <EventItem navigation={navigation} />
         <EventItem />

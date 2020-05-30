@@ -8,22 +8,24 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Linking
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import eventData from '../../../../data/data_event.json'
 
 const EventDetailScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
         style={styles.backgroundImg}
-        source={require('../../../../../assets/images/party.jpg')}
+        source={{uri: eventData.data.image_url}}
       >
         <View style={{ width: screenWidth * 0.85 }}>
           <TouchableOpacity
             style={{ marginTop: 20 }}
             onPress={() => navigation.navigate('Event')}
           >
-            <AntDesign name="arrowleft" color="white" size={30} />
+            <AntDesign name="arrowleft" color="#39B54A" size={30} />
           </TouchableOpacity>
           <View style={{ marginTop: 60 }}>
             <Text
@@ -72,12 +74,12 @@ const EventDetailScreen = ({ navigation }) => {
           <View style={{ marginTop: 15 }}>
             <Text style={styles.labelTxt}>Description</Text>
             <Text>
-              Lorem ispus, Lorem ispus, Lorem ispus, Lorem ispus, Lorem ispus,
-              Lorem ispus, Lorem ispus, Lorem ispus
+              {eventData.data.description}
             </Text>
             <TouchableOpacity>
-              <Text style={{ color: '#6FDDFF', marginTop: 7 }}>
-                View on Web >
+              <Text style={{ color: '#6FDDFF', marginTop: 7 }}
+                  onPress={() => Linking.openURL(eventData.data.event_site_url)}>
+                  View on Web >
               </Text>
             </TouchableOpacity>
           </View>
@@ -98,7 +100,7 @@ const EventDetailScreen = ({ navigation }) => {
               }}
             >
               <AntDesign name="enviromento" size={30} />
-              <Text style={{ marginLeft: 10, color: '#9FACB9' }}>LA, USA</Text>
+              <Text style={{ marginLeft: 10, color: '#9FACB9' }}>{eventData.data.location.city}, {eventData.data.location.country}</Text>
             </View>
             <View
               style={{
@@ -109,7 +111,7 @@ const EventDetailScreen = ({ navigation }) => {
               }}
             >
               <Text style={styles.labelTxt}>Attendee(s)</Text>
-              <Text style={styles.labelTxt}>0 person(s)</Text>
+              <Text style={styles.labelTxt}>{eventData.data.attending_count} person(s)</Text>
             </View>
           </View>
         </View>
