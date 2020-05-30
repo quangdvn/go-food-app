@@ -12,7 +12,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { NavigationEvents } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
@@ -24,6 +23,7 @@ import {
 import Swiper from 'react-native-swiper';
 import SwiperBackground from '../../../../components/SwiperBackground';
 import CommentDetail from '../../../../components/CommentDetail';
+import MapPreview from '../../../../components/MapPreview';
 import Colors from '../../../../constants/Colors';
 import StarImages from '../../../../utils/renderRating';
 import { useDispatch, useSelector } from 'react-redux';
@@ -100,9 +100,6 @@ const RestaurantDetailScreen = ({ navigation }) => {
     const { details, reviews } = restaurantDetail;
     return (
       <ScrollView>
-        {/* <NavigationEvents
-          onDidBlur={() => dispatch(clearRestaurantsDetail())}
-        /> */}
         <StatusBar hidden={true} />
         <View>
           <Swiper
@@ -196,9 +193,10 @@ const RestaurantDetailScreen = ({ navigation }) => {
           <View style={styles.layout}>
             <View style={{ marginHorizontal: 20 }}>
               <Text style={styles.title}>Location & Hours</Text>
-              <View style={styles.map}>
-                <Text>map</Text>
-              </View>
+              <MapPreview
+                style={styles.mapPreview}
+                coordinates={details.coordinates}
+              />
               <View>
                 <View
                   style={{
@@ -365,11 +363,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
   },
-  map: {
-    flex: 1,
-    height: 100,
-    backgroundColor: 'red',
-    marginTop: 15,
+  mapPreview: {
+    width: '100%',
+    maxWidth: 350,
+    height: 300,
+    marginVertical: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   distance: {
     color: '#44566c',
