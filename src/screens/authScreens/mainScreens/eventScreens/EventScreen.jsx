@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import EventItem from './EventItem';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllEvents } from '../../../../store/actions/serviceAction';
+import Colors from '../../../../constants/Colors';
 
 const EventScreen = ({ navigation }) => {
+  const { eventList } = useSelector(state => state.service);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllEvents());
+  }, [getAllEvents]);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.bodyContainer}>
-        <EventItem navigation={navigation} />
-        <EventItem />
-        <EventItem />
+        {eventList.length ? (
+          eventList.map(event => (
+            <EventItem event={event} navigation={navigation} />
+          ))
+        ) : (
+          <ActivityIndicator size="large" color={Colors.primary} />
+        )}
       </View>
     </ScrollView>
   );

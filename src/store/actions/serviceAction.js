@@ -1,4 +1,4 @@
-import { GET_ALL_RESTAURANTS } from './types';
+import { GET_ALL_RESTAURANTS, GET_ALL_EVENTS } from './types';
 import { AsyncStorage } from 'react-native';
 import { navigateTo } from '../../navigationRef';
 import { goFoodApi } from '../../api/goFoodApi';
@@ -11,5 +11,14 @@ export const getAllRestaurants = () => async (dispatch, getState) => {
     dispatch({ type: GET_ALL_RESTAURANTS, payload: data.data });
   } catch (err) {
     console.log(err.message);
+  }
+};
+
+export const getAllEvents = () => async (dispatch, getState) => {
+  try {
+    const { data } = await goFoodApi.get('/event', reqConfig(getState));
+    dispatch({ type: GET_ALL_EVENTS, payload: data.data.normalEvents });
+  } catch (error) {
+    console.log(error.message);
   }
 };
