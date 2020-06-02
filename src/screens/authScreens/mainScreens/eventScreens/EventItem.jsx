@@ -7,18 +7,18 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
-const EventItem = ({ navigation }) => {
+const EventItem = ({ event, navigation }) => {
   return (
     <TouchableOpacity
       style={styles.eventContainer}
-      onPress={() => navigation.navigate('EventDetail')}
+      onPress={() => navigation.navigate('EventDetail', { event })}
     >
       <View>
         <Image
           style={styles.eventImg}
-          source={require('../../../../../assets/images/cuondiep.jpg')}
+          source={{ uri: event.image_url }}
         ></Image>
       </View>
       <View style={styles.eventContent}>
@@ -30,30 +30,29 @@ const EventItem = ({ navigation }) => {
             color: '#44566C',
           }}
         >
-          Selfie and Foods
+          {event.name}
         </Text>
         <View style={styles.icon_text}>
           <AntDesign name="table" size={30} />
           <Text style={{ marginLeft: 7, color: '#9FACB9' }}>
-            Tuesday, Apr 21, 12:00 am
+            {event.time_start}
           </Text>
         </View>
         <View style={styles.icon_text}>
           <AntDesign name="enviromento" size={30} />
           <Text style={{ marginLeft: 7, color: '#9FACB9' }}>
-            Shibuyya, Tokyo
+            {`${event.location.address1}, ${event.location.city}`}
           </Text>
         </View>
         <View style={styles.eventDetail}>
-          <Text>
-            Lorem ispus, Lorem ispus, Lorem ispus, Lorem ispus, Lorem ispus,
-            Lorem ispus, Lorem ispus
-          </Text>
+          <Text numberOfLines={3}>{event.description}</Text>
         </View>
       </View>
       <View style={styles.eventBottom}>
-        <Text style={{ color: '#7CE0FF' }}>Food & Drink</Text>
-        <Text style={{ color: '#9FACB9' }}>20 interested</Text>
+        <Text style={{ color: '#7CE0FF' }}>{event.category}</Text>
+        <Text style={{ color: '#9FACB9' }}>
+          {event.attending_count} interested
+        </Text>
       </View>
     </TouchableOpacity>
   );
