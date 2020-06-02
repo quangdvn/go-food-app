@@ -31,7 +31,7 @@ const SideBar = props => {
             </Text>
           ) : null}
           <Text style={styles.info}>
-            Favorites Place(s): {user.favoritePlaces}
+            Favorites Place(s): 0
           </Text>
         </View>
       </ImageBackground>

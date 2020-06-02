@@ -7,6 +7,7 @@ import {
   SIGN_OUT,
   GET_INFO,
   LOADING_USER,
+  TOGGLE_BOOKMARK,
 } from '../actions/types';
 
 const initialState = {
