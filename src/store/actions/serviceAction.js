@@ -1,4 +1,3 @@
-import { GET_ALL_RESTAURANTS, GET_ALL_EVENTS } from './types';
 import { AsyncStorage } from 'react-native';
 import { navigateTo } from '../../navigationRef';
 import {
@@ -7,6 +6,7 @@ import {
   CLEAR_RESTAURANTS_DETAIL,
   ADD_BOOKMARK,
   REMOVE_BOOKMARK,
+  GET_ALL_EVENTS,
 } from './types';
 import { goFoodApi } from '../../api/goFoodApi';
 import { reqConfig } from '../../utils/requestConfig';

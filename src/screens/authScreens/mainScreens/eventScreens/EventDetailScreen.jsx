@@ -10,10 +10,12 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
+import MapPreview from '../../../../components/MapPreview';
 import { AntDesign } from '@expo/vector-icons';
 
 const EventDetailScreen = ({ navigation }) => {
   const event = navigation.getParam('event');
+  const coordinates = { longitude: event.longitude, latitude: event.latitude };
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
@@ -86,10 +88,7 @@ const EventDetailScreen = ({ navigation }) => {
           <View style={{ marginTop: 15 }}>
             <Text style={styles.labelTxt}>Location</Text>
             <TouchableOpacity>
-              <Image
-                style={styles.mapImg}
-                source={require('../../../../../assets/images/map.jpeg')}
-              />
+              <MapPreview style={styles.mapImg} coordinates={coordinates} />
             </TouchableOpacity>
             <View
               style={{
