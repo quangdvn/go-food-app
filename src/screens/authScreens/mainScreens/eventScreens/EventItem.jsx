@@ -45,7 +45,7 @@ const EventItem = ({ event, navigation }) => {
           </Text>
         </View>
         <View style={styles.eventDetail}>
-          <Text>{event.description}</Text>
+          <Text numberOfLines={3}>{event.description}</Text>
         </View>
       </View>
       <View style={styles.eventBottom}>

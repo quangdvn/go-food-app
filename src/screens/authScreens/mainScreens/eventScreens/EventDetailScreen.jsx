@@ -11,16 +11,14 @@ import {
   Linking,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import eventData from '../../../../data/data_event.json';
 
-const EventDetailScreen = ({ route, navigation }) => {
-  //const { event } = route.params;
-  console.log('route', route);
+const EventDetailScreen = ({ navigation }) => {
+  const event = navigation.getParam('event');
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
         style={styles.backgroundImg}
-        source={{ uri: eventData.data.image_url }}
+        source={{ uri: event.image_url }}
       >
         <View style={{ width: screenWidth * 0.85 }}>
           <TouchableOpacity
@@ -71,15 +69,15 @@ const EventDetailScreen = ({ route, navigation }) => {
         <View style={styles.eventInfo}>
           <View style={{}}>
             <Text style={styles.labelTxt}>Time</Text>
-            <Text>Wednesday, April 22, 03:00 pm</Text>
+            <Text>{event.time_start}</Text>
           </View>
           <View style={{ marginTop: 15 }}>
             <Text style={styles.labelTxt}>Description</Text>
-            <Text>{eventData.data.description}</Text>
+            <Text numberOfLines={3}>{event.description}</Text>
             <TouchableOpacity>
               <Text
                 style={{ color: '#6FDDFF', marginTop: 7 }}
-                onPress={() => Linking.openURL(eventData.data.event_site_url)}
+                onPress={() => Linking.openURL(event.event_site_url)}
               >
                 View on Web >
               </Text>
@@ -103,8 +101,7 @@ const EventDetailScreen = ({ route, navigation }) => {
             >
               <AntDesign name="enviromento" size={30} />
               <Text style={{ marginLeft: 10, color: '#9FACB9' }}>
-                {eventData.data.location.city},{' '}
-                {eventData.data.location.country}
+                {event.location.city}, {event.location.country}
               </Text>
             </View>
             <View
@@ -117,7 +114,7 @@ const EventDetailScreen = ({ route, navigation }) => {
             >
               <Text style={styles.labelTxt}>Attendee(s)</Text>
               <Text style={styles.labelTxt}>
-                {eventData.data.attending_count} person(s)
+                {event.attending_count} person(s)
               </Text>
             </View>
           </View>
