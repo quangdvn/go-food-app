@@ -2,9 +2,9 @@ import {
   GET_ALL_RESTAURANTS,
   GET_RESTAURANTS_DETAIL,
   CLEAR_RESTAURANTS_DETAIL,
+  ADD_BOOKMARK,
+  REMOVE_BOOKMARK,
 } from './types';
-import { AsyncStorage } from 'react-native';
-import { navigateTo } from '../../navigationRef';
 import { goFoodApi } from '../../api/goFoodApi';
 import { reqConfig } from '../../utils/requestConfig';
 
@@ -30,4 +30,28 @@ export const getRestaurantDetail = id => async dispatch => {
 
 export const clearRestaurantsDetail = () => dispatch => {
   dispatch({ type: CLEAR_RESTAURANTS_DETAIL });
+};
+
+export const addBookmark = (id, sendData) => async (dispatch, getState) => {
+  try {
+    await goFoodApi.put(
+      `/business/${id}/bookmark`,
+      sendData,
+      reqConfig(getState)
+    );
+
+    dispatch({ type: ADD_BOOKMARK, payload: id });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+export const removeBookmark = id => async (dispatch, getState) => {
+  try {
+    await goFoodApi.delete(`/business/${id}/bookmark`, reqConfig(getState));
+
+    dispatch({ type: REMOVE_BOOKMARK, payload: id });
+  } catch (err) {
+    console.log(err.message);
+  }
 };

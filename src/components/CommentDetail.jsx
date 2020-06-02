@@ -6,6 +6,7 @@ const CommentDetail = ({ data }) => {
   return (
     <View style={styles.commentBox}>
       <View style={{ flexDirection: 'row' }}>
+        
         {data.user.image_url === null ? (
           <Image
             source={require('../../assets/images/test.png')}

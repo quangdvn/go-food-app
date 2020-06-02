@@ -7,6 +7,7 @@ import {
   SIGN_OUT,
   GET_INFO,
   LOADING_USER,
+  GET_ALL_BOOKMARKS,
 } from './types';
 import { AsyncStorage } from 'react-native';
 import { navigateTo } from '../../navigationRef';
@@ -23,6 +24,7 @@ export const getUser = () => async (dispatch, getState) => {
     const { data } = await goFoodApi.get('/auth/me', reqConfig(getState));
 
     dispatch({ type: GET_INFO, payload: data.data });
+    dispatch({ type: GET_ALL_BOOKMARKS, payload: data.data.bookmarkPlaces });
     navigateTo('Restaurant');
   } catch (err) {
     console.log(err.message);
