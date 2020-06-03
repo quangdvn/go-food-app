@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ImageBackground,
   Dimensions,
   ActivityIndicator,
   Image,
-  TextInput,
   StatusBar,
   ScrollView,
   TouchableOpacity,
@@ -17,6 +15,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {
   Icon_map,
   Icon_bookmark,
+  Icon_bookmarked,
   Icon_contact,
   Icon_web,
 } from '../../../../components/Icon/TestLogo';
@@ -30,8 +29,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getRestaurantDetail,
   clearRestaurantsDetail,
+  addBookmark,
+  removeBookmark,
 } from '../../../../store/actions';
 import DayOfWeek from '../../../../data/data_day';
+import { Alert } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -41,19 +43,8 @@ console.log(screenHeight);
 const RestaurantDetailScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const { id, distance } = navigation.getParam('item');
-  useEffect(() => {
-    dispatch(getRestaurantDetail(id));
-
-    return () => {
-      dispatch(clearRestaurantsDetail());
-    };
-  }, [getRestaurantDetail, id]);
-
-  const { restaurantDetail } = useSelector(state => state.service);
-  const {
-    user: { fullname },
-  } = useSelector(state => state.auth);
+  const mainItem = navigation.getParam('mainItem');
+  const bookmarkItem = navigation.getParam('bookmarkItem');
 
   const renderCategories = categories => {
     let returnData = '';
@@ -66,6 +57,44 @@ const RestaurantDetailScreen = ({ navigation }) => {
 
     return returnData;
   };
+
+  let resDetail = {};
+
+  if (mainItem) {
+    resDetail = {
+      ...mainItem,
+      categories: renderCategories(mainItem.categories),
+      address: mainItem.location.address1 + ', ' + mainItem.location.city,
+    };
+  } else {
+    resDetail.id = bookmarkItem.restaurantId;
+    resDetail.distance = bookmarkItem.distance;
+    resDetail.name = bookmarkItem.restaurantName;
+    resDetail.rating = bookmarkItem.rating;
+    resDetail.image_url = bookmarkItem.imageUrl;
+    resDetail.price = bookmarkItem.price;
+    resDetail.categories = bookmarkItem.categories;
+    resDetail.location = bookmarkItem.location;
+  }
+
+  useEffect(() => {
+    dispatch(getRestaurantDetail(resDetail.id));
+
+    return () => {
+      dispatch(clearRestaurantsDetail());
+    };
+  }, [getRestaurantDetail, resDetail.id]);
+
+  const { restaurantDetail, bookmarkList } = useSelector(
+    state => state.service
+  );
+  const isMarked = bookmarkList.some(item => item === resDetail.id);
+
+  const [isBookmarked, setBookmark] = useState(isMarked);
+
+  const {
+    user: { fullname },
+  } = useSelector(state => state.auth);
 
   const renderDistance = distance => {
     let returnData = parseInt(distance);
@@ -96,6 +125,59 @@ const RestaurantDetailScreen = ({ navigation }) => {
       } else if (parseInt(hour) > 12 && parseInt(hour) <= 24) {
         return hour + ':' + minute + ' PM';
       }
+    }
+  };
+
+  const displayBookmarkConfirm = () => {
+    if (!isBookmarked) {
+      const sendData = {
+        restaurantName: resDetail.name,
+        rating: resDetail.rating,
+        imageUrl: resDetail.image_url,
+        price: resDetail.price,
+        categories: resDetail.categories,
+        address: resDetail.address,
+        distance: resDetail.distance,
+      };
+      Alert.alert(
+        'Bookmark confirmation',
+        'Are you sure you want to bookmark this restaurant?',
+        [
+          {
+            text: 'Maybe later',
+            style: 'destructive',
+          },
+          {
+            text: 'Certainly',
+            style: 'default',
+            onPress: () => {
+              dispatch(addBookmark(resDetail.id, sendData));
+              setBookmark(prevState => !prevState);
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert(
+        'Unbookmark confirmation',
+        'Are you sure you want to remove this restaurant?',
+        [
+          {
+            text: 'Maybe later',
+            style: 'destructive',
+          },
+          {
+            text: 'Yes',
+            style: 'default',
+            onPress: () => {
+              dispatch(removeBookmark(resDetail.id));
+              setBookmark(prevState => !prevState);
+            },
+          },
+        ],
+        { cancelable: false }
+      );
     }
   };
 
@@ -187,8 +269,9 @@ const RestaurantDetailScreen = ({ navigation }) => {
 
               <TouchableOpacity
                 style={{ flexDirection: 'column', alignItems: 'center' }}
+                onPress={() => displayBookmarkConfirm()}
               >
-                <Icon_bookmark />
+                {isBookmarked ? <Icon_bookmarked /> : <Icon_bookmark />}
                 <Text style={styles.icon_text}>BOOKMARK</Text>
               </TouchableOpacity>
             </View>
@@ -209,7 +292,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
                 >
                   <Text style={styles.title}>From your place</Text>
                   <Text style={styles.distance}>
-                    {renderDistance(distance)}
+                    {renderDistance(resDetail.distance)}
                   </Text>
                 </View>
 

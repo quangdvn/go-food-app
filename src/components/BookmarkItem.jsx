@@ -6,18 +6,18 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import StarImages from '../utils/renderRating';
 
 const MainItem = ({ item, navigation }) => {
-  const renderCategories = categories => {
-    let returnData = '';
-    const newData = categories.map(item => item.title);
+  // const renderCategories = categories => {
+  //   let returnData = '';
+  //   const newData = categories.map(item => item.title);
 
-    newData.forEach((item, index) => {
-      if (index === newData.length - 1) returnData = returnData + item;
-      else returnData = returnData + item + ', ';
-    });
+  //   newData.forEach((item, index) => {
+  //     if (index === newData.length - 1) returnData = returnData + item;
+  //     else returnData = returnData + item + ', ';
+  //   });
 
-    return returnData;
-  };
-  const imageDefault = 'https://i.ibb.co/VgMK3t0/restaurant-default.png';
+  //   return returnData;
+  // };
+
   // const renderAddress = address => {
   //   let returnData = '';
 
@@ -29,7 +29,7 @@ const MainItem = ({ item, navigation }) => {
   //   return returnData;
   // };
 
-  const imageUrl = item.image_url;
+  const imageUrl = item.imageUrl;
 
   return (
     <LinearGradient
@@ -39,17 +39,11 @@ const MainItem = ({ item, navigation }) => {
       style={styles.listItem}
     >
       <View style={styles.imageContainer}>
-        <Image
-          source={{
-            uri: item.image_url ? item.image_url : imageDefault,
-          }}
-          style={styles.image}
-          resizeMode="stretch"
-        />
+        <Image source={{ uri: imageUrl }} style={styles.image} />
       </View>
       <View style={styles.contentContainer}>
         <Text numberOfLines={1} style={styles.content}>
-          {item.name}
+          {item.restaurantName}
         </Text>
         <Image
           source={StarImages[item.rating]}
@@ -59,19 +53,19 @@ const MainItem = ({ item, navigation }) => {
         <Text numberOfLines={1} style={styles.priceText}>
           {item.price ? item.price + ' . ' : null}
           {''}
-          {renderCategories(item.categories)}
+          {item.categories}
         </Text>
         <Text numberOfLines={1} style={styles.addressText}>
-          {item.location.address1 + ', ' + item.location.city}
+          {item.address}
         </Text>
       </View>
       <TouchableOpacity
         style={styles.button}
         onPress={() =>
-          navigation.navigate('RestaurantDetail', { mainItem: item })
+          navigation.navigate('RestaurantDetail', { bookmarkItem: item })
         }
       >
-        <AntDesign name="arrowright" color="green" size={20} />
+        <Ionicons name="ios-bookmark" size={20} color="green" />
       </TouchableOpacity>
     </LinearGradient>
   );

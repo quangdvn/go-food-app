@@ -21,6 +21,25 @@ export const postInfo = async userInfo => {
   }
 };
 
+export const getAllBookmarks = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (!token) return null;
+    const reqConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await goFoodApi.get(
+      '/business/bookmarks/detail',
+      reqConfig
+    );
+    return data;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 export const getAllBussiness = async () => {
   try {
     const token = await AsyncStorage.getItem('token');
