@@ -77,6 +77,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
   const convertDateTime = datetime => {
     let hour = '8';
     let minute = '00';
+
     if (datetime.length == 4) {
       hour = datetime.substring(0, 2);
       minute = datetime.substring(2, 4);

@@ -21,7 +21,6 @@ const serviceReducer = (state = initialState, { type, payload }) => {
 
     case CLEAR_RESTAURANTS_DETAIL:
       return { ...state, restaurantDetail: null };
-
     case SIGN_OUT:
       return { ...initialState };
 

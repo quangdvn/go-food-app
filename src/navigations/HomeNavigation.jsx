@@ -11,6 +11,7 @@ import Header from '../components/Icon/CustomeHeader';
 //* All the Screens
 import RestaurantScreen from '../screens/authScreens/mainScreens/restaurantScreens/RestaurantScreen';
 import SearchScreen from '../screens/authScreens/SearchScreen';
+import SearchResultScreen from '../screens/authScreens/SearchResultScreen';
 import RestaurantDetailScreen from '../screens/authScreens/mainScreens/restaurantScreens/RestaurantDetailScreen';
 import AccountScreen from '../screens/authScreens/mainScreens/accountScreens/AccountScreen';
 import EventScreen from '../screens/authScreens/mainScreens/eventScreens/EventScreen';
@@ -35,6 +36,7 @@ const RestaurantStack = createStackNavigator({
       };
     },
   },
+
   RestaurantDetail: {
     screen: RestaurantDetailScreen,
     navigationOptions: () => {
@@ -44,13 +46,21 @@ const RestaurantStack = createStackNavigator({
     },
   },
   Map: {
-    screen: MapScreen,
+    screen: SearchResultScreen,
     navigationOptions: () => {
       return {
         headerShown: false,
       };
     },
   },
+  // SearchResult: {
+  //   screen: SearchResultScreen,
+  //   navigationOptions: () => {
+  //     return {
+  //       headerShown: false,
+  //     };
+  //   },
+  // },
 });
 
 const EventStack = createStackNavigator({

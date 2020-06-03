@@ -17,7 +17,7 @@ const SwiperBackground = ({
   return (
     <View style={styles.opacityImage}>
       <ImageBackground
-        source={image}
+        source={image ? image : null}
         style={{
           flex: 1,
           height: screenHeight / 3.5,

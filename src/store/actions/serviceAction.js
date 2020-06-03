@@ -31,3 +31,6 @@ export const getRestaurantDetail = id => async dispatch => {
 export const clearRestaurantsDetail = () => dispatch => {
   dispatch({ type: CLEAR_RESTAURANTS_DETAIL });
 };
+
+
+
