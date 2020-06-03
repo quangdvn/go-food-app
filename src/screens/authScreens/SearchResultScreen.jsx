@@ -7,6 +7,7 @@ const SearchResultScreen = ({ navigation }) => {
   const { restaurantList } = useSelector(state => state.service);
   const { keyword } = navigation.state.params;
 
+  
   return (
     <View style={styles.container}>
       <Text>The Result of keyword: "{keyword}"</Text>
