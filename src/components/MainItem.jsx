@@ -17,7 +17,7 @@ const MainItem = ({ item, navigation }) => {
 
     return returnData;
   };
-
+  const imageDefault = 'https://i.ibb.co/VgMK3t0/restaurant-default.png';
   // const renderAddress = address => {
   //   let returnData = '';
 
@@ -37,7 +37,13 @@ const MainItem = ({ item, navigation }) => {
       style={styles.listItem}
     >
       <View style={styles.imageContainer}>
-        <Image source={{ uri: item.image_url }} style={styles.image} />
+        <Image
+          source={{
+            uri: item.image_url ? item.image_url : imageDefault,
+          }}
+          style={styles.image}
+          resizeMode="stretch"
+        />
       </View>
       <View style={styles.contentContainer}>
         <Text numberOfLines={1} style={styles.content}>

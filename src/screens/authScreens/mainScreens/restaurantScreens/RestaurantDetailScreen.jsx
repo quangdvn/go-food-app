@@ -35,6 +35,8 @@ import DayOfWeek from '../../../../data/data_day';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
+console.log(screenWidth);
+console.log(screenHeight);
 
 const RestaurantDetailScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -132,8 +134,8 @@ const RestaurantDetailScreen = ({ navigation }) => {
             style={{
               position: 'absolute',
               left: 0,
-              marginTop: (10 * screenHeight) / 300,
-              marginLeft: 30,
+              marginTop: (10 * screenWidth) / 375,
+              marginLeft: (10 * screenHeight) / 667,
             }}
             onPress={() => {
               navigation.goBack();
