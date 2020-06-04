@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
+  FlatList,
   StyleSheet,
   ScrollView,
   ImageBackground,
@@ -14,6 +15,7 @@ import Colors from '../../../../constants/Colors';
 
 const EventScreen = ({ navigation }) => {
   const { eventList } = useSelector(state => state.service);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,17 +23,24 @@ const EventScreen = ({ navigation }) => {
   }, [getAllEvents]);
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.bodyContainer}>
-        {eventList.length ? (
-          eventList.map(event => (
-            <EventItem event={event} navigation={navigation} />
-          ))
-        ) : (
+    <View style={styles.container}>
+      {eventList.length ? (
+        <View style={styles.bodyContainer}>
+          <FlatList
+            data={eventList}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <EventItem event={item} navigation={navigation} />
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      ) : (
+        <View style={styles.loading}>
           <ActivityIndicator size="large" color={Colors.primary} />
-        )}
-      </View>
-    </ScrollView>
+        </View>
+      )}
+    </View>
   );
 };
 
@@ -40,10 +49,14 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
   },
+  loading: {
+    marginTop: 50,
+  },
   backgroundImg: {
     width: '100%',
   },
   bodyContainer: {
+    height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

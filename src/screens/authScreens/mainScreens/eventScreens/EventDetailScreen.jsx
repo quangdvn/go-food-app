@@ -15,7 +15,9 @@ import { AntDesign } from '@expo/vector-icons';
 
 const EventDetailScreen = ({ navigation }) => {
   const event = navigation.getParam('event');
+
   const coordinates = { longitude: event.longitude, latitude: event.latitude };
+
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
@@ -55,6 +57,7 @@ const EventDetailScreen = ({ navigation }) => {
               borderTopRightRadius: 20,
               borderTopLeftRadius: 20,
               backgroundColor: '#fff',
+              
             }}
           >
             <Text style={styles.labelTxt}>Are You Interested ?</Text>
@@ -145,6 +148,14 @@ const styles = StyleSheet.create({
   },
   eventBookmark: {
     width: screenWidth * 0.85,
+    shadowColor: 'gray',
+    shadowOpacity: 0.3,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 8,
+    elevation: 5,
   },
   eventInfo: {
     width: screenWidth * 0.85,
@@ -152,6 +163,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: 20,
     borderRadius: 20,
+    shadowColor: 'gray',
+    shadowOpacity: 0.3,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 8,
+    elevation: 5,
   },
   BookmarkBtn: {
     display: 'flex',

@@ -9,6 +9,7 @@ import {
   StatusBar,
   ScrollView,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,6 +20,7 @@ import {
   Icon_contact,
   Icon_web,
 } from '../../../../components/Icon/TestLogo';
+import Communications from 'react-native-communications';
 import Swiper from 'react-native-swiper';
 import SwiperBackground from '../../../../components/SwiperBackground';
 import CommentDetail from '../../../../components/CommentDetail';
@@ -180,8 +182,9 @@ const RestaurantDetailScreen = ({ navigation }) => {
 
   if (restaurantDetail) {
     const { details, reviews } = restaurantDetail;
+
     return (
-      <ScrollView>
+      <ScrollView alwaysBounceVertical={false} bounces={false} showsVerticalScrollIndicator={false} > 
         <StatusBar hidden={true} />
         <View>
           <Swiper
@@ -245,13 +248,16 @@ const RestaurantDetailScreen = ({ navigation }) => {
               )}
             </View>
             <View style={styles.contactBox}>
-              <TouchableOpacity style={{ flexDirection: 'column' }}>
+              <TouchableOpacity style={{ flexDirection: 'column' }}
+                onPress={() => Communications.phonecall(details.phone, true)}
+              >
                 <Icon_contact />
                 <Text style={styles.icon_text}>CALL</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={{ flexDirection: 'column', marginLeft: 10 }}
+                onPress={() => Linking.openURL(details.url)}
               >
                 <Icon_web />
                 <Text style={styles.icon_text}>WEB</Text>

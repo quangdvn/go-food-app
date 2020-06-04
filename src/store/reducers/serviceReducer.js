@@ -20,6 +20,7 @@ const serviceReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_ALL_RESTAURANTS:
       return { ...state, restaurantList: [...payload] };
+
     case GET_ALL_EVENTS:
       return { ...state, eventList: [...payload] };
 
@@ -40,25 +41,6 @@ const serviceReducer = (state = initialState, { type, payload }) => {
         item => item !== payload
       );
       return { ...state, bookmarkList: [...updatedBookmarks] };
-
-    // case TOGGLE_BOOKMARK:
-    //   const existingIndex = state.user.bookmarks.findIndex(
-    //     item => item.restaurantId === payload
-    //   );
-    //   if (existingIndex >= 0) {
-    //     const updatedBookmarks = [...state.user.bookmarks];
-    //     updatedBookmarks.splice(existingIndex, 1);
-    //     return {
-    //       ...state,
-    //       user: { ...state.user, bookmarks: updatedBookmarks },
-    //     };
-    //   } else {
-    //     const updatedFavMeal = state.meals.find(meal => meal.id === payload);
-    //     return {
-    //       ...state,
-    //       favoriteMeals: state.favoriteMeals.concat(updatedFavMeal),
-    //     };
-    //   }
 
     case SIGN_OUT:
       return { ...initialState };
