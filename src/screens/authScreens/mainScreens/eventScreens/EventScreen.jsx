@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  ImageBackground,
-  ActivityIndicator,
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, ScrollView, FlatList } from 'react-native';
 import EventItem from './EventItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllEvents } from '../../../../store/actions/serviceAction';
-import Colors from '../../../../constants/Colors';
 
 const EventScreen = ({ navigation }) => {
   const { eventList } = useSelector(state => state.service);
@@ -23,13 +15,15 @@ const EventScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.bodyContainer}>
-        {eventList.length ? (
-          eventList.map(event => (
-            <EventItem event={event} navigation={navigation} />
-          ))
-        ) : (
-          <ActivityIndicator size="large" color={Colors.primary} />
-        )}
+        {
+          <FlatList
+            data={eventList}
+            renderItem={({ item }) => (
+              <EventItem event={item} navigation={navigation} />
+            )}
+            keyExtractor={item => item.id}
+          />
+        }
       </View>
     </ScrollView>
   );
