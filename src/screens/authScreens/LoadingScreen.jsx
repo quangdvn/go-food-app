@@ -4,12 +4,11 @@ import { useDispatch } from 'react-redux';
 import { getUser } from '../../store/actions';
 import Colors from '../../constants/Colors';
 
-const LoadingScreen = ({ navigation }) => {
+const LoadingScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUser());
-    navigation.navigate('Restaurant');
   }, [getUser]);
 
   return (

@@ -53,24 +53,29 @@ const RestaurantStack = createStackNavigator({
   },
 });
 
-const EventStack = createStackNavigator({
-  Event: {
-    screen: EventScreen,
-    navigationOptions: () => {
-      return {
-        header: () => <Header title="Events" />,
-      };
+const EventStack = createStackNavigator(
+  {
+    Event: {
+      screen: EventScreen,
+      navigationOptions: () => {
+        return {
+          header: () => <Header title="Events" />,
+        };
+      },
+    },
+    EventDetail: {
+      screen: EventDetailScreen,
+      navigationOptions: () => {
+        return {
+          headerShown: false
+        };
+      },
     },
   },
-  EventDetail: {
-    screen: EventDetailScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-});
+  {
+    headerMode: 'screen',
+  }
+);
 
 const AccountStack = createStackNavigator({
   Account: {
@@ -105,6 +110,7 @@ const tabScreenConfig = {
         ) : (
           <Ionicons name="md-calendar" size={40} color={tintColor} />
         ),
+      tabBarColor: Colors.primary,
     },
   },
   AccountStack: {
@@ -116,6 +122,7 @@ const tabScreenConfig = {
         ) : (
           <Ionicons name="md-person" size={40} color={tintColor} />
         ),
+      tabBarColor: Colors.primary,
     },
   },
 };

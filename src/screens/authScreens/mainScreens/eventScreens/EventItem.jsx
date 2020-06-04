@@ -9,58 +9,40 @@ import {
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { formatDate } from '../../../../utils/formatDate';
+import Colors from '../../../../constants/Colors';
+
 const EventItem = ({ event, navigation }) => {
   return (
     <TouchableOpacity
+      style={styles.eventContainer}
       onPress={() => navigation.navigate('EventDetail', { event })}
     >
       <View>
-        <Image
-          style={styles.eventImg}
-          source={{ uri: event.image_url }}
-        ></Image>
+        <Image style={styles.eventImg} source={{ uri: event.image_url }} />
       </View>
       <View style={styles.eventContent}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            marginBottom: 15,
-            color: '#44566C',
-          }}
-        >
-          {event.name}
-        </Text>
+        <Text style={styles.eventTitle}>{event.name}</Text>
         <View style={styles.icon_text}>
-          <AntDesign name="table" size={30} />
-          <Text style={{ marginLeft: 7, color: '#9FACB9' }}>
-            {formatDate(event.time_start)}
+          <AntDesign name="table" size={30} color="gray" />
+          <Text style={styles.eventTime}>{formatDate(event.time_start)}</Text>
+        </View>
+        <View style={styles.icon_text}>
+          <AntDesign name="enviromento" size={30} color="gray" />
+          <Text style={styles.eventTime}>
+            {`${event.location.address1}, ${event.location.city}`}
           </Text>
         </View>
-        <View style={styles.eventContent}>
-          <Text style={styles.eventTitle}>{event.name}</Text>
-          <View style={styles.icon_text}>
-            <AntDesign name="table" size={30} color="gray" />
-            <Text style={styles.eventTime}>{event.time_start}</Text>
-          </View>
-          <View style={styles.icon_text}>
-            <AntDesign name="enviromento" size={30} color="gray" />
-            <Text style={styles.eventAddress}>
-              {`${event.location.address1}, ${event.location.city}`}
-            </Text>
-          </View>
-          <View>
-            <Text numberOfLines={3} style={styles.eventDetail}>
-              {event.description}
-            </Text>
-          </View>
-        </View>
-        <View style={styles.eventBottom}>
-          <Text style={styles.eventCategory}>{event.category}</Text>
-          <Text style={styles.eventInterested}>
-            {event.attending_count} interested
+        <View>
+          <Text numberOfLines={3} style={styles.eventDetail}>
+            {event.description}
           </Text>
         </View>
+      </View>
+      <View style={styles.eventBottom}>
+        <Text style={styles.eventCategory}>{event.category}</Text>
+        <Text style={styles.eventInterested}>
+          {event.attending_count} interested
+        </Text>
       </View>
     </TouchableOpacity>
   );

@@ -15,15 +15,10 @@ import {
   Icon_bookmark,
 } from '../../../../components/Icon/TestLogo';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
-import { getUser } from '../../../../store/actions/authAction';
 
 const AccountScreen = ({ navigation }) => {
   const { user } = useSelector(state => state.auth);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUser());
-  }, [getUser]);
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
