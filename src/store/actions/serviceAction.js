@@ -43,6 +43,8 @@ export const clearRestaurantsDetail = () => dispatch => {
   dispatch({ type: CLEAR_RESTAURANTS_DETAIL });
 };
 
+
+
 export const addBookmark = (id, sendData) => async (dispatch, getState) => {
   try {
     await goFoodApi.put(

@@ -93,7 +93,6 @@ const GetInfoScreen = ({ navigation }) => {
     };
     try {
       await postInfo(userInfo);
-
       navigation.navigate('DataLoading');
     } catch (err) {
       console.log(err.message);

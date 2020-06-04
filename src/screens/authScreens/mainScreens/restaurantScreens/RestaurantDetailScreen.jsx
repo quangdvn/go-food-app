@@ -39,6 +39,8 @@ import { Alert } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
+console.log(screenWidth);
+console.log(screenHeight);
 
 const RestaurantDetailScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -108,6 +110,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
   const convertDateTime = datetime => {
     let hour = '8';
     let minute = '00';
+
     if (datetime.length == 4) {
       hour = datetime.substring(0, 2);
       minute = datetime.substring(2, 4);
@@ -216,8 +219,8 @@ const RestaurantDetailScreen = ({ navigation }) => {
             style={{
               position: 'absolute',
               left: 0,
-              marginTop: (10 * screenHeight) / 300,
-              marginLeft: 30,
+              marginTop: (10 * screenWidth) / 375,
+              marginLeft: (10 * screenHeight) / 667,
             }}
             onPress={() => {
               navigation.goBack();
