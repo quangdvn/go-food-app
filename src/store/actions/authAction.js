@@ -22,10 +22,9 @@ export const getUser = () => async (dispatch, getState) => {
   dispatch(loadingUser());
   try {
     const { data } = await goFoodApi.get('/auth/me', reqConfig(getState));
-
     dispatch({ type: GET_INFO, payload: data.data });
     dispatch({ type: GET_ALL_BOOKMARKS, payload: data.data.bookmarkPlaces });
-    navigateTo('Restaurant');
+    //navigateTo('Restaurant');
   } catch (err) {
     console.log(err.message);
   }

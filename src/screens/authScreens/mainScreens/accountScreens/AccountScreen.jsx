@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   View,
   Text,
@@ -8,19 +9,21 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
+import RadioForm from 'react-native-simple-radio-button';
 import {
+  Icon_bookmarked,
   Icon_bookmark,
-  Icon_contact,
-  Icon_map,
-  Icon_web,
 } from '../../../../components/Icon/TestLogo';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { getUser } from '../../../../store/actions/authAction';
 
 const AccountScreen = ({ navigation }) => {
+  const { user } = useSelector(state => state.auth);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUser());
+  }, [getUser]);
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
@@ -32,13 +35,13 @@ const AccountScreen = ({ navigation }) => {
             source={require('../../../../../assets/images/test.png')}
             style={styles.avatar}
           />
-          <Text style={styles.name}>James Jackson</Text>
-          <Text style={styles.email}>jamesjackson@io.com</Text>
+          <Text style={styles.name}>{user.fullname}</Text>
+          <Text style={styles.email}>{user.email}</Text>
         </View>
       </ImageBackground>
       <View style={styles.thumbnails}>
         <View style={styles.thumbnailsIcon}>
-          <Icon_bookmark />
+          <Icon_bookmarked />
           <Text>2 like(s)</Text>
         </View>
         <View style={styles.thumbnailsIcon}>
@@ -46,42 +49,42 @@ const AccountScreen = ({ navigation }) => {
           <Text>3 eat out(s)</Text>
         </View>
         <View style={styles.thumbnailsIcon}>
-          <Icon_bookmark />
-          <Text>1 bookmark(s)</Text>
+          <Icon_bookmarked />
+          <Text>{user.bookmarkPlaces?.length} bookmark(s)</Text>
         </View>
       </View>
       <View style={styles.form}>
         <View>
           <View style={styles.input}>
-            <Icon_contact />
+            <AntDesign name="user" size={24} color="black" />
             <View style={styles.labelInput}>
               <Text style={styles.label}>Username</Text>
               <TextInput style={styles.txtInput} />
             </View>
           </View>
           <View style={styles.input}>
-            <Icon_map />
+            <AntDesign name="mail" size={24} color="black" />
             <View style={styles.labelInput}>
               <Text style={styles.label}>Email</Text>
               <TextInput style={styles.txtInput} />
             </View>
           </View>
           <View style={styles.input}>
-            <Icon_contact />
+            <AntDesign name="phone" size={24} color="black" />
             <View style={styles.labelInput}>
               <Text style={styles.label}>Phone Number</Text>
               <TextInput style={styles.txtInput} />
             </View>
           </View>
           <View style={styles.input}>
-            <Icon_web />
+            <AntDesign name="calendar" size={24} color="black" />
             <View style={styles.labelInput}>
               <Text style={styles.label}>Birthday</Text>
               <TextInput style={styles.txtInput} />
             </View>
           </View>
           <View style={styles.input}>
-            <Icon_bookmark />
+            <FontAwesome name="transgender" size={24} color="black" />
             <View style={styles.labelInput}>
               <Text style={styles.label}>Gender</Text>
               <RadioForm
