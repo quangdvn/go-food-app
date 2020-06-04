@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-
+import { formatDate } from '../../../../utils/formatDate';
 const EventItem = ({ event, navigation }) => {
   return (
     <TouchableOpacity
@@ -35,7 +35,7 @@ const EventItem = ({ event, navigation }) => {
         <View style={styles.icon_text}>
           <AntDesign name="table" size={30} />
           <Text style={{ marginLeft: 7, color: '#9FACB9' }}>
-            {event.time_start}
+            {formatDate(event.time_start)}
           </Text>
         </View>
         <View style={styles.icon_text}>
