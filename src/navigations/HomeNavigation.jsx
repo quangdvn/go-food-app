@@ -11,6 +11,7 @@ import Header from '../components/Icon/CustomeHeader';
 //* All the Screens
 import RestaurantScreen from '../screens/authScreens/mainScreens/restaurantScreens/RestaurantScreen';
 import SearchScreen from '../screens/authScreens/SearchScreen';
+import SearchResultScreen from '../screens/authScreens/SearchResultScreen';
 import RestaurantDetailScreen from '../screens/authScreens/mainScreens/restaurantScreens/RestaurantDetailScreen';
 import AccountScreen from '../screens/authScreens/mainScreens/accountScreens/AccountScreen';
 import EventScreen from '../screens/authScreens/mainScreens/eventScreens/EventScreen';
@@ -35,6 +36,7 @@ const RestaurantStack = createStackNavigator({
       };
     },
   },
+
   RestaurantDetail: {
     screen: RestaurantDetailScreen,
     navigationOptions: () => {
@@ -44,33 +46,46 @@ const RestaurantStack = createStackNavigator({
     },
   },
   Map: {
-    screen: MapScreen,
+    screen: SearchResultScreen,
     navigationOptions: () => {
       return {
         headerShown: false,
       };
     },
   },
+  // SearchResult: {
+  //   screen: SearchResultScreen,
+  //   navigationOptions: () => {
+  //     return {
+  //       headerShown: false,
+  //     };
+  //   },
+  // },
 });
 
-const EventStack = createStackNavigator({
-  Event: {
-    screen: EventScreen,
-    navigationOptions: () => {
-      return {
-        header: () => <Header title="Events" />,
-      };
+const EventStack = createStackNavigator(
+  {
+    Event: {
+      screen: EventScreen,
+      navigationOptions: () => {
+        return {
+          header: () => <Header title="Events" />,
+        };
+      },
+    },
+    EventDetail: {
+      screen: EventDetailScreen,
+      navigationOptions: () => {
+        return {
+          headerShown: false
+        };
+      },
     },
   },
-  EventDetail: {
-    screen: EventDetailScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
-});
+  {
+    headerMode: 'screen',
+  }
+);
 
 const AccountStack = createStackNavigator({
   Account: {
@@ -105,6 +120,7 @@ const tabScreenConfig = {
         ) : (
           <Ionicons name="md-calendar" size={40} color={tintColor} />
         ),
+      tabBarColor: Colors.primary,
     },
   },
   AccountStack: {
@@ -116,6 +132,7 @@ const tabScreenConfig = {
         ) : (
           <Ionicons name="md-person" size={40} color={tintColor} />
         ),
+      tabBarColor: Colors.primary,
     },
   },
 };

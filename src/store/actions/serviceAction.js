@@ -1,5 +1,3 @@
-import { AsyncStorage } from 'react-native';
-import { navigateTo } from '../../navigationRef';
 import {
   GET_ALL_RESTAURANTS,
   GET_RESTAURANTS_DETAIL,
@@ -24,11 +22,12 @@ export const getAllRestaurants = () => async (dispatch, getState) => {
 export const getAllEvents = () => async (dispatch, getState) => {
   try {
     const { data } = await goFoodApi.get('/event', reqConfig(getState));
-    dispatch({ type: GET_ALL_EVENTS, payload: data.data.normalEvents });
+    dispatch({ type: GET_ALL_EVENTS, payload: data.data });
   } catch (error) {
     console.log(error.message);
   }
 };
+
 export const getRestaurantDetail = id => async dispatch => {
   try {
     const { data } = await goFoodApi.get(`/business/${id}`);

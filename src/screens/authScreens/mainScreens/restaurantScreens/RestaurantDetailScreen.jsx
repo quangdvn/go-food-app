@@ -9,6 +9,7 @@ import {
   StatusBar,
   ScrollView,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,6 +20,7 @@ import {
   Icon_contact,
   Icon_web,
 } from '../../../../components/Icon/TestLogo';
+import Communications from 'react-native-communications';
 import Swiper from 'react-native-swiper';
 import SwiperBackground from '../../../../components/SwiperBackground';
 import CommentDetail from '../../../../components/CommentDetail';
@@ -37,6 +39,8 @@ import { Alert } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
+console.log(screenWidth);
+console.log(screenHeight);
 
 const RestaurantDetailScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -106,6 +110,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
   const convertDateTime = datetime => {
     let hour = '8';
     let minute = '00';
+
     if (datetime.length == 4) {
       hour = datetime.substring(0, 2);
       minute = datetime.substring(2, 4);
@@ -180,8 +185,9 @@ const RestaurantDetailScreen = ({ navigation }) => {
 
   if (restaurantDetail) {
     const { details, reviews } = restaurantDetail;
+
     return (
-      <ScrollView>
+      <ScrollView alwaysBounceVertical={false} bounces={false} showsVerticalScrollIndicator={false} > 
         <StatusBar hidden={true} />
         <View>
           <Swiper
@@ -213,8 +219,8 @@ const RestaurantDetailScreen = ({ navigation }) => {
             style={{
               position: 'absolute',
               left: 0,
-              marginTop: (10 * screenHeight) / 300,
-              marginLeft: 30,
+              marginTop: (10 * screenWidth) / 375,
+              marginLeft: (10 * screenHeight) / 667,
             }}
             onPress={() => {
               navigation.goBack();
@@ -245,13 +251,16 @@ const RestaurantDetailScreen = ({ navigation }) => {
               )}
             </View>
             <View style={styles.contactBox}>
-              <TouchableOpacity style={{ flexDirection: 'column' }}>
+              <TouchableOpacity style={{ flexDirection: 'column' }}
+                onPress={() => Communications.phonecall(details.phone, true)}
+              >
                 <Icon_contact />
                 <Text style={styles.icon_text}>CALL</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={{ flexDirection: 'column', marginLeft: 10 }}
+                onPress={() => Linking.openURL(details.url)}
               >
                 <Icon_web />
                 <Text style={styles.icon_text}>WEB</Text>
