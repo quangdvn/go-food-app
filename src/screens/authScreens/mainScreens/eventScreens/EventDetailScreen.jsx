@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import MapPreview from '../../../../components/MapPreview';
 import { AntDesign } from '@expo/vector-icons';
+import { formatDate } from '../../../../utils/formatDate';
 
 const EventDetailScreen = ({ navigation }) => {
   const event = navigation.getParam('event');
@@ -74,7 +75,7 @@ const EventDetailScreen = ({ navigation }) => {
         <View style={styles.eventInfo}>
           <View style={{}}>
             <Text style={styles.labelTxt}>Time</Text>
-            <Text>{event.time_start}</Text>
+            <Text>{formatDate(event.time_start)}</Text>
           </View>
           <View style={{ marginTop: 15 }}>
             <Text style={styles.labelTxt}>Description</Text>

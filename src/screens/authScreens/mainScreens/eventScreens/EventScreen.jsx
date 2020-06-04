@@ -1,17 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  ScrollView,
-  ImageBackground,
-  ActivityIndicator,
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, ScrollView, FlatList } from 'react-native';
 import EventItem from './EventItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllEvents } from '../../../../store/actions/serviceAction';
-import Colors from '../../../../constants/Colors';
 
 const EventScreen = ({ navigation }) => {
   const { eventList } = useSelector(state => state.service);

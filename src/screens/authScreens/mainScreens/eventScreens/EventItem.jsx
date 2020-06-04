@@ -8,16 +8,34 @@ import {
   Dimensions,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import Colors from '../../../../constants/Colors';
-
+import { formatDate } from '../../../../utils/formatDate';
 const EventItem = ({ event, navigation }) => {
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('EventDetail', { event })}
     >
-      <View style={styles.eventContainer}>
-        <View>
-          <Image style={styles.eventImg} source={{ uri: event.image_url }} />
+      <View>
+        <Image
+          style={styles.eventImg}
+          source={{ uri: event.image_url }}
+        ></Image>
+      </View>
+      <View style={styles.eventContent}>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginBottom: 15,
+            color: '#44566C',
+          }}
+        >
+          {event.name}
+        </Text>
+        <View style={styles.icon_text}>
+          <AntDesign name="table" size={30} />
+          <Text style={{ marginLeft: 7, color: '#9FACB9' }}>
+            {formatDate(event.time_start)}
+          </Text>
         </View>
         <View style={styles.eventContent}>
           <Text style={styles.eventTitle}>{event.name}</Text>
