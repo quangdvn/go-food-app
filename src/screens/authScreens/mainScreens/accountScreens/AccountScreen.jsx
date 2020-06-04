@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   View,
@@ -6,24 +6,25 @@ import {
   StyleSheet,
   ImageBackground,
   Image,
-  TextInput,
   ScrollView,
 } from 'react-native';
-import RadioForm from 'react-native-simple-radio-button';
 import {
   Icon_bookmarked,
   Icon_bookmark,
 } from '../../../../components/Icon/TestLogo';
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { getUser } from '../../../../store/actions/authAction';
+import AccountInfoForm from './AccountInfoForm';
 
 const AccountScreen = ({ navigation }) => {
   const { user } = useSelector(state => state.auth);
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUser());
   }, [getUser]);
+
+  const handleSumitForm = formData => {
+    console.log('formData', formData);
+  };
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
@@ -53,59 +54,7 @@ const AccountScreen = ({ navigation }) => {
           <Text>{user.bookmarkPlaces?.length} bookmark(s)</Text>
         </View>
       </View>
-      <View style={styles.form}>
-        <View>
-          <View style={styles.input}>
-            <AntDesign name="user" size={24} color="black" />
-            <View style={styles.labelInput}>
-              <Text style={styles.label}>Username</Text>
-              <TextInput style={styles.txtInput} />
-            </View>
-          </View>
-          <View style={styles.input}>
-            <AntDesign name="mail" size={24} color="black" />
-            <View style={styles.labelInput}>
-              <Text style={styles.label}>Email</Text>
-              <TextInput style={styles.txtInput} />
-            </View>
-          </View>
-          <View style={styles.input}>
-            <AntDesign name="phone" size={24} color="black" />
-            <View style={styles.labelInput}>
-              <Text style={styles.label}>Phone Number</Text>
-              <TextInput style={styles.txtInput} />
-            </View>
-          </View>
-          <View style={styles.input}>
-            <AntDesign name="calendar" size={24} color="black" />
-            <View style={styles.labelInput}>
-              <Text style={styles.label}>Birthday</Text>
-              <TextInput style={styles.txtInput} />
-            </View>
-          </View>
-          <View style={styles.input}>
-            <FontAwesome name="transgender" size={24} color="black" />
-            <View style={styles.labelInput}>
-              <Text style={styles.label}>Gender</Text>
-              <RadioForm
-                style={{ marginTop: 15 }}
-                radio_props={[
-                  { label: 'male  ', value: 0 },
-                  { label: 'female', value: 1 },
-                ]}
-                initial={0}
-                formHorizontal={true}
-                labelHorizontal={true}
-                buttonColor={'#000'}
-                borderWidth={0.5}
-                buttonSize={15}
-                buttonOuterSize={25}
-                onPress={value => {}}
-              />
-            </View>
-          </View>
-        </View>
-      </View>
+      <AccountInfoForm handleSubmit={handleSumitForm} />
     </ScrollView>
   );
 };
@@ -124,6 +73,10 @@ const styles = StyleSheet.create({
   },
   backgroundImg: {
     width: '100%',
+  },
+  error: {
+    color: 'crimson',
+    fontFamily: 'open-sans',
   },
   name: {
     color: '#44566c',
@@ -154,27 +107,6 @@ const styles = StyleSheet.create({
   },
   thumbnailsIcon: {
     alignItems: 'center',
-  },
-  form: {
-    width: '100%',
-    marginTop: 30,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    marginBottom: 20,
-  },
-  txtInput: {
-    borderBottomColor: '#44566c',
-    borderBottomWidth: 1,
-    width: 240,
-  },
-  labelInput: {
-    marginLeft: 20,
   },
   label: {
     fontSize: 20,
