@@ -12,7 +12,7 @@ import {
 const initialState = {
   restaurantList: [],
   bookmarkList: [],
-  eventList: {},
+  eventList: null,
   restaurantDetail: null,
 };
 
