@@ -10,17 +10,21 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getAutoComplete } from '../../api/goFoodApi';
-import { useSelector } from 'react-redux';
 import Colors from '../../constants/Colors';
 import Loader from 'react-native-three-dots-loader';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
+
 const SearchScreen = ({ navigation }) => {
   const [searchTerm, setSearchTerm] = useState('');
+
   const [suggestion, setSuggestion] = useState(null);
+
+  const [isSearching, setIsSearching] = useState(false);
+
   const typingTimeoutRef = useRef(null);
-  const [isSearching, SetIsSearching] = useState(false);
+
   const handleSearchTermChange = value => {
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
@@ -29,13 +33,13 @@ const SearchScreen = ({ navigation }) => {
       setSearchTerm(value);
     }, 300);
   };
+
   const getSuggestion = async () => {
     try {
-      SetIsSearching(true);
+      setIsSearching(true);
       const { data } = await getAutoComplete(searchTerm);
       setSuggestion(data);
-      SetIsSearching(false);
-      console.log(data);
+      setIsSearching(false);
     } catch (err) {
       console.log(err.message);
     }
@@ -44,58 +48,69 @@ const SearchScreen = ({ navigation }) => {
   const ListResultSearch = () => (
     <View style={{ marginTop: 10, marginLeft: 15 }}>
       {suggestion.categories.map((data, index) => (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Map', { keyword: data.title });
-          }}
-          key={index}
-          style={{ marginVertical: 3 }}
-        >
-          <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
-            {data.title}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.resultContainer} key={index}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('SearchResult', { keyword: data.title });
+            }}
+            style={{ marginVertical: 3 }}
+          >
+            <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
+              {data.title}
+            </Text>
+          </TouchableOpacity>
+        </View>
       ))}
+
       {suggestion.terms.map((data, index) => (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Map', { keyword: data.text });
-          }}
-          key={index}
-          style={{ marginVertical: 3 }}
-        >
-          <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
-            {data.text}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.resultContainer} key={index}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('SearchResult', { keyword: data.text });
+            }}
+            style={{ marginVertical: 3 }}
+          >
+            <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
+              {data.text}
+            </Text>
+          </TouchableOpacity>
+        </View>
       ))}
+
       {suggestion.businesses.map((data, index) => (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Map', { keyword: data.name });
-          }}
-          key={index}
-          style={{ marginVertical: 3 }}
-        >
-          <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
-            {data.name}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.resultContainer} key={index}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('SearchResult', { keyword: data.name });
+            }}
+            style={{ marginVertical: 3 }}
+          >
+            <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
+              {data.name}
+            </Text>
+          </TouchableOpacity>
+        </View>
       ))}
     </View>
   );
+
   const RenderSearch = () => {
     if (
       suggestion &&
-      suggestion.categories.length == 0 &&
-      suggestion.businesses.length == 0 &&
-      suggestion.terms.length == 0 &&
-      isSearching == false
+      suggestion.categories.length === 0 &&
+      suggestion.businesses.length === 0 &&
+      suggestion.terms.length === 0 &&
+      isSearching === false
     ) {
-      return <Text style = {{ fontFamily: 'open-sans', fontSize: 16}}> Not Result..</Text>;
-    } else if (suggestion && isSearching == false) {
+      return (
+        <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
+          {' '}
+          No Result Found..
+        </Text>
+      );
+    } else if (suggestion && isSearching === false) {
       return <ListResultSearch />;
-    } else if (searchTerm != '' && isSearching == true) {
+    } else if (searchTerm !== '' && isSearching === true) {
       return (
         <View style={{ marginTop: 20, marginRight: 60 }}>
           <Loader />
@@ -103,9 +118,11 @@ const SearchScreen = ({ navigation }) => {
       );
     }
   };
+
   useEffect(() => {
     getSuggestion();
   }, [searchTerm, getAutoComplete]);
+
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row' }}>
@@ -131,7 +148,6 @@ const SearchScreen = ({ navigation }) => {
             style={styles.search}
             placeholder="Search..."
             onChangeText={handleSearchTermChange}
-            // value = {searchTerm}
           />
           <TouchableOpacity
             style={styles.closeIcon}
@@ -165,8 +181,15 @@ const styles = StyleSheet.create({
     width: screenWidth - (50 * screenWidth) / 375,
     backgroundColor: '#ffffff',
   },
+  resultContainer: {
+    borderBottomWidth: 0.5,
+    borderColor: 'gray',
+    paddingBottom:5,
+    paddingLeft: 5,
+    marginVertical: 5,
+    marginRight: 50,
+  },
   search: {
-    // color: 'gray',
     flex: 1,
     marginLeft: 10,
     fontFamily: 'open-sans',

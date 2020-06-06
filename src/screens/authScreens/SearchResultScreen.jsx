@@ -11,9 +11,12 @@ import { getSearchByKeyword } from '../../api/goFoodApi';
 import Colors from '../../constants/Colors';
 
 const SearchResultScreen = ({ navigation }) => {
-  const [restaurantList, setRestaurantList] = useState(null);
   const { keyword } = navigation.state.params;
+
+  const [restaurantList, setRestaurantList] = useState(null);
+
   const [isLoading, setLoading] = useState(null);
+
   const getListRestaurant = async () => {
     try {
       setLoading(true);
@@ -24,9 +27,11 @@ const SearchResultScreen = ({ navigation }) => {
       console.log(err);
     }
   };
+
   useEffect(() => {
     getListRestaurant();
   }, []);
+
   const renderResult = () => {
     if (isLoading == true) {
       return <ActivityIndicator size="large" color={Colors.primary} />;
@@ -39,10 +44,9 @@ const SearchResultScreen = ({ navigation }) => {
         <FlatList
           data={restaurantList}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <MainItem item={item} navigation={navigation} />
+          renderItem={({ item, index }) => (
+            <MainItem item={item} key={index} navigation={navigation} />
           )}
-          showsVertical
           ScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         />
@@ -55,6 +59,7 @@ const SearchResultScreen = ({ navigation }) => {
       );
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', marginHorizontal: 15 }}>

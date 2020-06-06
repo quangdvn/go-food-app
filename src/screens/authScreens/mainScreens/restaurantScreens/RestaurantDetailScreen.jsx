@@ -187,7 +187,11 @@ const RestaurantDetailScreen = ({ navigation }) => {
     const { details, reviews } = restaurantDetail;
 
     return (
-      <ScrollView alwaysBounceVertical={false} bounces={false} showsVerticalScrollIndicator={false} > 
+      <ScrollView
+        alwaysBounceVertical={false}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+      >
         <StatusBar hidden={true} />
         <View>
           <Swiper
@@ -251,7 +255,8 @@ const RestaurantDetailScreen = ({ navigation }) => {
               )}
             </View>
             <View style={styles.contactBox}>
-              <TouchableOpacity style={{ flexDirection: 'column' }}
+              <TouchableOpacity
+                style={{ flexDirection: 'column' }}
                 onPress={() => Communications.phonecall(details.phone, true)}
               >
                 <Icon_contact />
@@ -294,6 +299,7 @@ const RestaurantDetailScreen = ({ navigation }) => {
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    marginBottom: 20,
                   }}
                 >
                   <Text style={styles.title}>From your place</Text>
@@ -302,28 +308,32 @@ const RestaurantDetailScreen = ({ navigation }) => {
                   </Text>
                 </View>
 
-                {details.hours[0].open.map((data, index) => (
-                  <View style={styles.workingDate} key={index}>
-                    <Text style={styles.day}>{DayOfWeek[data.day]}</Text>
-                    <Text style={styles.time}>
-                      {convertDateTime(data.start)} -{' '}
-                      {convertDateTime(data.end)}
-                    </Text>
-                  </View>
-                ))}
+                {details.hours
+                  ? details.hours[0].open.map((data, index) => (
+                      <View style={styles.workingDate} key={index}>
+                        <Text style={styles.day}>{DayOfWeek[data.day]}</Text>
+                        <Text style={styles.time}>
+                          {convertDateTime(data.start)} -{' '}
+                          {convertDateTime(data.end)}
+                        </Text>
+                      </View>
+                    ))
+                  : null}
               </View>
-              <LinearGradient
-                colors={Colors.reservation}
-                start={[0, 1.5]}
-                end={[0.5, 0]}
-                style={styles.button}
-              >
-                <TouchableOpacity>
-                  <Text style={styles.reservation_text}>
-                    Make your reservation now !!
-                  </Text>
-                </TouchableOpacity>
-              </LinearGradient>
+              {details.hours ? (
+                <LinearGradient
+                  colors={Colors.reservation}
+                  start={[0, 1.5]}
+                  end={[0.5, 0]}
+                  style={styles.button}
+                >
+                  <TouchableOpacity>
+                    <Text style={styles.reservation_text}>
+                      Make your reservation now !!
+                    </Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+              ) : null}
             </View>
           </View>
 
