@@ -22,8 +22,7 @@ export const getAllRestaurants = () => async (dispatch, getState) => {
 export const getAllEvents = () => async (dispatch, getState) => {
   try {
     const { data } = await goFoodApi.get('/event', reqConfig(getState));
-    
-    dispatch({ type: GET_ALL_EVENTS, payload: data.data.normalEvents });
+    dispatch({ type: GET_ALL_EVENTS, payload: data.data });
   } catch (error) {
     console.log(error.message);
   }
@@ -42,8 +41,6 @@ export const getRestaurantDetail = id => async dispatch => {
 export const clearRestaurantsDetail = () => dispatch => {
   dispatch({ type: CLEAR_RESTAURANTS_DETAIL });
 };
-
-
 
 export const addBookmark = (id, sendData) => async (dispatch, getState) => {
   try {

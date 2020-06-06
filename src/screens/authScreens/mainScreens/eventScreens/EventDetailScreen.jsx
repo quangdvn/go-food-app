@@ -21,6 +21,9 @@ import UnOfficialLogo from '../../../../components/Icon/UnOfficialLogo';
 const EventDetailScreen = ({ navigation }) => {
   const event = navigation.getParam('event');
 
+  const currentTime = new Date();
+  const eventTime = new Date(event.time_start);
+
   const renderAddress = address => {
     let returnData = '';
 
@@ -60,30 +63,35 @@ const EventDetailScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
         />
         <View style={styles.afterContainer}>
-          <View style={styles.eventBookmark}>
-            <View
-              style={{
-                padding: 20,
-                borderTopRightRadius: 20,
-                borderTopLeftRadius: 20,
-                backgroundColor: '#fff',
-              }}
-            >
-              <Text style={styles.labelTxt}>Are You Interested ?</Text>
+          {eventTime > currentTime ? (
+            <View style={styles.eventBookmark}>
+              <View
+                style={{
+                  padding: 20,
+                  borderTopRightRadius: 20,
+                  borderTopLeftRadius: 20,
+                  backgroundColor: '#fff',
+                }}
+              >
+                <Text style={styles.labelTxt}>Are You Interested ?</Text>
+              </View>
+              <View style={styles.BookmarkBtn}>
+                <TouchableOpacity style={styles.leftBtn}>
+                  <Text style={{ color: '#fff', fontFamily: 'open-sans' }}>
+                    I'm In !!
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.rightBtn}>
+                  <Text style={{ color: '#fff', fontFamily: 'open-sans' }}>
+                    Nah !!
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.BookmarkBtn}>
-              <TouchableOpacity style={styles.leftBtn}>
-                <Text style={{ color: '#fff', fontFamily: 'open-sans' }}>
-                  I'm In !!
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.rightBtn}>
-                <Text style={{ color: '#fff', fontFamily: 'open-sans' }}>
-                  Nah !!
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          ) : (
+            <View></View>
+          )}
+
           <View style={styles.eventInfo}>
             <View style={{}}>
               <Text style={styles.labelTxt}>Time</Text>
