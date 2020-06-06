@@ -12,7 +12,7 @@ import {
 const initialState = {
   restaurantList: [],
   bookmarkList: [],
-  eventList: [],
+  eventList: null,
   restaurantDetail: null,
 };
 
@@ -22,7 +22,7 @@ const serviceReducer = (state = initialState, { type, payload }) => {
       return { ...state, restaurantList: [...payload] };
 
     case GET_ALL_EVENTS:
-      return { ...state, eventList: [...payload] };
+      return { ...state, eventList: payload };
 
     case GET_RESTAURANTS_DETAIL:
       return { ...state, restaurantDetail: payload };
