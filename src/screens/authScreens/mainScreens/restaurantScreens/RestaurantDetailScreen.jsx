@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -35,12 +36,9 @@ import {
   removeBookmark,
 } from '../../../../store/actions';
 import DayOfWeek from '../../../../data/data_day';
-import { Alert } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
-console.log(screenWidth);
-console.log(screenHeight);
 
 const RestaurantDetailScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -222,9 +220,8 @@ const RestaurantDetailScreen = ({ navigation }) => {
             color="white"
             style={{
               position: 'absolute',
-              left: 0,
-              marginTop: (10 * screenWidth) / 375,
-              marginLeft: (10 * screenHeight) / 667,
+              left: screenWidth * 0.085,
+              marginTop: (10 * screenHeight) / 300,
             }}
             onPress={() => {
               navigation.goBack();
@@ -273,6 +270,9 @@ const RestaurantDetailScreen = ({ navigation }) => {
 
               <TouchableOpacity
                 style={{ flexDirection: 'column', marginLeft: 15 }}
+                onPress={() =>
+                  navigation.navigate('Map', { location: details.coordinates, name: details.name })
+                }
               >
                 <Icon_map />
                 <Text style={styles.icon_text}>MAP</Text>

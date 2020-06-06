@@ -36,12 +36,20 @@ const RestaurantStack = createStackNavigator({
       };
     },
   },
-
+  SearchResult: {
+    screen: SearchResultScreen,
+    navigationOptions: () => {
+      return {
+        headerShown: false,
+      };
+    },
+  },
   RestaurantDetail: {
     screen: RestaurantDetailScreen,
     navigationOptions: () => {
       return {
         headerShown: false,
+        tabBarVisible: false,
       };
     },
   },
@@ -53,15 +61,24 @@ const RestaurantStack = createStackNavigator({
       };
     },
   },
-  SearchResult: {
-    screen: SearchResultScreen,
-    navigationOptions: () => {
-      return {
-        headerShown: false,
-      };
-    },
-  },
 });
+
+// RestaurantStack.navigationOptions = ({ navigation }) => {
+//   let tabBarVisible;
+//   if (navigation.state.routes.length > 1) {
+//     navigation.state.routes.map(route => {
+//       if (route.routeName === 'CustomHide') {
+//         tabBarVisible = false;
+//       } else {
+//         tabBarVisible = true;
+//       }
+//     });
+//   }
+
+//   return {
+//     tabBarVisible,
+//   };
+// };
 
 const EventStack = createStackNavigator(
   {
@@ -77,7 +94,7 @@ const EventStack = createStackNavigator(
       screen: EventDetailScreen,
       navigationOptions: () => {
         return {
-          headerShown: false
+          headerShown: false,
         };
       },
     },
@@ -101,26 +118,32 @@ const AccountStack = createStackNavigator({
 const tabScreenConfig = {
   RestaurantStack: {
     screen: RestaurantStack,
-    navigationOptions: {
-      tabBarIcon: ({ focused, tintColor }) =>
-        focused ? (
-          <Ionicons name="md-home" size={45} color={tintColor} />
-        ) : (
-          <Ionicons name="md-home" size={40} color={tintColor} />
-        ),
-      tabBarColor: Colors.primary,
+    navigationOptions: ({ navigation }) => {
+      return {
+        tabBarVisible: navigation.state.index < 1,
+        tabBarIcon: ({ focused, tintColor }) =>
+          focused ? (
+            <Ionicons name="md-home" size={45} color={tintColor} />
+          ) : (
+            <Ionicons name="md-home" size={40} color={tintColor} />
+          ),
+        tabBarColor: Colors.primary,
+      };
     },
   },
   EventStack: {
     screen: EventStack,
-    navigationOptions: {
-      tabBarIcon: ({ focused, tintColor }) =>
-        focused ? (
-          <Ionicons name="md-calendar" size={45} color={tintColor} />
-        ) : (
-          <Ionicons name="md-calendar" size={40} color={tintColor} />
-        ),
-      tabBarColor: Colors.primary,
+    navigationOptions: ({ navigation }) => {
+      return {
+        tabBarVisible: navigation.state.index < 1,
+        tabBarIcon: ({ focused, tintColor }) =>
+          focused ? (
+            <Ionicons name="md-calendar" size={45} color={tintColor} />
+          ) : (
+            <Ionicons name="md-calendar" size={40} color={tintColor} />
+          ),
+        tabBarColor: Colors.primary,
+      };
     },
   },
   AccountStack: {

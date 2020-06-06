@@ -6,12 +6,11 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
-  FlatList,
+  StatusBar,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getAutoComplete } from '../../api/goFoodApi';
-import Colors from '../../constants/Colors';
-import Loader from 'react-native-three-dots-loader';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -25,13 +24,15 @@ const SearchScreen = ({ navigation }) => {
 
   const typingTimeoutRef = useRef(null);
 
+  const inputValue = useRef(null);
+
   const handleSearchTermChange = value => {
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
     typingTimeoutRef.current = setTimeout(() => {
       setSearchTerm(value);
-    }, 300);
+    }, 500);
   };
 
   const getSuggestion = async () => {
@@ -103,7 +104,9 @@ const SearchScreen = ({ navigation }) => {
       isSearching === false
     ) {
       return (
-        <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
+        <Text
+          style={{ fontFamily: 'open-sans', fontSize: 16, marginVertical: 10 }}
+        >
           {' '}
           No Result Found..
         </Text>
@@ -112,8 +115,11 @@ const SearchScreen = ({ navigation }) => {
       return <ListResultSearch />;
     } else if (searchTerm !== '' && isSearching === true) {
       return (
-        <View style={{ marginTop: 20, marginRight: 60 }}>
-          <Loader />
+        <View style={{ marginTop: 20, marginHorizontal: 60 }}>
+          <Image
+            source={require('../../../assets/images/loading.gif')}
+            style={styles.loading}
+          />
         </View>
       );
     }
@@ -125,39 +131,50 @@ const SearchScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row' }}>
-        <View
+      <StatusBar barStyle="dark-content" />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Ionicons
+          name="md-arrow-round-back"
+          size={30}
+          color="black"
           style={{
-            width: (40 * screenWidth) / 375,
-            paddingHorizontal: 7,
-            paddingVertical: 5,
+            left: 0,
+            marginLeft: (10 * screenHeight) / 300,
           }}
-        >
-          <Ionicons
-            name="md-arrow-round-back"
-            size={35}
-            color="black"
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        </View>
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
 
-        <TouchableOpacity style={styles.searchContainer}>
+        <View style={styles.searchContainer}>
           <TextInput
+            ref={inputValue}
+            autoFocus={true}
             style={styles.search}
             placeholder="Search..."
             onChangeText={handleSearchTermChange}
           />
           <TouchableOpacity
-            style={styles.closeIcon}
+            style={styles.closeIPicon}
             onPress={() => {
+              console.log(inputValue.current.value);
               setSearchTerm('');
             }}
           >
-            <Ionicons name="ios-close" color="gray" size={20} />
+            <Ionicons
+              name="ios-close"
+              color="gray"
+              size={25}
+              style={{ paddingRight: 10 }}
+            />
           </TouchableOpacity>
-        </TouchableOpacity>
+        </View>
       </View>
       <View style={{ marginLeft: 40 }}>{RenderSearch()}</View>
     </View>
@@ -167,7 +184,7 @@ const SearchScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
+    marginTop: (10 * screenWidth) / 75,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -178,16 +195,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f2f2',
     borderColor: '#ffffff',
     borderWidth: 1,
-    width: screenWidth - (50 * screenWidth) / 375,
+    marginHorizontal: 20,
+    width: screenWidth - (50 * screenWidth) / 300,
     backgroundColor: '#ffffff',
+  },
+  loading: {
+    width: 200,
+    height: 50,
+    resizeMode: 'cover',
   },
   resultContainer: {
     borderBottomWidth: 0.5,
     borderColor: 'gray',
-    paddingBottom:5,
+    paddingBottom: 5,
     paddingLeft: 5,
     marginVertical: 5,
     marginRight: 50,
+    marginLeft: 10,
   },
   search: {
     flex: 1,
