@@ -21,7 +21,7 @@ const EventScreen = ({ navigation }) => {
     dispatch(getAllEvents());
   }, [getAllEvents]);
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {eventList ? (
         <View style={styles.bodyContainer}>
           {eventList.count ? (
@@ -39,14 +39,11 @@ const EventScreen = ({ navigation }) => {
                 <View></View>
               )}
               <Text style={styles.labelTxt}>Normal events</Text>
-              <FlatList
-                data={eventList.normalEvents}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => (
-                  <EventItem event={item} navigation={navigation} />
-                )}
-                showsVerticalScrollIndicator={false}
-              />
+              {eventList.normalEvents.map((item, key) => {
+                return (
+                  <EventItem key={key} event={item} navigation={navigation} />
+                );
+              })}
             </View>
           ) : (
             <View style={{ height: '100%' }}>
@@ -59,7 +56,7 @@ const EventScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color={Colors.primary} />
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -85,7 +82,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 30,
+    marginBottom: 20,
   },
   header: {
     display: 'flex',
