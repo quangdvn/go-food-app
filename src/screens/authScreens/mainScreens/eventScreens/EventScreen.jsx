@@ -21,7 +21,7 @@ const EventScreen = ({ navigation }) => {
     dispatch(getAllEvents());
   }, [getAllEvents]);
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       {eventList ? (
         <View style={styles.bodyContainer}>
           {eventList.count ? (
@@ -59,7 +59,7 @@ const EventScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color={Colors.primary} />
         </View>
       )}
-    </ScrollView>
+    </View>
   );
 };
 
