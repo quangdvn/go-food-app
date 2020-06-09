@@ -1,36 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  TextInput,
   ActivityIndicator,
   Text,
-  Button,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { data } from '../data/data_all';
 import MainItem from './MainItem';
 import Colors from '../constants/Colors';
 
 const MainSection = ({ navigation, restaurantList }) => {
-  const [listData, setListData] = useState(data);
-  const [tempData, setTempData] = useState(data);
-  const [searchText, setSearchText] = useState('');
-
-  const searchRestaurant = text => {
-    let searchData = [];
-    tempData.map(res => {
-      if (res.name.indexOf(text) > -1) {
-        searchData.push(res);
-      }
-    });
-    setListData(searchData);
-    setSearchText(text);
-  };
-
   return (
     <View style={styles.container}>
       <TouchableOpacity

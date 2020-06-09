@@ -8,12 +8,16 @@ import {
 } from 'react-native';
 import MainItem from './../../components/MainItem';
 import { getSearchByKeyword } from '../../api/goFoodApi';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 
 const SearchResultScreen = ({ navigation }) => {
-  const [restaurantList, setRestaurantList] = useState(null);
   const { keyword } = navigation.state.params;
+
+  const [restaurantList, setRestaurantList] = useState(null);
+
   const [isLoading, setLoading] = useState(null);
+
   const getListRestaurant = async () => {
     try {
       setLoading(true);
@@ -24,9 +28,11 @@ const SearchResultScreen = ({ navigation }) => {
       console.log(err);
     }
   };
+
   useEffect(() => {
     getListRestaurant();
   }, []);
+
   const renderResult = () => {
     if (isLoading == true) {
       return <ActivityIndicator size="large" color={Colors.primary} />;
@@ -39,10 +45,10 @@ const SearchResultScreen = ({ navigation }) => {
         <FlatList
           data={restaurantList}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <MainItem item={item} navigation={navigation} />
+          renderItem={({ item, index }) => (
+            <MainItem item={item} key={index} navigation={navigation} />
           )}
-          showsVertical
+          style={{ marginBottom: 20 }}
           ScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         />
@@ -50,33 +56,37 @@ const SearchResultScreen = ({ navigation }) => {
     } else if (restaurantList && restaurantList.length == 0) {
       return (
         <Text style={{ fontFamily: 'open-sans', fontSize: 16 }}>
-          Not result...
+          No result found ...
         </Text>
       );
     }
   };
+
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', marginHorizontal: 15 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginHorizontal: 15,
+          alignItems: 'center',
+        }}
+      >
+        <Ionicons
+          name="md-arrow-round-back"
+          size={30}
+          color={Colors.primary}
+          style={{
+            marginHorizontal: 20,
+          }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
         <Text style={styles.text}>The Result of keyword: </Text>
         <Text style={styles.keyword}> "{keyword}"</Text>
       </View>
 
-      <View style={{ marginHorizontal: 30, marginTop: 20 }}>
-        {/* {isLoading ? (
-          <ActivityIndicator size="large" color={Colors.primary} />
-        ) : (
-          <FlatList
-            data={restaurantList}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <MainItem item={item} navigation={navigation} />
-            )}
-            showsVertical
-            ScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-          />
-        )} */}
+      <View style={{ marginHorizontal: 30, marginVertical: 20 }}>
         {renderResult()}
       </View>
     </View>
@@ -91,13 +101,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'open-sans-bold',
-    fontSize: 18,
-    color: '#009245',
+    fontSize: 20,
+    color: Colors.primary,
   },
   keyword: {
     fontFamily: 'open-sans',
-    fontSize: 17,
-    color: '#009245',
-    // paddingVertical: 2,
+    fontSize: 19,
+    color: Colors.primary,
   },
 });
