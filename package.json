@@ -42,7 +42,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "yup": "^0.28.4",
-    "react-native-maps": "0.26.1"
+    "react-native-maps": "0.26.1",
+    "expo-permissions": "~8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
