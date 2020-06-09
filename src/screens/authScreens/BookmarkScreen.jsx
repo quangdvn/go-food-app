@@ -54,7 +54,11 @@ const BookmarkScreen = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
               />
             ) : (
-              <Text>Try some restaurant and bookmark your favorite one !</Text>
+              <View style={styles.empty}>
+                <Text style={styles.emptyString}>
+                  Try some restaurants and bookmark your favorite one !
+                </Text>
+              </View>
             )}
           </View>
         </View>
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: Colors.default,
-    marginVertical: 10,
+    marginVertical: 15,
     marginHorizontal: 20,
     textTransform: 'uppercase',
     fontFamily: 'open-sans-bold',
@@ -84,6 +88,17 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 10,
     marginHorizontal: 40,
+  },
+  empty: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginVertical: 15,
+  },
+  emptyString: {
+    fontFamily: 'open-sans',
+    fontSize: 17,
+    textAlign: 'center',
   },
 });
 

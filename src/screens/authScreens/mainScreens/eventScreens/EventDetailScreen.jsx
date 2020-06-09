@@ -14,7 +14,6 @@ import {
 import MapPreview from '../../../../components/MapPreview';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { formatDate } from '../../../../utils/formatDate';
-import Colors from '../../../../constants/Colors';
 import OfficialLogo from '../../../../components/Icon/OfficialLogo';
 import UnOfficialLogo from '../../../../components/Icon/UnOfficialLogo';
 
@@ -116,7 +115,14 @@ const EventDetailScreen = ({ navigation }) => {
             </View>
             <View style={{ marginTop: 15 }}>
               <Text style={styles.labelTxt}>Location</Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Map', {
+                    location: coordinates,
+                    name: event.name,
+                  })
+                }
+              >
                 <MapPreview style={styles.mapImg} coordinates={coordinates} />
               </TouchableOpacity>
               <View
