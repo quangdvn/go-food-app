@@ -1,24 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   ImageBackground,
-  Image,
   StatusBar,
   Dimensions,
   TouchableOpacity,
   Linking,
+  LayoutAnimation,
+  Alert,
 } from 'react-native';
 import MapPreview from '../../../../components/MapPreview';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { formatDate } from '../../../../utils/formatDate';
+import { useDispatch, useSelector } from 'react-redux';
+import { markInterested, markUninterested } from '../../../../store/actions';
+import Colors from '../../../../constants/Colors';
 import OfficialLogo from '../../../../components/Icon/OfficialLogo';
 import UnOfficialLogo from '../../../../components/Icon/UnOfficialLogo';
 
 const EventDetailScreen = ({ navigation }) => {
   const event = navigation.getParam('event');
+
+  const dispatch = useDispatch();
+
+  const { reactedEventList } = useSelector(state => state.service);
+
+  const isMarked = reactedEventList.some(item => item === event.id);
+
+  const [isReacted, setReacted] = useState(isMarked);
+
+  const coordinates = { longitude: event.longitude, latitude: event.latitude };
 
   const currentTime = new Date();
   const eventTime = new Date(event.time_start);
@@ -34,7 +48,23 @@ const EventDetailScreen = ({ navigation }) => {
     return returnData;
   };
 
-  const coordinates = { longitude: event.longitude, latitude: event.latitude };
+  const handleInterested = () => {
+    const sendData = {
+      type: 'Event',
+      attenders: 1,
+      time: event.time_start,
+      fees: event.cost,
+    };
+    dispatch(markInterested(event.id, sendData));
+  };
+
+  const handleUninterested = () => {
+    dispatch(markUninterested(event.id));
+  };
+
+  useEffect(() => {
+    LayoutAnimation.easeInEaseOut();
+  }, []);
 
   return (
     <ScrollView
@@ -57,12 +87,12 @@ const EventDetailScreen = ({ navigation }) => {
         <Ionicons
           name="md-arrow-round-back"
           size={30}
-          color="white"
+          color={Colors.primary}
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         />
         <View style={styles.afterContainer}>
-          {eventTime > currentTime ? (
+          {eventTime > currentTime && !isReacted ? (
             <View style={styles.eventBookmark}>
               <View
                 style={{
@@ -75,12 +105,24 @@ const EventDetailScreen = ({ navigation }) => {
                 <Text style={styles.labelTxt}>Are You Interested ?</Text>
               </View>
               <View style={styles.BookmarkBtn}>
-                <TouchableOpacity style={styles.leftBtn}>
+                <TouchableOpacity
+                  style={styles.leftBtn}
+                  onPress={() => {
+                    handleInterested();
+                    setReacted(prevState => !prevState);
+                  }}
+                >
                   <Text style={{ color: '#fff', fontFamily: 'open-sans' }}>
                     I'm In !!
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.rightBtn}>
+                <TouchableOpacity
+                  style={styles.rightBtn}
+                  onPress={() => {
+                    handleUninterested();
+                    setReacted(prevState => !prevState);
+                  }}
+                >
                   <Text style={{ color: '#fff', fontFamily: 'open-sans' }}>
                     Nah !!
                   </Text>
@@ -109,7 +151,7 @@ const EventDetailScreen = ({ navigation }) => {
                   }}
                   onPress={() => Linking.openURL(event.event_site_url)}
                 >
-                  View on Web >
+                  View on Web {'>'}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -203,6 +245,7 @@ const styles = StyleSheet.create({
   },
   eventBookmark: {
     width: screenWidth * 0.85,
+    marginVertical: 15,
     shadowColor: 'gray',
     shadowOpacity: 0.3,
     shadowOffset: {

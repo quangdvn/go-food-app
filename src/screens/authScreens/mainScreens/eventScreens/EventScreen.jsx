@@ -21,7 +21,7 @@ const EventScreen = ({ navigation }) => {
     dispatch(getAllEvents());
   }, [getAllEvents]);
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {eventList ? (
         <View style={styles.bodyContainer}>
           {eventList.count ? (

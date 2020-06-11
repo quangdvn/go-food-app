@@ -75,6 +75,7 @@ export const getAutoComplete = async searchTerm => {
     console.log(err.message);
   }
 };
+
 export const getSearchByKeyword = async keyword => {
   try {
     const token = await AsyncStorage.getItem('token');
@@ -90,6 +91,22 @@ export const getSearchByKeyword = async keyword => {
     );
     return data;
   } catch (err) {
+    console.log(err.message);
+  }
+};
+
+export const getAllNotifications = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (!token) return null;
+    const reqConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await goFoodApi.get('/noti/', reqConfig);
+    return data;
+  }catch (err) {
     console.log(err.message);
   }
 };

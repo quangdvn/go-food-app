@@ -5,6 +5,7 @@ import {
   ADD_BOOKMARK,
   REMOVE_BOOKMARK,
   GET_ALL_EVENTS,
+  REACT_EVENT,
 } from './types';
 import { goFoodApi } from '../../api/goFoodApi';
 import { reqConfig } from '../../utils/requestConfig';
@@ -61,6 +62,30 @@ export const removeBookmark = id => async (dispatch, getState) => {
     await goFoodApi.delete(`/business/${id}/bookmark`, reqConfig(getState));
 
     dispatch({ type: REMOVE_BOOKMARK, payload: id });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+export const markInterested = (id, sendData) => async (dispatch, getState) => {
+  try {
+    await goFoodApi.put(
+      `/event/${id}/interested`,
+      sendData,
+      reqConfig(getState)
+    );
+
+    dispatch({ type: REACT_EVENT, payload: id });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+export const markUninterested = id => async (dispatch, getState) => {
+  try {
+    await goFoodApi.put(`/event/${id}/uninterested`, {}, reqConfig(getState));
+
+    dispatch({ type: REACT_EVENT, payload: id });
   } catch (err) {
     console.log(err.message);
   }

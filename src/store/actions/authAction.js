@@ -8,6 +8,7 @@ import {
   GET_INFO,
   LOADING_USER,
   GET_ALL_BOOKMARKS,
+  GET_ALL_REACTED_EVENTS,
 } from './types';
 import { AsyncStorage } from 'react-native';
 import { navigateTo } from '../../navigationRef';
@@ -20,11 +21,21 @@ const loadingUser = () => {
 
 export const getUser = () => async (dispatch, getState) => {
   dispatch(loadingUser());
-  
+
   try {
     const { data } = await goFoodApi.get('/auth/me', reqConfig(getState));
+
     dispatch({ type: GET_INFO, payload: data.data });
-    dispatch({ type: GET_ALL_BOOKMARKS, payload: data.data.bookmarkPlaces });
+
+    dispatch({
+      type: GET_ALL_BOOKMARKS,
+      payload: data.data.bookmarkPlaces,
+    });
+
+    dispatch({
+      type: GET_ALL_REACTED_EVENTS,
+      payload: data.data.reactedEvents,
+    });
 
     navigateTo('Restaurant');
   } catch (err) {
