@@ -8,11 +8,15 @@ import {
   GET_INFO,
   LOADING_USER,
   GET_ALL_BOOKMARKS,
+  UPDATE_INFO_SUCCESS,
+  UPDATE_INFO_FAILED,
+  CLEAR_RESTAURANTS_DETAIL,
 } from './types';
 import { AsyncStorage } from 'react-native';
 import { navigateTo } from '../../navigationRef';
 import { goFoodApi } from '../../api/goFoodApi';
 import { reqConfig } from '../../utils/requestConfig';
+import { colors } from 'react-native-elements';
 
 const loadingUser = () => {
   return { type: LOADING_USER };
@@ -20,7 +24,7 @@ const loadingUser = () => {
 
 export const getUser = () => async (dispatch, getState) => {
   dispatch(loadingUser());
-  
+
   try {
     const { data } = await goFoodApi.get('/auth/me', reqConfig(getState));
     dispatch({ type: GET_INFO, payload: data.data });
@@ -29,6 +33,23 @@ export const getUser = () => async (dispatch, getState) => {
     navigateTo('Restaurant');
   } catch (err) {
     console.log(err.message);
+  }
+};
+
+export const updateInfo = data => async (dispatch, getState) => {
+  try {
+    const result = await goFoodApi.put(
+      '/auth/update',
+      data,
+      reqConfig(getState)
+    );
+    if (result.data.success) {
+      dispatch({ type: UPDATE_INFO_SUCCESS });
+    } else {
+      dispatch({ type: UPDATE_INFO_FAILED });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 

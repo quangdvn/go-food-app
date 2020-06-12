@@ -8,10 +8,10 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import {
-  Icon_bookmarked,
-  Icon_bookmark,
-} from '../../../../components/Icon/TestLogo';
+
+import LikeIcon from '../../../../components/Icon/Like';
+import BookmarkIcon from '../../../../components/Icon/Bookmark';
+import EatIcon from '../../../../components/Icon/EatIcon';
 import { getUser } from '../../../../store/actions/authAction';
 import AccountInfoForm from './AccountInfoForm';
 
@@ -22,9 +22,6 @@ const AccountScreen = ({ navigation }) => {
     dispatch(getUser());
   }, [getUser]);
 
-  const handleSumitForm = formData => {
-    console.log('formData', formData);
-  };
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
@@ -42,19 +39,19 @@ const AccountScreen = ({ navigation }) => {
       </ImageBackground>
       <View style={styles.thumbnails}>
         <View style={styles.thumbnailsIcon}>
-          <Icon_bookmarked />
+          <LikeIcon />
           <Text>2 like(s)</Text>
         </View>
         <View style={styles.thumbnailsIcon}>
-          <Icon_bookmark />
+          <EatIcon />
           <Text>3 eat out(s)</Text>
         </View>
         <View style={styles.thumbnailsIcon}>
-          <Icon_bookmarked />
+          <BookmarkIcon />
           <Text>{user.bookmarkPlaces?.length} bookmark(s)</Text>
         </View>
       </View>
-      <AccountInfoForm handleSubmit={handleSumitForm} />
+      <AccountInfoForm userInfo={user} />
     </ScrollView>
   );
 };
