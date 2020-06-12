@@ -11,6 +11,7 @@ import {
   UPDATE_INFO_SUCCESS,
   UPDATE_INFO_FAILED,
   CLEAR_RESTAURANTS_DETAIL,
+  GET_ALL_REACTED_EVENTS,
 } from './types';
 import { AsyncStorage } from 'react-native';
 import { navigateTo } from '../../navigationRef';
@@ -27,8 +28,18 @@ export const getUser = () => async (dispatch, getState) => {
 
   try {
     const { data } = await goFoodApi.get('/auth/me', reqConfig(getState));
+
     dispatch({ type: GET_INFO, payload: data.data });
-    dispatch({ type: GET_ALL_BOOKMARKS, payload: data.data.bookmarkPlaces });
+
+    dispatch({
+      type: GET_ALL_BOOKMARKS,
+      payload: data.data.bookmarkPlaces,
+    });
+
+    dispatch({
+      type: GET_ALL_REACTED_EVENTS,
+      payload: data.data.reactedEvents,
+    });
 
     navigateTo('Restaurant');
   } catch (err) {
