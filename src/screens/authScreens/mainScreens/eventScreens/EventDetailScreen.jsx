@@ -50,6 +50,7 @@ const EventDetailScreen = ({ navigation }) => {
 
   const handleInterested = () => {
     const sendData = {
+      imageUrl: event.image_url,
       type: 'Event',
       attenders: 1,
       time: event.time_start,

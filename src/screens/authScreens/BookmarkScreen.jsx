@@ -52,7 +52,7 @@ const BookmarkScreen = ({ navigation }) => {
                 )}
                 ItemSeparatorComponent={bookmarkSeparatorComponent}
                 showsVerticalScrollIndicator={false}
-              />
+              /> 
             ) : (
               <View style={styles.empty}>
                 <Text style={styles.emptyString}>
