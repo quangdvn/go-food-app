@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import RadioForm from 'react-native-simple-radio-button';
@@ -6,6 +6,7 @@ import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { updateInfo } from '../../../../store/actions/authAction';
+import Colors from '../../../../constants/Colors';
 
 const phoneRegExp = /^[0-9]{7,10}$/;
 
@@ -13,13 +14,16 @@ const AccountInfoForm = ({ userInfo }) => {
   const initialState = {
     username: userInfo.fullname,
     email: userInfo.email,
-    phone: userInfo.contactNumber,
-    gender: userInfo.gender,
-    birthday: new Date(userInfo.dob),
+    phone: userInfo.contactNumber || null,
+    gender: userInfo.gender || null,
+    birthday: userInfo.dob ? new Date(userInfo.dob) : new Date(1598051730000),
   };
+
   const dispatch = useDispatch();
+
   const [birthday, setBirthday] = useState(initialState.birthday);
   const [phone, setPhone] = useState(initialState.phone);
+  const [gender, setGender] = useState(initialState.gender);
   const [error, setError] = useState(false);
   const [show, setShow] = useState(false);
   const [dataChanged, setDataChanged] = useState(false); // check user info has been updated
@@ -35,16 +39,17 @@ const AccountInfoForm = ({ userInfo }) => {
       setDataChanged(false);
     }
 
-    return function cleanup() {
+    return () => {
       setDataChanged(false);
     };
-  });
-  const [gender, setGender] = useState(initialState.gender);
-  const onChange = (event, selectedDate) => {
+  }, [birthday, phone, gender]);
+
+  const onPickerChange = (event, selectedDate) => {
     setShow(false);
     selectedDate = selectedDate || initialState.birthday;
     setBirthday(selectedDate);
   };
+
   const handlePhoneChange = value => {
     if (!value.match(phoneRegExp) || value === '') {
       setError(true);
@@ -53,6 +58,7 @@ const AccountInfoForm = ({ userInfo }) => {
       setPhone(value);
     }
   };
+
   const handleSubmit = () => {
     let gen = gender === 0 ? 'Male' : 'Female';
     const updateData = {
@@ -60,6 +66,7 @@ const AccountInfoForm = ({ userInfo }) => {
       contactNumber: phone,
       gender: gen,
     };
+    console.log(updateData);
     dispatch(updateInfo(updateData));
   };
 
@@ -67,37 +74,46 @@ const AccountInfoForm = ({ userInfo }) => {
     <View style={styles.form}>
       <View>
         <View style={styles.input}>
-          <AntDesign name="user" size={24} color="black" />
+          <AntDesign name="user" size={24} color={Colors.default} />
           <View style={styles.labelInput}>
             <Text style={styles.label}>Username</Text>
-            <Text style={styles.txtInput}>{initialState.username}</Text>
+            <TextInput
+              style={styles.txtInput}
+              defaultValue={initialState.username}
+              editable={false}
+            />
           </View>
         </View>
         <View style={styles.input}>
-          <AntDesign name="mail" size={24} color="black" />
+          <AntDesign name="mail" size={24} color={Colors.default} />
           <View style={styles.labelInput}>
             <Text style={styles.label}>Email</Text>
-            <Text style={styles.txtInput}>{initialState.email}</Text>
+            <TextInput
+              style={styles.txtInput}
+              defaultValue={initialState.email}
+              editable={false}
+            />
           </View>
         </View>
         <View style={styles.input}>
-          <AntDesign name="phone" size={24} color="black" />
+          <AntDesign name="phone" size={24} color={Colors.default} />
           <View style={styles.labelInput}>
             <Text style={styles.label}>Phone Number</Text>
             <TextInput
               style={styles.txtInput}
               defaultValue={phone}
+              keyboardType="phone-pad"
               onChangeText={handlePhoneChange}
             />
             {error && (
               <Text style={styles.error}>
-                Please correct value of this field
+                Please correct the value of this field
               </Text>
             )}
           </View>
         </View>
         <View style={styles.input}>
-          <AntDesign name="calendar" size={24} color="black" />
+          <AntDesign name="calendar" size={24} color={Colors.default} />
           <View style={styles.labelInput}>
             <Text style={styles.label}>Birthday</Text>
             {show && (
@@ -105,31 +121,37 @@ const AccountInfoForm = ({ userInfo }) => {
                 value={birthday || initialState.birthday}
                 mode="date"
                 display="spinner"
-                onChange={onChange}
+                style={{ height: 250 }}
+                onChange={onPickerChange}
               />
             )}
             <TouchableOpacity onPress={() => setShow(true)}>
-              <Text>{(birthday || initialState.birthday).toDateString()}</Text>
+              <Text style={styles.txtInput}>
+                {(birthday || initialState.birthday).toDateString()}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.input}>
-          <FontAwesome name="transgender" size={24} color="black" />
+          <FontAwesome name="transgender" size={24} color={Colors.default} />
           <View style={styles.labelInput}>
             <Text style={styles.label}>Gender</Text>
             <RadioForm
               style={{ marginTop: 15 }}
               radio_props={[
-                { label: 'male  ', value: 0 },
-                { label: 'female', value: 1 },
+                { label: 'Male    ', value: 0 },
+                { label: 'Female', value: 1 },
               ]}
               initial={gender === 'Male' ? 0 : 1}
               formHorizontal={true}
               labelHorizontal={true}
-              buttonColor={'#000'}
+              buttonColor={Colors.default}
+              selectedButtonColor={Colors.accent}
               borderWidth={0.5}
-              buttonSize={15}
-              buttonOuterSize={25}
+              buttonSize={10}
+              buttonOuterSize={20}
+              animation={true}
+              labelStyle={{ color: Colors.default, fontFamily: 'open-sans' }}
               onPress={value => {
                 setGender(value);
               }}
@@ -182,12 +204,15 @@ const styles = StyleSheet.create({
     borderBottomColor: '#44566c',
     borderBottomWidth: 1,
     width: 240,
+    color: Colors.default,
+    fontFamily: 'open-sans',
   },
   labelInput: {
     marginLeft: 20,
   },
   label: {
     fontSize: 20,
+    color: Colors.default,
     fontFamily: 'open-sans-bold',
   },
 });

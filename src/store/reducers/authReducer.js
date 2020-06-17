@@ -7,7 +7,6 @@ import {
   SIGN_OUT,
   GET_INFO,
   LOADING_USER,
-  TOGGLE_BOOKMARK,
   UPDATE_INFO_SUCCESS,
   UPDATE_INFO_FAILED,
 } from '../actions/types';
@@ -37,8 +36,10 @@ const authReducer = (state = initialState, { type, payload }) => {
 
     case UPDATE_INFO_SUCCESS:
       return { ...state, updateInfo: true };
+
     case UPDATE_INFO_FAILED:
       return { ...state, updateInfo: false };
+
     case GET_INFO:
       return { ...state, user: { ...payload }, isLoading: false };
 
