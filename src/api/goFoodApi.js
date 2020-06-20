@@ -106,7 +106,7 @@ export const getAllNotifications = async () => {
     };
     const { data } = await goFoodApi.get('/noti/', reqConfig);
     return data;
-  }catch (err) {
+  } catch (err) {
     console.log(err.message);
   }
 };

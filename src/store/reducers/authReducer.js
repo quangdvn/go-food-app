@@ -7,14 +7,17 @@ import {
   SIGN_OUT,
   GET_INFO,
   LOADING_USER,
-  TOGGLE_BOOKMARK,
+  UPDATE_INFO_SUCCESS,
+  UPDATE_INFO_FAILED,
 } from '../actions/types';
+import { bool } from 'yup';
 
 const initialState = {
   user: {},
   token: null,
   error: '',
   isLoading: false,
+  updateInfo: bool,
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -30,6 +33,12 @@ const authReducer = (state = initialState, { type, payload }) => {
 
     case SIGN_UP_ERROR:
       return { ...state, error: payload };
+
+    case UPDATE_INFO_SUCCESS:
+      return { ...state, updateInfo: true };
+
+    case UPDATE_INFO_FAILED:
+      return { ...state, updateInfo: false };
 
     case GET_INFO:
       return { ...state, user: { ...payload }, isLoading: false };

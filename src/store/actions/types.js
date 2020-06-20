@@ -17,6 +17,10 @@ export const GET_INFO = 'GET_INFO';
 
 export const POST_INFO = 'POST_INFO';
 
+export const UPDATE_INFO_SUCCESS = 'UPDATE_INFO_SUCCESS';
+
+export const UPDATE_INFO_FAILED = 'FAILED';
+
 //* Service actions
 export const GET_ALL_RESTAURANTS = 'GET_ALL_RESTAURANTS';
 

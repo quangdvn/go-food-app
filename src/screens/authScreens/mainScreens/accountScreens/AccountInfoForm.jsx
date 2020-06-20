@@ -3,142 +3,170 @@ import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import RadioForm from 'react-native-simple-radio-button';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
-import * as yup from 'yup';
-import { Formik } from 'formik';
-import DatePicker from 'react-native-datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { updateInfo } from '../../../../store/actions/authAction';
+import Colors from '../../../../constants/Colors';
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-const InputFormSchema = yup.object().shape({
-  email: yup
-    .string()
-    .label('email')
-    .trim()
-    .email('Please enter a valid email')
-    .required('Please enter this field'),
-  username: yup
-    .string()
-    .label('username')
-    .min(5, 'At least 5 characters required')
-    .max(255, 'At most 255 characters required')
-    .required('Please enter this field'),
-  phone: yup
-    .string()
-    .label('phone')
-    .matches(phoneRegExp, 'Phone number is not valid')
-    .required('Please enter this field'),
-});
+const phoneRegExp = /^[0-9]{7,10}$/;
 
-const AccountInfoForm = ({ handleSubmit }) => {
+const AccountInfoForm = ({ userInfo }) => {
   const initialState = {
-    email: '',
-    username: '',
-    phone: '',
-    gender: '',
-    birthday: '',
+    username: userInfo.fullname,
+    email: userInfo.email,
+    phone: userInfo.contactNumber || null,
+    gender: userInfo.gender || null,
+    birthday: userInfo.dob ? new Date(userInfo.dob) : new Date(1598051730000),
   };
+
+  const dispatch = useDispatch();
+
   const [birthday, setBirthday] = useState(initialState.birthday);
+  const [phone, setPhone] = useState(initialState.phone);
   const [gender, setGender] = useState(initialState.gender);
+  const [error, setError] = useState(false);
+  const [show, setShow] = useState(false);
+  const [dataChanged, setDataChanged] = useState(false); // check user info has been updated
+
+  useEffect(() => {
+    if (
+      (initialState.phone !== phone && !error) ||
+      (initialState.gender !== gender && !error) ||
+      (initialState.birthday.getTime() !== birthday.getTime() && !error)
+    ) {
+      setDataChanged(true);
+    } else {
+      setDataChanged(false);
+    }
+
+    return () => {
+      setDataChanged(false);
+    };
+  }, [birthday, phone, gender]);
+
+  const onPickerChange = (event, selectedDate) => {
+    setShow(false);
+    selectedDate = selectedDate || initialState.birthday;
+    setBirthday(selectedDate);
+  };
+
+  const handlePhoneChange = value => {
+    if (!value.match(phoneRegExp) || value === '') {
+      setError(true);
+    } else {
+      setError(false);
+      setPhone(value);
+    }
+  };
+
+  const handleSubmit = () => {
+    let gen = gender === 0 ? 'Male' : 'Female';
+    const updateData = {
+      dob: birthday.toDateString(),
+      contactNumber: phone,
+      gender: gen,
+    };
+    console.log(updateData);
+    dispatch(updateInfo(updateData));
+  };
+
   return (
-    <Formik
-      onSubmit={(value, action) => {
-        handleSubmit({ ...value, gender, birthday });
-      }}
-      initialValues={initialState}
-      validationSchema={InputFormSchema}
-    >
-      {({
-        handleSubmit,
-        handleChange,
-        handleBlur,
-        values,
-        errors,
-        touched,
-        isValid,
-      }) => (
-        <View style={styles.form}>
-          <View>
-            <View style={styles.input}>
-              <AntDesign name="user" size={24} color="black" />
-              <View style={styles.labelInput}>
-                <Text style={styles.label}>Username</Text>
-                <TextInput
-                  onChangeText={handleChange('username')}
-                  value={values.username}
-                  style={styles.txtInput}
-                />
-                <Text style={styles.error}>
-                  {touched.username && errors.username}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.input}>
-              <AntDesign name="mail" size={24} color="black" />
-              <View style={styles.labelInput}>
-                <Text style={styles.label}>Email</Text>
-                <TextInput
-                  onChangeText={handleChange('email')}
-                  value={values.email}
-                  style={styles.txtInput}
-                />
-                <Text style={styles.error}>
-                  {touched.email && errors.email}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.input}>
-              <AntDesign name="phone" size={24} color="black" />
-              <View style={styles.labelInput}>
-                <Text style={styles.label}>Phone Number</Text>
-                <TextInput
-                  onChangeText={handleChange('phone')}
-                  value={values.phone}
-                  style={styles.txtInput}
-                />
-                <Text style={styles.error}>
-                  {touched.phone && errors.phone}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.input}>
-              <AntDesign name="calendar" size={24} color="black" />
-              <View style={styles.labelInput}>
-                <Text style={styles.label}>Birthday</Text>
-                <DatePicker
-                  format="YYYY-MM-DD"
-                  mode="date"
-                  date={birthday}
-                  onDateChange={date => setBirthday(date)}
-                />
-              </View>
-            </View>
-            <View style={styles.input}>
-              <FontAwesome name="transgender" size={24} color="black" />
-              <View style={styles.labelInput}>
-                <Text style={styles.label}>Gender</Text>
-                <RadioForm
-                  style={{ marginTop: 15 }}
-                  radio_props={[
-                    { label: 'male  ', value: 0 },
-                    { label: 'female', value: 1 },
-                  ]}
-                  initial={gender}
-                  formHorizontal={true}
-                  labelHorizontal={true}
-                  buttonColor={'#000'}
-                  borderWidth={0.5}
-                  buttonSize={15}
-                  buttonOuterSize={25}
-                  onPress={value => {
-                    setGender(value);
-                  }}
-                />
-              </View>
-            </View>
+    <View style={styles.form}>
+      <View>
+        <View style={styles.input}>
+          <AntDesign name="user" size={24} color={Colors.default} />
+          <View style={styles.labelInput}>
+            <Text style={styles.label}>Username</Text>
+            <TextInput
+              style={styles.txtInput}
+              defaultValue={initialState.username}
+              editable={false}
+            />
           </View>
-          <Button onPress={handleSubmit} disabled={!isValid} title="Submit" />
         </View>
+        <View style={styles.input}>
+          <AntDesign name="mail" size={24} color={Colors.default} />
+          <View style={styles.labelInput}>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              style={styles.txtInput}
+              defaultValue={initialState.email}
+              editable={false}
+            />
+          </View>
+        </View>
+        <View style={styles.input}>
+          <AntDesign name="phone" size={24} color={Colors.default} />
+          <View style={styles.labelInput}>
+            <Text style={styles.label}>Phone Number</Text>
+            <TextInput
+              style={styles.txtInput}
+              defaultValue={phone}
+              keyboardType="phone-pad"
+              onChangeText={handlePhoneChange}
+            />
+            {error && (
+              <Text style={styles.error}>
+                Please correct the value of this field
+              </Text>
+            )}
+          </View>
+        </View>
+        <View style={styles.input}>
+          <AntDesign name="calendar" size={24} color={Colors.default} />
+          <View style={styles.labelInput}>
+            <Text style={styles.label}>Birthday</Text>
+            {show && (
+              <DateTimePicker
+                value={birthday || initialState.birthday}
+                mode="date"
+                display="spinner"
+                style={{ height: 250 }}
+                onChange={onPickerChange}
+              />
+            )}
+            <TouchableOpacity onPress={() => setShow(true)}>
+              <Text style={styles.txtInput}>
+                {(birthday || initialState.birthday).toDateString()}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.input}>
+          <FontAwesome name="transgender" size={24} color={Colors.default} />
+          <View style={styles.labelInput}>
+            <Text style={styles.label}>Gender</Text>
+            <RadioForm
+              style={{ marginTop: 15 }}
+              radio_props={[
+                { label: 'Male    ', value: 0 },
+                { label: 'Female', value: 1 },
+              ]}
+              initial={gender === 'Male' ? 0 : 1}
+              formHorizontal={true}
+              labelHorizontal={true}
+              buttonColor={Colors.default}
+              selectedButtonColor={Colors.accent}
+              borderWidth={0.5}
+              buttonSize={10}
+              buttonOuterSize={20}
+              animation={true}
+              labelStyle={{ color: Colors.default, fontFamily: 'open-sans' }}
+              onPress={value => {
+                setGender(value);
+              }}
+            />
+          </View>
+        </View>
+      </View>
+      {dataChanged && (
+        <Button
+          style={styles.btnSubmit}
+          onPress={handleSubmit}
+          title="Submit"
+        />
       )}
-    </Formik>
+    </View>
   );
 };
 
@@ -146,6 +174,9 @@ const styles = StyleSheet.create({
   error: {
     color: 'crimson',
     fontFamily: 'open-sans',
+  },
+  btnSubmit: {
+    marginBottom: 20,
   },
   name: {
     color: '#44566c',
@@ -173,12 +204,15 @@ const styles = StyleSheet.create({
     borderBottomColor: '#44566c',
     borderBottomWidth: 1,
     width: 240,
+    color: Colors.default,
+    fontFamily: 'open-sans',
   },
   labelInput: {
     marginLeft: 20,
   },
   label: {
     fontSize: 20,
+    color: Colors.default,
     fontFamily: 'open-sans-bold',
   },
 });
