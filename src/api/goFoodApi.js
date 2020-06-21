@@ -110,3 +110,19 @@ export const getAllNotifications = async () => {
     console.log(err.message);
   }
 };
+
+export const getBusinessByAlias = async alias => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (!token) return null;
+    const reqConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await goFoodApi.get( `/business/categories/${alias}`,reqConfig);    
+    return data;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
