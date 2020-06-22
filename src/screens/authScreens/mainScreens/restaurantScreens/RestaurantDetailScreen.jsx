@@ -271,7 +271,10 @@ const RestaurantDetailScreen = ({ navigation }) => {
               <TouchableOpacity
                 style={{ flexDirection: 'column', marginLeft: 15 }}
                 onPress={() =>
-                  navigation.navigate('Map', { location: details.coordinates, name: details.name })
+                  navigation.navigate('Map', {
+                    location: details.coordinates,
+                    name: details.name,
+                  })
                 }
               >
                 <Icon_map />

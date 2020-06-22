@@ -7,12 +7,9 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { data } from '../data/data_menu';
 import CategoryItem from './CategoryItem';
-
-const CategorySection = ({ navigation }) => {
-  const [menuList, setMenuList] = useState(data);
-
+const CategorySection = ({ navigation,categoryData }) => {  
+  const [menuList, setMenuList] = useState(categoryData);
   return (
     <View style={styles.container}>
       <FlatList

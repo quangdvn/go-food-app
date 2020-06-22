@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,24 @@ import {
   Image,
   FlatList,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
+import Colors from '../constants/Colors';
 
+import { getBusinessByAlias } from '../api/goFoodApi';
 const CategoryItem = ({ item, navigation }) => {
+  const [listRestaurant, setListRestaurant] = useState(null);
+  const getListRestaurant = async () => {
+    try {
+      const { data } = await getBusinessByAlias(item.alias);
+      setListRestaurant(data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+  useEffect(() => {
+    getListRestaurant();
+  }, []);
   const typeItemSeparatorComponent = () => {
     return <View style={{ width: 30 }} />;
   };
@@ -17,25 +32,36 @@ const CategoryItem = ({ item, navigation }) => {
     return (
       <TouchableOpacity
         style={styles.typeItem}
-        onPress={() => navigation.navigate('RestaurantDetail', { item })}>
-        <Image source={item.image} style={styles.image} />
-        <Text style={styles.name}>{item.name}</Text>
+        onPress={() =>
+          navigation.navigate('RestaurantDetail', { mainItem: item })
+        }
+      >
+        <Image source={{ uri: item.image_url }} style={styles.image} />
+        {/* <Text style={styles.name}>{item.name}</Text> */}
       </TouchableOpacity>
     );
   };
 
   return (
     <View style={{ flex: 1 }}>
-      <Text style={{ ...styles.type, color: item.color }}>{item.type}</Text>
+      <Text style={{ ...styles.type, color: item.color }}>{item.title}</Text>
       <View style={{ ...styles.item, backgroundColor: item.color }}>
-        <FlatList
-          data={item.data}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderTypeItem}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={typeItemSeparatorComponent}
-        />
+        {listRestaurant ? (
+          <FlatList
+            data={listRestaurant}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderTypeItem}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={typeItemSeparatorComponent}
+          />
+        ) : (
+          <View
+            style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}
+          >
+            <ActivityIndicator size="large" color={Colors.primary} />
+          </View>
+        )}
       </View>
     </View>
   );
