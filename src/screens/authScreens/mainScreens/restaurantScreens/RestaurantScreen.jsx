@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -16,12 +16,11 @@ import MainSection from '../../../../components/MainSection';
 import CategorySection from '../../../../components/CategorySection';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllRestaurants } from '../../../../store/actions';
+import categoryData from '../../../../data/categories.json';
 
 const RestaurantScreen = ({ navigation }) => {
   const { restaurantList } = useSelector(state => state.service);
-
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getAllRestaurants());
   }, [getAllRestaurants]);
@@ -64,7 +63,11 @@ const RestaurantScreen = ({ navigation }) => {
             navigation={navigation}
             restaurantList={restaurantList}
           />
-          <CategorySection tabLabel="Categories" navigation={navigation} />
+          <CategorySection
+            tabLabel="Categories"
+            navigation={navigation}
+            categoryData={categoryData}
+          />
           {/* <PopularSection tabLabel="Popular" navigation={navigation} /> */}
         </ScrollableTabView>
       </View>
