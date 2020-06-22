@@ -89,6 +89,7 @@ export const getSearchByKeyword = async keyword => {
       `/business/search/${keyword}`,
       reqConfig
     );
+
     return data;
   } catch (err) {
     console.log(err.message);
@@ -105,6 +106,7 @@ export const getAllNotifications = async () => {
       },
     };
     const { data } = await goFoodApi.get('/noti/', reqConfig);
+
     return data;
   } catch (err) {
     console.log(err.message);
@@ -120,7 +122,11 @@ export const getBusinessByAlias = async alias => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await goFoodApi.get( `/business/categories/${alias}`,reqConfig);    
+    const { data } = await goFoodApi.get(
+      `/business/categories/${alias}`,
+      reqConfig
+    );
+    
     return data;
   } catch (err) {
     console.log(err.message);

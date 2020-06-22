@@ -10,13 +10,14 @@ import {
   TouchableOpacity,
   Linking,
   LayoutAnimation,
-  Alert,
+  AsyncStorage,
 } from 'react-native';
 import MapPreview from '../../../../components/MapPreview';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { formatDate } from '../../../../utils/formatDate';
 import { useDispatch, useSelector } from 'react-redux';
 import { markInterested, markUninterested } from '../../../../store/actions';
+import { sendPushNotification } from '../../../../services/pushNotification';
 import Colors from '../../../../constants/Colors';
 import OfficialLogo from '../../../../components/Icon/OfficialLogo';
 import UnOfficialLogo from '../../../../components/Icon/UnOfficialLogo';
@@ -48,7 +49,9 @@ const EventDetailScreen = ({ navigation }) => {
     return returnData;
   };
 
-  const handleInterested = () => {
+  const handleInterested = async () => {
+    let curToken = await AsyncStorage.getItem('pushToken');
+
     const sendData = {
       imageUrl: event.image_url,
       type: 'Event',
@@ -56,7 +59,20 @@ const EventDetailScreen = ({ navigation }) => {
       time: event.time_start,
       fees: event.cost,
     };
+
     dispatch(markInterested(event.id, sendData));
+
+    if (curToken) {
+      setTimeout(
+        () =>
+          sendPushNotification(
+            curToken,
+            'New notification !',
+            'Check out your recent avtivity '
+          ),
+        15000
+      );
+    }
   };
 
   const handleUninterested = () => {

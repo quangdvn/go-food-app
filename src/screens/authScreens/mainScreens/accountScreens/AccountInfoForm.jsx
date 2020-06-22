@@ -66,7 +66,6 @@ const AccountInfoForm = ({ userInfo }) => {
       contactNumber: phone,
       gender: gen,
     };
-    console.log(updateData);
     dispatch(updateInfo(updateData));
   };
 

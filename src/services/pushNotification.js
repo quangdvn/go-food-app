@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  Button,
-  Vibration,
-  Platform,
-  AsyncStorage,
-} from 'react-native';
+import { Platform, AsyncStorage } from 'react-native';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
@@ -16,7 +9,6 @@ import { pushConfig } from '../utils/requestConfig';
 export const registerForPushNotificationsAsync = async () => {
   let curToken = await AsyncStorage.getItem('pushToken');
   if (curToken) {
-    console.log('1', curToken);
     return;
   } else {
     if (Constants.isDevice) {
@@ -39,9 +31,6 @@ export const registerForPushNotificationsAsync = async () => {
       }
 
       token = await Notifications.getExpoPushTokenAsync();
-
-      console.log('2', token);
-
       AsyncStorage.setItem('pushToken', token);
     } else {
       alert('Must use physical device for Push Notifications');
@@ -68,12 +57,11 @@ export const sendPushNotification = async (pushToken, title, body) => {
   };
 
   try {
-    const response = await axios.post(
+    await axios.post(
       'https://exp.host/--/api/v2/push/send',
       message,
       pushConfig()
     );
-    console.log(response);
   } catch (err) {
     console.log(err.message);
   }

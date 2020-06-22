@@ -11,10 +11,8 @@ const LoadingScreen = ({ navigation }) => {
 
   const handleNotification = notification => {
     if (notification.origin === 'selected') {
-      console.log('1', notification);
       navigation.navigate('Notification');
     } else if (notification.origin === 'received') {
-      console.log('2', notification);
       Vibration.vibrate();
     }
 

@@ -9,10 +9,11 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Colors from '../constants/Colors';
-
 import { getBusinessByAlias } from '../api/goFoodApi';
+
 const CategoryItem = ({ item, navigation }) => {
   const [listRestaurant, setListRestaurant] = useState(null);
+
   const getListRestaurant = async () => {
     try {
       const { data } = await getBusinessByAlias(item.alias);
@@ -21,9 +22,11 @@ const CategoryItem = ({ item, navigation }) => {
       console.log(err.message);
     }
   };
+
   useEffect(() => {
     getListRestaurant();
   }, []);
+
   const typeItemSeparatorComponent = () => {
     return <View style={{ width: 30 }} />;
   };
@@ -37,7 +40,6 @@ const CategoryItem = ({ item, navigation }) => {
         }
       >
         <Image source={{ uri: item.image_url }} style={styles.image} />
-        {/* <Text style={styles.name}>{item.name}</Text> */}
       </TouchableOpacity>
     );
   };
@@ -59,7 +61,7 @@ const CategoryItem = ({ item, navigation }) => {
           <View
             style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}
           >
-            <ActivityIndicator size="large" color={Colors.primary} />
+            <ActivityIndicator size="large" color="white" />
           </View>
         )}
       </View>
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
   typeItem: {
     flex: 1,
     alignItems: 'center',
+    marginVertical: 5
   },
   image: {
     width: 80,

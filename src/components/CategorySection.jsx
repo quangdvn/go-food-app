@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
-  Image,
-  TouchableOpacity,
 } from 'react-native';
 import CategoryItem from './CategoryItem';
+
 const CategorySection = ({ navigation,categoryData }) => {  
   const [menuList, setMenuList] = useState(categoryData);
+
   return (
     <View style={styles.container}>
       <FlatList
