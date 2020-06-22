@@ -2,8 +2,7 @@
 A mobile app which helps you find recommend restaurants near your place, built with React Native Expo
 
 
-
-![logo@3x](https://user-images.githubusercontent.com/35694395/85231775-29b87c00-b424-11ea-87c8-c12940254c81.png)
+   ![Logo](https://user-images.githubusercontent.com/35694395/85275989-5368b600-b4ab-11ea-8b97-828896d56b5c.png)
 
 
 
