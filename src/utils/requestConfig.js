@@ -13,3 +13,14 @@ export const reqConfig = getState => {
   }
   return config;
 };
+
+export const pushConfig = () => {
+  const config = {
+    headers: {
+      Accept: 'application/json',
+      'Accept-encoding': 'gzip, deflate',
+      'Content-Type': 'application/json',
+    },
+  };
+  return config;
+};

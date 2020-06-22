@@ -128,6 +128,7 @@ export const signUp = signUpData => async dispatch => {
 export const signOut = () => async dispatch => {
   try {
     await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('pushToken');
     dispatch({ type: SIGN_OUT });
 
     navigateTo('LogIn');
